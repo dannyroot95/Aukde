@@ -1,5 +1,6 @@
 package com.aukdeshop.ui.activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import com.aukdeshop.R
@@ -15,6 +16,7 @@ import java.util.*
  */
 class SoldProductDetailsActivity : BaseActivity() {
 
+    private val typeMoney = resources.getString(R.string.type_money)
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -68,6 +70,7 @@ class SoldProductDetailsActivity : BaseActivity() {
      *
      * @param productDetails Order details received through intent.
      */
+    @SuppressLint("SetTextI18n")
     private fun setupUI(productDetails: SoldProduct) {
 
         tv_sold_product_details_id.text = productDetails.order_id
@@ -87,7 +90,7 @@ class SoldProductDetailsActivity : BaseActivity() {
             iv_product_item_image
         )
         tv_product_item_name.text = productDetails.title
-        tv_product_item_price.text ="S/${productDetails.price}"
+        tv_product_item_price.text = typeMoney+productDetails.price
         tv_sold_product_quantity.text = productDetails.sold_quantity
 
         tv_sold_details_address_type.text = productDetails.address.type

@@ -1,5 +1,6 @@
 package com.aukdeshop.ui.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -45,6 +46,7 @@ open class MyOrdersListAdapter(
      * of the given type. You can either create a new View manually or inflate it from an XML
      * layout file.
      */
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = list[position]
 
@@ -56,7 +58,7 @@ open class MyOrdersListAdapter(
             )
 
             holder.itemView.tv_item_name.text = model.title
-            holder.itemView.tv_item_price.text = "S/${model.total_amount}"
+            holder.itemView.tv_item_price.text = context.resources.getString(R.string.type_money)+model.total_amount
 
             holder.itemView.ib_delete_product.visibility = View.GONE
 

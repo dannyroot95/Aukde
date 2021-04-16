@@ -41,7 +41,6 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var mapView: MapView
     var latitudeX  = 0.0
     var longitudeX  = 0.0
-    private val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
     var mapViewBundle: Bundle? = null
     private lateinit var scrollAdress : ScrollView
     private var mMarker: Marker? = null
@@ -103,7 +102,7 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
 
         if (savedInstanceState != null) {
             mapViewBundle =
-                savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY)
+                savedInstanceState.getBundle(Constants.MAP_VIEW_BUNDLE_KEY)
         }
 
         mapView = findViewById(R.id.map_view)
@@ -301,11 +300,11 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         var mapViewBundle =
-            outState.getBundle(MAP_VIEW_BUNDLE_KEY)
+            outState.getBundle(Constants.MAP_VIEW_BUNDLE_KEY )
         if (mapViewBundle == null) {
             mapViewBundle = Bundle()
             outState.putBundle(
-                    MAP_VIEW_BUNDLE_KEY,
+                    Constants.MAP_VIEW_BUNDLE_KEY,
                     mapViewBundle
             )
         }
@@ -347,9 +346,9 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun showAlertDialogNOGPS() {
         val builder = AlertDialog.Builder(this)
-        builder.setMessage("Por favor activa tu ubicación para continuar...")
+        builder.setMessage(resources.getString(R.string.active_gps_for_continue))
                 .setCancelable(false)
-                .setPositiveButton("Activar GPS") { _, _ -> startActivityForResult(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), Constants.SETTINGS_REQUEST_CODE) }.create().show()
+                .setPositiveButton(resources.getString(R.string.active_gps)) { _, _ -> startActivityForResult(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), Constants.SETTINGS_REQUEST_CODE) }.create().show()
     }
 
     private fun gpsActived(): Boolean {
@@ -387,9 +386,9 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 AlertDialog.Builder(this)
-                        .setTitle("Proporciona los permisos para continuar")
-                        .setMessage("Esta aplicacion requiere de los permisos de ubicacion para poder utilizarse")
-                        .setPositiveButton("OK") { _, _ -> ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), Constants.LOCATION_REQUEST_CODE) }
+                        .setTitle(resources.getString(R.string.permision_for_continue))
+                        .setMessage(resources.getString(R.string.require_permision))
+                        .setPositiveButton(resources.getString(R.string.ok)) { _, _ -> ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), Constants.LOCATION_REQUEST_CODE) }
                         .create()
                         .show()
             } else {

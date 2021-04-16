@@ -175,4 +175,12 @@
 
     <string name="title_sold_product_details">DETALLES DEL PRODUCTO</string>
 
+    <string name="type_money">S/</string>
+    <string name="active_gps_for_continue">Por favor activa tu ubicación para continuar...</string>
+    <string name="active_gps">Activar GPS</string>
+    <string name="permision_for_continue">Proporciona los permisos para continuar</string>
+    <string name="require_permision">Esta aplicacion requiere de los permisos de ubicacion para poder utilizarse</string>
+    <string name="ok">OK</string>
+
+
 </resources>

@@ -38,6 +38,7 @@ class CheckoutActivity : BaseActivity() {
     // A global variable for Order details.
     private lateinit var mOrderDetails: Order
 
+    private val typeMoney = resources.getString(R.string.type_money)
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -158,15 +159,15 @@ class CheckoutActivity : BaseActivity() {
             }
         }
 
-        tv_checkout_sub_total.text = "S/$mSubTotal"
+        tv_checkout_sub_total.text = typeMoney+"$mSubTotal"
         // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
-        tv_checkout_shipping_charge.text = "S/10.0"
+        tv_checkout_shipping_charge.text = typeMoney+"10.0"
 
         if (mSubTotal > 0) {
             ll_checkout_place_order.visibility = View.VISIBLE
 
             mTotalAmount = mSubTotal + 10.0
-            tv_checkout_total_amount.text = "S/$mTotalAmount"
+            tv_checkout_total_amount.text = typeMoney+"$mTotalAmount"
         } else {
             ll_checkout_place_order.visibility = View.GONE
         }

@@ -15,6 +15,7 @@ object Constants {
     // This is used for the collection name for USERS.
     const val LOCATION_REQUEST_CODE = 1
     const val SETTINGS_REQUEST_CODE = 2
+    const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
     const val USERS: String = "users"
     const val PRODUCTS: String = "products"
     const val CART_ITEMS: String = "cart_items"

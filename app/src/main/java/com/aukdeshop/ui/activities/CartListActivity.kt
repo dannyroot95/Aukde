@@ -1,5 +1,6 @@
 package com.aukdeshop.ui.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -23,6 +24,7 @@ class CartListActivity : BaseActivity() {
 
     // A global variable for the cart list items.
     private lateinit var mCartListItems: ArrayList<Cart>
+    private val typeMoney = resources.getString(R.string.type_money)
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -100,6 +102,7 @@ class CartListActivity : BaseActivity() {
      *
      * @param cartList
      */
+    @SuppressLint("SetTextI18n")
     fun successCartItemsList(cartList: ArrayList<Cart>) {
 
         // Hide progress dialog.
@@ -146,15 +149,15 @@ class CartListActivity : BaseActivity() {
                 }
             }
 
-            tv_sub_total.text = "S/$subTotal"
+            tv_sub_total.text = typeMoney+"$subTotal"
             // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
-            tv_shipping_charge.text = "S/10.0"
+            tv_shipping_charge.text = typeMoney+"10.0"
 
             if (subTotal > 0) {
                 ll_checkout.visibility = View.VISIBLE
 
                 val total = subTotal + 10
-                tv_total_amount.text = "S/$total"
+                tv_total_amount.text = typeMoney+"$total"
             } else {
                 ll_checkout.visibility = View.GONE
             }

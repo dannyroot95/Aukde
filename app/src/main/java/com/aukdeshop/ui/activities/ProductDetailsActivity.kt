@@ -1,5 +1,6 @@
 package com.aukdeshop.ui.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -24,6 +25,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
     // A global variable for product id.
     private var mProductId: String = ""
 
+    private val typeMoney = resources.getString(R.string.type_money)
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -128,6 +130,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
      *
      * @param product A model class with product details.
      */
+    @SuppressLint("SetTextI18n")
     fun productDetailsSuccess(product: Product) {
 
         mProductDetails = product
@@ -139,7 +142,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         )
 
         tv_product_details_title.text = product.title
-        tv_product_details_price.text = "S/${product.price}"
+        tv_product_details_price.text = typeMoney+product.price
         tv_product_details_description.text = product.description
         tv_product_details_stock_quantity.text = product.stock_quantity
 

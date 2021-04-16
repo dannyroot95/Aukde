@@ -21,7 +21,9 @@ import kotlinx.android.synthetic.main.item_cart_layout.view.*
 open class CartItemsListAdapter(
     private val context: Context,
     private var list: ArrayList<Cart>,
-    private val updateCartItems: Boolean
+    private val updateCartItems: Boolean,
+
+
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     /**
      * Inflates the item views which is designed in xml layout file
@@ -53,13 +55,11 @@ open class CartItemsListAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = list[position]
-
         if (holder is MyViewHolder) {
 
             GlideLoader(context).loadProductPicture(model.image, holder.itemView.iv_cart_item_image)
-
             holder.itemView.tv_cart_item_title.text = model.title
-            holder.itemView.tv_cart_item_price.text = "S/${model.price}"
+            holder.itemView.tv_cart_item_price.text = context.resources.getString(R.string.type_money)+model.price
             holder.itemView.tv_cart_quantity.text = model.cart_quantity
 
             if (model.cart_quantity == "0") {
