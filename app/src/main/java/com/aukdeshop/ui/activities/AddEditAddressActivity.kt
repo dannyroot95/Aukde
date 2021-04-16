@@ -1,19 +1,21 @@
 package com.aukdeshop.ui.activities
 
 import android.Manifest
-import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.provider.Settings
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.ScrollView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.Address
@@ -21,13 +23,11 @@ import com.aukdeshop.utils.Constants
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_add_edit_address.*
-import java.io.IOException
 
 /**
  * Add edit address screen.
@@ -44,9 +44,45 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
     private val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
     var mapViewBundle: Bundle? = null
     private lateinit var scrollAdress : ScrollView
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    lateinit var locationRequest: LocationRequest
+    private var mMarker: Marker? = null
+    lateinit var mCurrentLatLng: LatLng
+    private val mCameraListener: OnCameraIdleListener? = null
+    lateinit var mLocationRequest: LocationRequest
+    lateinit var mFusedLocation: FusedLocationProviderClient
+    private var mIsFirstTime = true
+    private var mLocationCallback: LocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            for (location in locationResult.locations) {
+                if (applicationContext != null) {
+                    mCurrentLatLng = LatLng(location.latitude, location.longitude)
+                    if (mMarker != null) {
+                        mMarker!!.remove()
+                    }
+                    // OBTENER LA LOCALIZACION DEL USUARIO EN TIEMPO REAL
+                    mMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(
+                            CameraPosition.Builder()
+                                    .target(LatLng(location.latitude, location.longitude))
+                                    .zoom(16f)
+                                    .build()
+                    ))
+                    mMarker = mMap!!.addMarker(MarkerOptions().position(
+                            LatLng(location.latitude, location.longitude)
+                    )
+                            .title("Tú Poscición")
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_my_location))
+                    )
+                    mMarker!!.showInfoWindow()
 
+                    latitudeX = location.latitude
+                    longitudeX = location.longitude
+
+                    if (mIsFirstTime) {
+                        mIsFirstTime = false
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -56,7 +92,8 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_add_edit_address)
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        mFusedLocation = LocationServices.getFusedLocationProviderClient(this)
 
         geocoder = Geocoder(this)
         if (intent.hasExtra(Constants.EXTRA_ADDRESS_DETAILS)) {
@@ -118,8 +155,6 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
         btn_submit_address.setOnClickListener {
             saveAddressToFirestore()
         }
-        requestPermission()
-        getLastLocation()
     }
 
     /**
@@ -263,106 +298,6 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
         finish()
     }
 
-    private fun checkPermission():Boolean{
-        //this function will return a boolean
-        //true: if we have permission
-        //false if not
-        if(
-                ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        ){
-            return true
-        }
-
-        return false
-
-    }
-
-    private fun requestPermission(){
-        //this function will allows us to tell the user to request the necessary permsiion if they are not garented
-        ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION),
-                Constants.PERMISSION_ID
-        )
-
-        fun isLocationEnabled():Boolean{
-            //this function will return to us the state of the location service
-            //if the gps or the network provider is enabled then it will return true otherwise it will return false
-            val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-        }
-    }
-
-    private fun getLastLocation(){
-        if(checkPermission()){
-            if(isLocationEnabled()){
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return
-                }
-                fusedLocationProviderClient.lastLocation.addOnCompleteListener { task->
-                    val location: Location? = task.result
-                    if(location == null){
-                        newLocationData()
-                    }else{
-                        latitudeX = location.latitude
-                        longitudeX = location.longitude
-                        //Toast.makeText(this, "${location.latitude}/${location.longitude}",Toast.LENGTH_LONG).show()
-                        Log.d("Debug:" ,"Your Location:"+ location.latitude+"/"+location.longitude)
-                    }
-                }
-            }else{
-                Toast.makeText(this,"Please Turn on Your device Location",Toast.LENGTH_SHORT).show()
-            }
-        }else{
-            requestPermission()
-        }
-    }
-
-    private fun newLocationData(){
-        locationRequest =  LocationRequest()
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 1000
-        locationRequest.fastestInterval = 1000
-        locationRequest.numUpdates = 1
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return
-        }
-        fusedLocationProviderClient.requestLocationUpdates(
-                locationRequest,locationCallback, Looper.myLooper()
-        )
-    }
-
-
-    private val locationCallback = object : LocationCallback(){
-        override fun onLocationResult(locationResult: LocationResult) {
-            val lastLocation: Location = locationResult.lastLocation
-            Log.d("Debug:","your last last location: "+ lastLocation.latitude.toString()+"/"+lastLocation.longitude.toString())
-        }
-    }
-
-    private fun isLocationEnabled():Boolean{
-        //this function will return to us the state of the location service
-        //if the gps or the network provider is enabled then it will return true otherwise it will return false
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-    }
-
-
-    override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
-    ) {
-        if(requestCode == Constants.PERMISSION_ID){
-            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Log.d("Debug:","You have the Permission")
-            }
-        }
-    }
-
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         var mapViewBundle =
@@ -377,47 +312,104 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
         mapView.onSaveInstanceState(mapViewBundle)
     }
 
-    override fun onMapReady(googleMap: GoogleMap?) {
-        if(isLocationEnabled()){
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Constants.LOCATION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    if (gpsActived()) {
+                        mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
+                        mMap!!.isMyLocationEnabled = false
+                    } else {
+                        showAlertDialogNOGPS()
+                    }
+                } else {
+                    checkLocationPermissions()
+                }
+            } else {
+                checkLocationPermissions()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.SETTINGS_REQUEST_CODE && gpsActived()) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return
             }
-            fusedLocationProviderClient.lastLocation.addOnCompleteListener { task->
-                val location: Location? = task.result
-                if(location == null){
-                    newLocationData()
-                }else{
-                    latitudeX = location.latitude
-                    longitudeX = location.longitude
-                    //Toast.makeText(this, "${location.latitude}/${location.longitude}",Toast.LENGTH_LONG).show()
-                    Log.d("Debug:" ,"Your Location:"+ location.latitude+"/"+location.longitude)
-
-                    mMap = googleMap
-                    mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
-                    mMap!!.uiSettings.isZoomControlsEnabled = true
-                    try {
-                        val addresses = geocoder!!.getFromLocation(latitudeX, longitudeX, 1)
-                        if (addresses.size > 0) {
-                            val address = addresses[0]
-                            val aukde = LatLng(address.latitude, address.longitude)
-                            val markerOptions = MarkerOptions()
-                                    .position(aukde)
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.point))
-                                    .title("Tu ubicación")
-                            mMap!!.addMarker(markerOptions).showInfoWindow()
-                            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(aukde, 16f))
-                            //scrollAdress.requestDisallowInterceptTouchEvent(true);
-
-                        }
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-        }else{
-            Toast.makeText(this,"Please Turn on Your device Location",Toast.LENGTH_SHORT).show()
+            mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
+            mMap!!.isMyLocationEnabled = false
+        } else if (requestCode == Constants.SETTINGS_REQUEST_CODE && !gpsActived()) {
+            showAlertDialogNOGPS()
         }
+    }
 
+    private fun showAlertDialogNOGPS() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Por favor activa tu ubicación para continuar...")
+                .setCancelable(false)
+                .setPositiveButton("Activar GPS") { _, _ -> startActivityForResult(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), Constants.SETTINGS_REQUEST_CODE) }.create().show()
+    }
+
+    private fun gpsActived(): Boolean {
+        var isActive = false
+        val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            isActive = true
+        }
+        return isActive
+    }
+
+    private fun startLocation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                if (gpsActived()) {
+                    mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
+                    mMap!!.isMyLocationEnabled = false
+                } else {
+                    showAlertDialogNOGPS()
+                }
+            } else {
+                checkLocationPermissions()
+            }
+        } else {
+            if (gpsActived()) {
+                mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
+                mMap!!.isMyLocationEnabled = false
+            } else {
+                showAlertDialogNOGPS()
+            }
+        }
+    }
+
+    private fun checkLocationPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                AlertDialog.Builder(this)
+                        .setTitle("Proporciona los permisos para continuar")
+                        .setMessage("Esta aplicacion requiere de los permisos de ubicacion para poder utilizarse")
+                        .setPositiveButton("OK") { _, _ -> ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), Constants.LOCATION_REQUEST_CODE) }
+                        .create()
+                        .show()
+            } else {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), Constants.LOCATION_REQUEST_CODE)
+            }
+        }
+    }
+
+    override fun onMapReady(googleMap: GoogleMap?) {
+        mMap = googleMap
+        mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
+        mMap!!.uiSettings.isZoomControlsEnabled = true
+        mMap!!.uiSettings.isZoomControlsEnabled = true
+        mMap!!.setOnCameraIdleListener(mCameraListener)
+        mLocationRequest = LocationRequest()
+        mLocationRequest.interval = 1000
+        mLocationRequest.fastestInterval = 1000
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.smallestDisplacement = 5f
+        startLocation()
     }
 
     override fun onResume() {

@@ -13,7 +13,8 @@ object Constants {
 
     // Firebase Constants
     // This is used for the collection name for USERS.
-    const val PERMISSION_ID = 1010
+    const val LOCATION_REQUEST_CODE = 1
+    const val SETTINGS_REQUEST_CODE = 2
     const val USERS: String = "users"
     const val PRODUCTS: String = "products"
     const val CART_ITEMS: String = "cart_items"
@@ -74,8 +75,8 @@ object Constants {
     fun showImageChooser(activity: Activity) {
         // An intent for launching the image selection of phone storage.
         val galleryIntent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         )
         // Launches the image selection of phone storage using the constant code.
         activity.startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST_CODE)
