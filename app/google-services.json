@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "939943861",
+    "project_id": "aukdeshop",
+    "storage_bucket": "aukdeshop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939943861:android:415e47bb2eea4034035bfc",
+        "android_client_info": {
+          "package_name": "com.aukdeshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939943861-sjln7lc7h4h7hg3uhp7pjtitaj7os16t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aukdeshop",
+            "certificate_hash": "f90acd66171d32a732df1b361b83ba70919da18b"
+          }
+        },
+        {
+          "client_id": "939943861-dnkou9rs1c9m8sqt0h7dnh008mjb02a3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHX9qV4rHL7mJeSL-Oy3FHejCow4x75JY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939943861-dnkou9rs1c9m8sqt0h7dnh008mjb02a3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
