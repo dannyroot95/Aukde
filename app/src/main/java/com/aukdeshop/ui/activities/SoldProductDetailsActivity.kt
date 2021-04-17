@@ -16,7 +16,7 @@ import java.util.*
  */
 class SoldProductDetailsActivity : BaseActivity() {
 
-    private val typeMoney = resources.getString(R.string.type_money)
+    private var typeMoney : String = ""
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -26,6 +26,7 @@ class SoldProductDetailsActivity : BaseActivity() {
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_sold_product_details)
 
+        typeMoney = resources.getString(R.string.type_money)
         var productDetails: SoldProduct = SoldProduct()
 
         if (intent.hasExtra(Constants.EXTRA_SOLD_PRODUCT_DETAILS)) {

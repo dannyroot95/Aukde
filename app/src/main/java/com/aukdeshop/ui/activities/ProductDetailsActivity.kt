@@ -25,7 +25,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
     // A global variable for product id.
     private var mProductId: String = ""
 
-    private val typeMoney = resources.getString(R.string.type_money)
+    private var typeMoney : String = ""
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -33,6 +33,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         //This call the parent constructor
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
+        typeMoney = resources.getString(R.string.type_money)
         setContentView(R.layout.activity_product_details)
 
         if (intent.hasExtra(Constants.EXTRA_PRODUCT_ID)) {
