@@ -37,9 +37,11 @@ class SplashActivity : AppCompatActivity() {
                 if (currentUserID.isNotEmpty()) {
                     // Launch dashboard screen.
                     startActivity(Intent(this@SplashActivity, DashboardActivity::class.java))
+                    overridePendingTransition(R.anim.fragment_fade_enter,R.anim.fragment_fade_exit)
                 } else {
                     // Launch the Login Activity
                     startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                    overridePendingTransition(R.anim.fragment_fade_enter,R.anim.fragment_fade_exit)
                 }
                 finish() // Call this when your activity is done and should be closed.
             },

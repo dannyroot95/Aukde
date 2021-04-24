@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="type_product">
+        <item>Comidas y Bebidas</item>
+        <item>Hogar y Cocina</item>
+        <item>Electrodomésticos</item>
+        <item>Calzados</item>
+        <item>Articulos de Diversión</item>
+        <item>Artículos Tecnológicos</item>
+    </string-array>
+
+</resources>

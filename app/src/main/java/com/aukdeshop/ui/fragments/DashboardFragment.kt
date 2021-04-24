@@ -1,8 +1,11 @@
 package com.aukdeshop.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.ArrayAdapter
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
@@ -12,7 +15,9 @@ import com.aukdeshop.ui.activities.ProductDetailsActivity
 import com.aukdeshop.ui.activities.SettingsActivity
 import com.aukdeshop.ui.adapters.DashboardItemsListAdapter
 import com.aukdeshop.utils.Constants
+import com.aukdeshop.utils.MSPTextView
 import kotlinx.android.synthetic.main.fragment_dashboard.*
+
 
 class DashboardFragment : BaseFragment() {
 
@@ -22,15 +27,40 @@ class DashboardFragment : BaseFragment() {
         setHasOptionsMenu(true)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
+        val view  = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        val textFilter = view.findViewById(R.id.textFilter) as MSPTextView
+        val btnRecently = view.findViewById(R.id.btnRecently) as CardView
+        val btnFood = view.findViewById(R.id.btnFood) as CardView
+        val btnCuisine = view.findViewById(R.id.btnCuisine) as CardView
+        val btnElectro = view.findViewById(R.id.btnElectro) as CardView
 
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        val listTypeProduct = resources.getStringArray(R.array.type_product);
 
-        return root
+        btnRecently.setOnClickListener{
+            textFilter.text = "Mas recientes"
+            getDashboardItemsList()
+        }
+
+        btnFood.setOnClickListener{
+            textFilter.text = "Comidas y Bebidas"
+            getDashboardTypeProductItemsList(listTypeProduct[0])
+        }
+        btnCuisine.setOnClickListener{
+            textFilter.text = "Hogar y Cocina"
+            getDashboardTypeProductItemsList(listTypeProduct[1])
+        }
+        btnElectro.setOnClickListener{
+            textFilter.text = "Electrodomésticos"
+            getDashboardTypeProductItemsList(listTypeProduct[2])
+        }
+
+        return view
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -39,9 +69,8 @@ class DashboardFragment : BaseFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
 
-        when (id) {
+        when (item.itemId) {
 
             R.id.action_settings -> {
 
@@ -59,7 +88,7 @@ class DashboardFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-
+        textFilter.text = "Mas recientes"
         getDashboardItemsList()
     }
 
@@ -71,6 +100,13 @@ class DashboardFragment : BaseFragment() {
         showProgressDialog(resources.getString(R.string.please_wait))
 
         FirestoreClass().getDashboardItemsList(this@DashboardFragment)
+    }
+
+    private fun getDashboardTypeProductItemsList(type: String) {
+        // Show the progress dialog.
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FirestoreClass().getDashboardTypeItemsList(this@DashboardFragment, type)
     }
 
     /**
@@ -95,7 +131,7 @@ class DashboardFragment : BaseFragment() {
             rv_dashboard_items.adapter = adapter
 
             adapter.setOnClickListener(object :
-                DashboardItemsListAdapter.OnClickListener {
+                    DashboardItemsListAdapter.OnClickListener {
                 override fun onClick(position: Int, product: Product) {
 
                     val intent = Intent(context, ProductDetailsActivity::class.java)

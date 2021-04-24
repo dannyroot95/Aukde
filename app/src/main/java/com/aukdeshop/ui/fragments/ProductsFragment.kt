@@ -29,7 +29,7 @@ class ProductsFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         mRootView = inflater.inflate(R.layout.fragment_products, container, false)
         return mRootView
     }

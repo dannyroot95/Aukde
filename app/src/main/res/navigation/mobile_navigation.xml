@@ -28,4 +28,5 @@
         android:name="com.aukdeshop.ui.fragments.SoldProductsFragment"
         android:label="@string/title_sold_products"
         tools:layout="@layout/fragment_sold_products" />
+
 </navigation>

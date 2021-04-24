@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#5BBD00</color>
+    <color name="colorPrimary">#EC407A</color>
     <color name="colorPrimaryDark">#222934</color>
-    <color name="colorAccent">#5BBD00</color>
+    <color name="colorAccent">#EC407A</color>
 
-    <color name="colorThemeGreenMid">#5bbd00</color>
-    <color name="colorThemeGreenLight">#B2D3C0</color>
+    <color name="colorThemeGreenMid">#EC407A</color>
+    <color name="colorThemeGreenLight">#FF7EA9</color>
 
     <color name="colorPrimaryText">#222934</color>
     <color name="colorSecondaryText">#989898</color>
 
     <color name="colorWhite">#FFFFFF</color>
 
-    <color name="colorSnackBarSuccess">#8BC34A</color>
+    <color name="colorSnackBarSuccess">#FF7EA9</color>
     <color name="colorSnackBarError">#F72400</color>
 
     <color name="colorLightGrey">#F1F1F1</color>
 
     <color name="colorBorder">#E8E6E6</color>
     <color name="colorDarkGrey">#878787</color>
+    <color name="gray">#DDDDDD</color>
 
     <color name="colorImageViewBackground">#E1E1E1</color>
 

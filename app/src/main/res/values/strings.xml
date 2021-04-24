@@ -58,13 +58,13 @@
     <string name="title_activity_dashboard">MainActivity</string>
 
 
-    <string name="title_dashboard">Tienda</string>
+    <string name="title_dashboard">Inicio</string>
     <string name="title_products">Productos</string>
     <string name="title_orders">Pedidos</string>
 
     <string name="please_click_back_again_to_exit">Vuelva a hacer clic en Atrás para salir.</string>
 
-    <string name="action_settings">Configuraciones</string>
+    <string name="action_settings">Carrito</string>
 
     <string name="title_settings">CONFIGURACIONES</string>
     <string name="lbl_edit">Editar</string>
@@ -181,6 +181,14 @@
     <string name="permision_for_continue">Proporciona los permisos para continuar</string>
     <string name="require_permision">Esta aplicacion requiere de los permisos de ubicacion para poder utilizarse</string>
     <string name="ok">OK</string>
+    <string name="type_of_product">Tipo de producto</string>
+    <string name="food">Comidas</string>
+    <string name="clothes_accesory">Calzado</string>
+    <string name="plus_recently">Recientes</string>
+    <string name="home_cousine">Hogar y Cocina</string>
+    <string name="electro">Electrodomesticos</string>
+    <string name="funny">Diversión</string>
+    <string name="recently">Mas recientes</string>
 
 
 </resources>
