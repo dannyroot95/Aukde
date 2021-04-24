@@ -282,7 +282,7 @@
                 android:id="@+id/rv_dashboard_items"
                 android:elevation="6dp"
                 android:layout_width="match_parent"
-                android:layout_height="420dp"
+                android:layout_height="410dp"
                 android:visibility="gone"/>
 
         </LinearLayout>

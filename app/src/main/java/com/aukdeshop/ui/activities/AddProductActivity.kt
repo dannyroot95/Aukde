@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -32,34 +33,18 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
 
     // A global variable for URI of a selected image from phone storage.
     private var mSelectedImageFileUri: Uri? = null
-    private lateinit var spinnerProduct : Spinner
     // A global variable for uploaded product image URL.
     private var mProductImageURL: String = ""
     private var mTypeProduct : String = ""
+    lateinit var sharedTypeProduct : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_product)
-
-        spinnerProduct = findViewById(R.id.spinner_type_product)
+        sharedTypeProduct    = getSharedPreferences(Constants.EXTRA_USER_TYPE_PRODUCT, MODE_PRIVATE)
+        mTypeProduct = sharedTypeProduct.getString(Constants.EXTRA_USER_TYPE_PRODUCT, "").toString()
 
         setupActionBar()
-
-        val adapterSpinner = ArrayAdapter.createFromResource(
-                this,
-                R.array.type_product,
-                R.layout.support_simple_spinner_dropdown_item
-        )
-        spinnerProduct.adapter = adapterSpinner
-        spinnerProduct.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
-                mTypeProduct = parent!!.getItemAtPosition(position).toString()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-        }
-
         // Assign the click event to iv_add_update_product image.
         iv_add_update_product.setOnClickListener(this)
 

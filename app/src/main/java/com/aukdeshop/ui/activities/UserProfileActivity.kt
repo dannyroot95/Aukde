@@ -3,6 +3,7 @@ package com.aukdeshop.ui.activities
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -28,6 +29,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
     // Instance of User data model class. We will initialize it later on.
     private lateinit var mUserDetails: User
 
+    lateinit var sharedTypeProduct : SharedPreferences
+
     // Add a global variable for URI of a selected image from phone storage.
     private var mSelectedImageFileUri: Uri? = null
 
@@ -41,6 +44,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_user_profile)
+
+        sharedTypeProduct = getSharedPreferences(Constants.EXTRA_USER_TYPE_PRODUCT, MODE_PRIVATE)
 
         if (intent.hasExtra(Constants.EXTRA_USER_DETAILS)) {
             // Get the user details from intent as a ParcelableExtra.
@@ -61,6 +66,11 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
             et_email.isEnabled = false
             et_email.setText(mUserDetails.email)
+
+            val editorTypeProduct: SharedPreferences.Editor = sharedTypeProduct.edit()
+            editorTypeProduct.putString(Constants.EXTRA_USER_TYPE_PRODUCT, mUserDetails.type_product)
+            editorTypeProduct.apply()
+
         } else {
 
             // Call the setup action bar function.
@@ -87,6 +97,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             } else {
                 rb_female.isChecked = true
             }
+
         }
 
         // Assign the on click event to the user profile photo.

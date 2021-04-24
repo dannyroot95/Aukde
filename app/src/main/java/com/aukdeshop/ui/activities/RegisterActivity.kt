@@ -2,7 +2,11 @@ package com.aukdeshop.ui.activities
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import android.view.WindowManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
@@ -16,6 +20,8 @@ import kotlinx.android.synthetic.main.activity_register.*
 @Suppress("DEPRECATION")
 class RegisterActivity : BaseActivity() {
 
+    private var mTypeProduct : String = ""
+    private lateinit var spinnerProduct : Spinner
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -24,9 +30,26 @@ class RegisterActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_register)
+        spinnerProduct = findViewById(R.id.spinner_type_product)
 
         // This is used to hide the status bar and make the splash screen as a full screen activity.
         // It is deprecated in the API level 30. I will update you with the alternate solution soon.
+
+        val adapterSpinner = ArrayAdapter.createFromResource(
+                this,
+                R.array.type_product,
+                R.layout.support_simple_spinner_dropdown_item
+        )
+        spinnerProduct.adapter = adapterSpinner
+        spinnerProduct.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
+                mTypeProduct = parent!!.getItemAtPosition(position).toString()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
@@ -147,7 +170,8 @@ class RegisterActivity : BaseActivity() {
                                 firebaseUser.uid,
                                 et_first_name.text.toString().trim { it <= ' ' },
                                 et_last_name.text.toString().trim { it <= ' ' },
-                                et_email.text.toString().trim { it <= ' ' }
+                                et_email.text.toString().trim { it <= ' ' },
+                                mTypeProduct
                             )
 
                             // Pass the required values in the constructor.
