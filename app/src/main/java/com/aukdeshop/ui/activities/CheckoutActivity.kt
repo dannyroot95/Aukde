@@ -1,5 +1,6 @@
 package com.aukdeshop.ui.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -38,15 +39,17 @@ class CheckoutActivity : BaseActivity() {
     // A global variable for Order details.
     private lateinit var mOrderDetails: Order
 
-    private val typeMoney = resources.getString(R.string.type_money)
+    private var typeMoney : String = ""
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_checkout)
+        typeMoney = resources.getString(R.string.type_money)
 
         setupActionBar()
 
@@ -126,6 +129,7 @@ class CheckoutActivity : BaseActivity() {
      *
      * @param cartList
      */
+    @SuppressLint("SetTextI18n")
     fun successCartItemsList(cartList: ArrayList<Cart>) {
 
         // Hide progress dialog.

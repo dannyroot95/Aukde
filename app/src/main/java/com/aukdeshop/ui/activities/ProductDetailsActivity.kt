@@ -26,6 +26,8 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
     private var mProductId: String = ""
 
     private var typeMoney : String = ""
+
+    private var mProviderId: String = ""
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -85,6 +87,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
 
         val addToCart = Cart(
             FirestoreClass().getCurrentUserID(),
+            mProviderId,
             mProductId,
             mProductDetails.title,
             mProductDetails.price,
@@ -146,6 +149,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         tv_product_details_price.text = typeMoney+product.price
         tv_product_details_description.text = product.description
         tv_product_details_stock_quantity.text = product.stock_quantity
+        mProviderId = product.provider_id
 
 
         if(product.stock_quantity.toInt() == 0){

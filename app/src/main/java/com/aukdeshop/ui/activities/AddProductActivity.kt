@@ -230,7 +230,7 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun uploadProductDetails() {
-
+        val id_user = FirestoreClass().getCurrentUserID()
         // Get the logged in username from the SharedPreferences that we have stored at a time of login.
         val username =
             this.getSharedPreferences(Constants.MYSHOPPAL_PREFERENCES, Context.MODE_PRIVATE)
@@ -238,7 +238,8 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
 
         // Here we get the text from editText and trim the space
         val product = Product(
-                FirestoreClass().getCurrentUserID(),
+                id_user,
+                id_user,
                 username,
                 et_product_title.text.toString().trim { it <= ' ' },
                 et_product_price.text.toString().trim { it <= ' ' },

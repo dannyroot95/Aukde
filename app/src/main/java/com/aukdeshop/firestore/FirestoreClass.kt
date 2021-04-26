@@ -821,6 +821,7 @@ class FirestoreClass {
 
             val soldProduct = SoldProduct(
                 FirestoreClass().getCurrentUserID(),
+                cart.provider_id,
                 cart.title,
                 cart.price,
                 cart.cart_quantity,
@@ -914,7 +915,7 @@ class FirestoreClass {
     fun getSoldProductsList(fragment: SoldProductsFragment) {
         // The collection name for SOLD PRODUCTS
         mFireStore.collection(Constants.SOLD_PRODUCTS)
-            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .whereEqualTo(Constants.PROVIDER_ID, getCurrentUserID())
             .get() // Will get the documents snapshots.
             .addOnSuccessListener { document ->
                 // Here we get the list of sold products in the form of documents.

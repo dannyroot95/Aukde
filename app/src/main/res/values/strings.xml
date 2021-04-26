@@ -60,7 +60,7 @@
 
     <string name="title_dashboard">Inicio</string>
     <string name="title_products">Productos</string>
-    <string name="title_orders">Pedidos</string>
+    <string name="title_orders">Compras</string>
 
     <string name="please_click_back_again_to_exit">Vuelva a hacer clic en Atrás para salir.</string>
 
@@ -157,7 +157,7 @@
     <string name="lbl_cash_on_delivery">Contra reembolso</string>
     <string name="btn_lbl_place_order">REALIZAR PEDIDO</string>
 
-    <string name="no_orders_placed_yet">¡Aún no se han realizado pedidos!</string>
+    <string name="no_orders_placed_yet">¡Aún no se realizaron compras!</string>
 
     <string name="title_my_order_details">DETALLES DEl PEDIDO</string>
     <string name="order_details_lbl">Detalles del pedido</string>
@@ -170,8 +170,8 @@
     <string name="order_status_in_process">En proceso</string>
     <string name="order_status_delivered">Entregado</string>
 
-    <string name="title_sold_products">Compras</string>
-    <string name="no_products_sold_out_yet">¡Ningún producto adquirido!</string>
+    <string name="title_sold_products">Pedidos</string>
+    <string name="no_products_sold_out_yet">¡Sin pedidos!</string>
 
     <string name="title_sold_product_details">DETALLES DEL PRODUCTO</string>
 
