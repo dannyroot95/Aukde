@@ -12,19 +12,25 @@
 
     <string name="create_an_account">CREA UNA CUENTA</string>
 
-    <string name="hint_last_name">Apellido</string>
+    <string name="hint_last_name">Apellidos</string>
     <string name="hint_first_name">Nombres</string>
+    <string name="hint_dni">DNI</string>
     <string name="et_hint_confirm_password">Confirmar contraseña</string>
 
     <string name="i_agree_to_the_terms_and_condition">Acepto los <u> Terminos &amp; Condiciones </u></string>
+    <string name="delivery">¿Cuenta con el servicio de entrega a domicilio?</string>
     <string name="btn_lbl_register">Registrar</string>
 
     <string name="already_have_an_account">Ya tienes una cuenta?</string>
     <string name="login"><u>Login</u></string>
 
+    <string name="err_msg_enter_gender">Seleccione su género.</string>
     <string name="err_msg_enter_first_name">Ingrese sus nombres.</string>
     <string name="err_msg_enter_last_name">Ingrese su apellido.</string>
+    <string name="err_msg_dni">Ingrese su DNI.</string>
+    <string name="err_msg_ruc">Ingrese su RUC.</string>
     <string name="err_msg_enter_email">Ingrese su Email.</string>
+    <string name="err_msg_enter_delivery">Seleccione si tiene entrega a domicilio.</string>
     <string name="err_msg_enter_password">Ingrese su contraseña.</string>
     <string name="err_msg_enter_confirm_password">Confirme su contraseña.</string>
     <string name="err_msg_password_and_confirm_password_mismatch">Revise su contraseña!.</string>
@@ -39,6 +45,7 @@
     <string name="email_sent_success">¡Correo electrónico enviado con éxito para restablecer su contraseña!</string>
 
     <string name="register_success">Estás registrado correctamente.</string>
+    <string name="provider_register_success">Solicitud enviada!.</string>
 
     <string name="title_complete_profile">PERFIL COMPLETO</string>
     <string name="et_hint_mobile_number">Número telefónico</string>
@@ -125,6 +132,7 @@
     <string name="title_add_address">AGREGAR DIRECCIÓN</string>
     <string name="hint_full_name">Nombre completo</string>
     <string name="hint_phone_number">Celular/Fijo</string>
+    <string name="hint_ruc">RUC</string>
     <string name="hint_address">Dirección</string>
     <string name="hint_zip_code">Código postal</string>
     <string name="hint_additional_note">Referencia</string>
@@ -190,6 +198,10 @@
     <string name="funny">Diversión</string>
     <string name="recently">Mas recientes</string>
     <string name="sale">¿Que vendes?</string>
+    <string name="radio_yes">Si</string>
+    <string name="radio_no">No</string>
+    <string name="male">Masculino</string>
+    <string name="female">Femenino</string>
 
 
 </resources>

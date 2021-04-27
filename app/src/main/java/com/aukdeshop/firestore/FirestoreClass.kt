@@ -18,6 +18,8 @@ import com.aukdeshop.ui.fragments.OrdersFragment
 import com.aukdeshop.ui.fragments.ProductsFragment
 import com.aukdeshop.ui.fragments.SoldProductsFragment
 import com.aukdeshop.utils.Constants
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 /**
  * A custom class where we will add the operation performed for the FireStore database.
@@ -26,10 +28,29 @@ class FirestoreClass {
 
     // Access a Cloud Firestore instance.
     private val mFireStore = FirebaseFirestore.getInstance()
+    private var mDatabase : DatabaseReference = FirebaseDatabase.getInstance().reference
 
     /**
      * A function to make an entry of the registered user in the FireStore database.
      */
+
+    fun requestProvider(activity: RegisterProvider, partnerInfo: Partner){
+
+        mDatabase.child(Constants.REQUEST_PROVIDER).push().setValue(partnerInfo)
+            .addOnSuccessListener {
+                activity.providerRegistrationSuccess()
+            }
+            .addOnFailureListener{e->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while registering the provider.",
+                    e
+                )
+            }
+
+    }
+
     fun registerUser(activity: RegisterActivity, userInfo: User) {
 
         // The "users" is collection name. If the collection is already created then it will not create the same one again.
@@ -39,7 +60,6 @@ class FirestoreClass {
             // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge later on instead of replacing the fields.
             .set(userInfo, SetOptions.merge())
             .addOnSuccessListener {
-
                 // Here call a function of base activity for transferring the result to it.
                 activity.userRegistrationSuccess()
             }

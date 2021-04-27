@@ -175,7 +175,8 @@
                 app:layout_constraintBottom_toTopOf="@id/btn_submit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_mobile_number">
+                app:layout_constraintTop_toBottomOf="@id/til_mobile_number"
+                tools:ignore="NotSibling">
 
                 <com.aukdeshop.utils.MSPRadioButton
                     android:id="@+id/rb_male"

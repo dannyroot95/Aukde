@@ -72,6 +72,8 @@ object Constants {
     const val OFFICE: String = "Oficina"
     const val OTHER: String = "Otro"
 
+    const val REQUEST_PROVIDER: String = "SolicitudSocio"
+
     /**
      * A function for user profile image selection from phone storage.
      */

@@ -63,7 +63,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
                 R.id.tv_register -> {
                     // Launch the register screen when the user clicks on the text.
-                    val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+                    val intent = Intent(this@LoginActivity, RegisterProvider::class.java)
                     startActivity(intent)
                 }
             }
