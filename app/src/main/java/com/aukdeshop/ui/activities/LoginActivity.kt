@@ -112,7 +112,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     } else {
                         // Hide the progress dialog
                         hideProgressDialog()
-                        showErrorSnackBar(task.exception!!.message.toString(), true)
+                        showErrorSnackBar("No se pudo iniciar sesión, revise sus datos", true)
                     }
                 }
         }
