@@ -3,6 +3,7 @@
 
     <string name="content_description">imagen</string>
     <string name="title_login">INICIAR SESIÓN</string>
+    <string name="et_hint_store">Nombre del negocio ó empresa</string>
     <string name="et_hint_email_id">Correo electrónico</string>
     <string name="et_hint_password">Contraseña</string>
     <string name="lbl_forgot_password">Olvidé mi constraseña?</string>
@@ -29,6 +30,7 @@
     <string name="err_msg_enter_last_name">Ingrese su apellido.</string>
     <string name="err_msg_dni">Ingrese su DNI.</string>
     <string name="err_msg_ruc">Ingrese su RUC.</string>
+    <string name="err_msg_store">Ingrese el nombre de su empresa ó negocio.</string>
     <string name="err_msg_enter_email">Ingrese su Email.</string>
     <string name="err_msg_enter_delivery">Seleccione si tiene entrega a domicilio.</string>
     <string name="err_msg_enter_password">Ingrese su contraseña.</string>

@@ -1,20 +1,206 @@
 {
   "project_info": {
-    "project_number": "939943861",
-    "project_id": "aukdeshop",
-    "storage_bucket": "aukdeshop.appspot.com"
+    "project_number": "550027089460",
+    "firebase_url": "https://gestor-de-pedidos-aukdefood.firebaseio.com",
+    "project_id": "gestor-de-pedidos-aukdefood",
+    "storage_bucket": "gestor-de-pedidos-aukdefood.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:939943861:android:415e47bb2eea4034035bfc",
+        "mobilesdk_app_id": "1:550027089460:android:fa09015704935ef4215c61",
+        "android_client_info": {
+          "package_name": "aukde.food.administrador"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550027089460-3vbnrbbr5clhtiksdql5f9j1ab8gj179.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "aukde.food.administrador",
+            "certificate_hash": "f90acd66171d32a732df1b361b83ba70919da18b"
+          }
+        },
+        {
+          "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT8zoZoUf7O_GrAXOX007M4qlH8xwsMq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550027089460:android:908420bb17c18cbc215c61",
+        "android_client_info": {
+          "package_name": "aukde.food.aukdeliver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550027089460-46hiva1kfuhmjtv72kgorm0jq958gnt7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "aukde.food.aukdeliver",
+            "certificate_hash": "f90acd66171d32a732df1b361b83ba70919da18b"
+          }
+        },
+        {
+          "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT8zoZoUf7O_GrAXOX007M4qlH8xwsMq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550027089460:android:798b0980158c5d3a215c61",
+        "android_client_info": {
+          "package_name": "aukde.food.gestordepedidos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550027089460-sn37ensu7e9es6i7c97bt3h81e5rjrj4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "aukde.food.gestordepedidos",
+            "certificate_hash": "dbc57c75295a904a2594c7430a9b5bea44669fdf"
+          }
+        },
+        {
+          "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT8zoZoUf7O_GrAXOX007M4qlH8xwsMq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550027089460:android:5e171a6c0e3a3b88215c61",
+        "android_client_info": {
+          "package_name": "aukde.food.proveedor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550027089460-oepnakhoaltpndn02fs9g0fsu9pt46st.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "aukde.food.proveedor",
+            "certificate_hash": "f90acd66171d32a732df1b361b83ba70919da18b"
+          }
+        },
+        {
+          "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT8zoZoUf7O_GrAXOX007M4qlH8xwsMq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550027089460:android:c4defe46a2c678bd215c61",
+        "android_client_info": {
+          "package_name": "com.aukde.proveedor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550027089460-5jv42v8205c98g0md4dt23f1ujdnta97.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aukde.proveedor",
+            "certificate_hash": "f90acd66171d32a732df1b361b83ba70919da18b"
+          }
+        },
+        {
+          "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT8zoZoUf7O_GrAXOX007M4qlH8xwsMq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550027089460:android:d3009a2e2fd08f08215c61",
         "android_client_info": {
           "package_name": "com.aukdeshop"
         }
       },
       "oauth_client": [
         {
-          "client_id": "939943861-sjln7lc7h4h7hg3uhp7pjtitaj7os16t.apps.googleusercontent.com",
+          "client_id": "550027089460-e9hm92t4dftbour246t2ac2a3fqcb588.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.aukdeshop",
@@ -22,20 +208,20 @@
           }
         },
         {
-          "client_id": "939943861-dnkou9rs1c9m8sqt0h7dnh008mjb02a3.apps.googleusercontent.com",
+          "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDHX9qV4rHL7mJeSL-Oy3FHejCow4x75JY"
+          "current_key": "AIzaSyDT8zoZoUf7O_GrAXOX007M4qlH8xwsMq0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "939943861-dnkou9rs1c9m8sqt0h7dnh008mjb02a3.apps.googleusercontent.com",
+              "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

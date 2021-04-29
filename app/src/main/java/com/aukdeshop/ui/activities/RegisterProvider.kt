@@ -24,6 +24,8 @@ import kotlinx.android.synthetic.main.activity_register_provider.*
 
 class RegisterProvider : BaseActivity() {
 
+    //NOTA AGREGAR DIRECCIÓN , DEFERENCIA Y UBICACION EN TIEMPO REAL
+
     private var mTypeProduct : String = ""
     private lateinit var spinnerProduct : Spinner
 
@@ -34,6 +36,7 @@ class RegisterProvider : BaseActivity() {
 
     private var mGender : String = ""
     private var mDelivery : String = ""
+    private var mTypeUser : String = "provider"
 
     var radioGroup: RadioGroup? = null
     /**
@@ -131,13 +134,24 @@ class RegisterProvider : BaseActivity() {
                 false
             }
 
-            TextUtils.isEmpty(et_ruc.text.toString().trim { it <= ' ' }) -> {
-                showErrorSnackBar(resources.getString(R.string.err_msg_ruc), true)
-                false
-            }
 
             TextUtils.isEmpty(et_email.text.toString().trim { it <= ' ' }) -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_email), true)
+                false
+            }
+
+            TextUtils.isEmpty(et_store.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_store), true)
+                false
+            }
+
+            TextUtils.isEmpty(et_address.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_please_enter_address), true)
+                false
+            }
+
+            TextUtils.isEmpty(et_ruc.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_ruc), true)
                 false
             }
 
@@ -194,14 +208,17 @@ class RegisterProvider : BaseActivity() {
                     "",
                     et_first_name.text.toString().trim { it <= ' ' },
                     et_last_name.text.toString().trim { it <= ' ' },
-                    et_dni.text.toString().toInt(),
+                    et_dni.text.toString().trim { it <= ' ' },
                     et_phone_number.text.toString().toLong(),
-                    et_ruc.text.toString().toLong(),
+                    et_ruc.text.toString().trim { it <= ' ' },
                     mGender,
                     et_email.text.toString().trim { it <= ' ' },
                     et_password.text.toString().trim { it <= ' ' },
                     mTypeProduct,
-                    mDelivery
+                    mDelivery,
+                    et_store.text.toString().trim { it <= ' ' },
+                    et_address.text.toString().trim { it <= ' ' },
+                    mTypeUser
             )
 
             // Pass the required values in the constructor.
