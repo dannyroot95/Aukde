@@ -1,44 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.activities.RegisterProvider">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_register_provider_activity"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
-
-        <com.aukdeshop.utils.MSPTextViewBold
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:paddingStart="@dimen/toolbar_title_paddingStart"
-            android:paddingEnd="0dp"
-            android:text="@string/create_an_account"
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="@dimen/toolbar_title_text_size" />
-
-    </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_register_provider_activity">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_height="wrap_content">
 
+            <com.aukdeshop.utils.MSPTextViewBold
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="@string/create_an_account"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/toolbar_title_text_size" />
+
             <com.aukdeshop.utils.MSPTextView
                 android:layout_width="match_parent"
                 android:textAlignment="center"
                 android:text="¿Soy?"
+                android:layout_marginTop="10dp"
                 android:textSize="18sp"
                 android:textColor="@color/quantum_grey600"
                 android:layout_height="wrap_content"/>
@@ -82,7 +73,7 @@
                         <TextView
                             android:id="@+id/provider_gender_male"
                             android:layout_width="match_parent"
-                            android:text="@string/male"
+                            android:text="@string/men"
                             android:textAlignment="center"
                             android:textSize="12sp"
                             android:textStyle="bold"
@@ -122,7 +113,7 @@
                         <TextView
                             android:id="@+id/provider_gender_female"
                             android:layout_width="match_parent"
-                            android:text="@string/female"
+                            android:text="@string/woman"
                             android:textAlignment="center"
                             android:textSize="12sp"
                             android:textColor="#000"
@@ -282,6 +273,18 @@
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/et_textSize" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_show_map"
+                android:layout_width="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/quantum_white_100"
+                android:text="@string/add_location"
+                android:drawableLeft="@drawable/ic_add_location"
+                android:backgroundTint="@color/quantum_black_100"
+                android:layout_height="wrap_content"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_ruc"
@@ -447,6 +450,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
+                android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -472,4 +476,39 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/map_container">
+
+        <com.google.android.gms.maps.MapView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/map_view" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="6dp"
+        android:src="@drawable/ic_close_location"
+        app:fabSize="normal"
+        android:visibility="gone"
+        app:backgroundTint="#f00"
+        app:elevation="6dp"
+        android:id="@+id/floatingMap"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/locationImg"
+        android:visibility="gone"
+        android:src="@drawable/icon_my_location"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

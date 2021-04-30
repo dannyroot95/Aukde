@@ -1,6 +1,7 @@
 package com.aukdeshop.ui.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
@@ -11,11 +12,13 @@ import android.os.Looper
 import android.provider.Settings
 import android.text.TextUtils
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.Address
@@ -27,6 +30,7 @@ import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_add_edit_address.*
 
 /**
@@ -67,7 +71,7 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
                     mMarker = mMap!!.addMarker(MarkerOptions().position(
                             LatLng(location.latitude, location.longitude)
                     )
-                            .title("Tú Poscición")
+                            .title("Tú ubicación")
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_my_location))
                     )
                     mMarker!!.showInfoWindow()
@@ -86,6 +90,7 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
         super.onCreate(savedInstanceState)
@@ -110,8 +115,6 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
         mapView.getMapAsync(this)
 
         scrollAdress = findViewById(R.id.scrollAdresss)
-
-
 
         setupActionBar()
 
@@ -400,7 +403,6 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap?) {
         mMap = googleMap
         mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
-        mMap!!.uiSettings.isZoomControlsEnabled = true
         mMap!!.uiSettings.isZoomControlsEnabled = true
         mMap!!.setOnCameraIdleListener(mCameraListener)
         mLocationRequest = LocationRequest()

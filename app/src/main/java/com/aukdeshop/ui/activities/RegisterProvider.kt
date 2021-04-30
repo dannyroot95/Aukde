@@ -1,16 +1,36 @@
 package com.aukdeshop.ui.activities
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Geocoder
+import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
+import android.os.Looper
+import android.provider.Settings
 import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
+import com.aukdeshop.models.Address
 import com.aukdeshop.models.Partner
 import com.aukdeshop.utils.Constants
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_register.btn_register
 import kotlinx.android.synthetic.main.activity_register.cb_terms_and_condition
 import kotlinx.android.synthetic.main.activity_register.et_confirm_password
@@ -22,12 +42,29 @@ import kotlinx.android.synthetic.main.activity_register.tv_login
 import kotlinx.android.synthetic.main.activity_register_provider.*
 
 
-class RegisterProvider : BaseActivity() {
+class RegisterProvider : BaseActivity() , OnMapReadyCallback{
 
     //NOTA AGREGAR DIRECCIÓN , DEFERENCIA Y UBICACION EN TIEMPO REAL
 
     private var mTypeProduct : String = ""
     private lateinit var spinnerProduct : Spinner
+
+    private var mAddressDetails: Address? = null
+    private var geocoder: Geocoder? = null
+    private var mMap: GoogleMap? = null
+    private lateinit var mapView: MapView
+    var latitudeX  = 0.0
+    var longitudeX  = 0.0
+    var mapViewBundle: Bundle? = null
+    lateinit var mCurrentLatLng: LatLng
+    private var mCameraListener: GoogleMap.OnCameraIdleListener? = null
+    lateinit var mLocationRequest: LocationRequest
+    lateinit var mFusedLocation: FusedLocationProviderClient
+    private var mIsFirstTime = true
+    private lateinit var linearMap : LinearLayout
+    private lateinit var floatingMap : FloatingActionButton
+    private lateinit var showMap : Button
+    private lateinit var imageLocation : ImageView
 
     private lateinit var mButtonMale : CardView
     private lateinit var mButtonFemale : CardView
@@ -39,15 +76,68 @@ class RegisterProvider : BaseActivity() {
     private var mTypeUser : String = "provider"
 
     var radioGroup: RadioGroup? = null
+    private var mLocationCallback: LocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            for (location in locationResult.locations) {
+                if (applicationContext != null) {
+                    mCurrentLatLng = LatLng(location.latitude, location.longitude)
+                    /*if (mMarker != null) {
+                        mMarker!!.remove()
+                    }*/
+                    // OBTENER LA LOCALIZACION DEL USUARIO EN TIEMPO REAL
+                    mMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(
+                            CameraPosition.Builder()
+                                    .target(LatLng(location.latitude, location.longitude))
+                                    .zoom(16f)
+                                    .build()
+                    ))
+                    /*mMarker = mMap!!.addMarker(MarkerOptions().position(
+                            LatLng(location.latitude, location.longitude)
+                    )
+                            .title("Tú Poscición")
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_my_location))
+                    )
+                    mMarker!!.showInfoWindow()*/
+
+                    if (mIsFirstTime) {
+                        mIsFirstTime = false
+                    }
+                }
+            }
+        }
+    }
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_register_provider)
         supportActionBar?.hide()
+
+        linearMap = findViewById(R.id.map_container)
+        floatingMap = findViewById(R.id.floatingMap)
+        showMap = findViewById(R.id.btn_show_map)
+        imageLocation = findViewById(R.id.locationImg)
+        closeMap()
+
+        mFusedLocation = LocationServices.getFusedLocationProviderClient(this)
+        geocoder = Geocoder(this)
+        if (intent.hasExtra(Constants.EXTRA_ADDRESS_DETAILS)) {
+            mAddressDetails =
+                    intent.getParcelableExtra(Constants.EXTRA_ADDRESS_DETAILS)!!
+        }
+
+        if (savedInstanceState != null) {
+            mapViewBundle =
+                    savedInstanceState.getBundle(Constants.MAP_VIEW_BUNDLE_KEY)
+        }
+
+        mapView = findViewById(R.id.map_view)
+        mapView.onCreate(mapViewBundle)
+        mapView.getMapAsync(this)
 
         mButtonMale  = findViewById(R.id.btn_male)
         mButtonFemale  = findViewById(R.id.btn_female)
@@ -101,6 +191,25 @@ class RegisterProvider : BaseActivity() {
             // We will call the onBackPressed function.
             onBackPressed()
         }
+
+        mCameraListener = GoogleMap.OnCameraIdleListener {
+            try{
+                var geocoder : Geocoder = Geocoder(this)
+                mCurrentLatLng = mMap!!.cameraPosition.target
+                latitudeX = mCurrentLatLng.latitude
+                longitudeX = mCurrentLatLng.longitude
+
+            }
+            catch (e : Exception){}
+        }
+
+        floatingMap.setOnClickListener {
+            closeMap()
+        }
+        showMap.setOnClickListener {
+            openMap()
+        }
+
     }
 
     /**
@@ -147,6 +256,11 @@ class RegisterProvider : BaseActivity() {
 
             TextUtils.isEmpty(et_address.text.toString().trim { it <= ' ' }) -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_please_enter_address), true)
+                false
+            }
+
+            latitudeX == 0.0 || longitudeX == 0.0 ->{
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_location), true)
                 false
             }
 
@@ -218,7 +332,7 @@ class RegisterProvider : BaseActivity() {
                     mDelivery,
                     et_store.text.toString().trim { it <= ' ' },
                     et_address.text.toString().trim { it <= ' ' },
-                    mTypeUser
+                    mTypeUser,"",latitudeX,longitudeX
             )
 
             // Pass the required values in the constructor.
@@ -239,7 +353,6 @@ class RegisterProvider : BaseActivity() {
             mGender = Constants.FEMALE
         }
     }
-
     fun providerRegistrationSuccess() {
         // Hide the progress dialog
         hideProgressDialog()
@@ -250,5 +363,167 @@ class RegisterProvider : BaseActivity() {
         ).show()
         finish()
     }
+
+    @SuppressLint("RestrictedApi")
+    private fun closeMap(){
+        linearMap.visibility = View.INVISIBLE
+        floatingMap.visibility = View.INVISIBLE
+        imageLocation.visibility = View.INVISIBLE
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun openMap(){
+        linearMap.visibility = View.VISIBLE
+        floatingMap.visibility = View.VISIBLE
+        imageLocation.visibility = View.VISIBLE
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        var mapViewBundle =
+                outState.getBundle(Constants.MAP_VIEW_BUNDLE_KEY )
+        if (mapViewBundle == null) {
+            mapViewBundle = Bundle()
+            outState.putBundle(
+                    Constants.MAP_VIEW_BUNDLE_KEY,
+                    mapViewBundle
+            )
+        }
+        mapView.onSaveInstanceState(mapViewBundle)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Constants.LOCATION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    if (gpsActived()) {
+                        mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
+                        mMap!!.isMyLocationEnabled = false
+                    } else {
+                        showAlertDialogNOGPS()
+                    }
+                } else {
+                    checkLocationPermissions()
+                }
+            } else {
+                checkLocationPermissions()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.SETTINGS_REQUEST_CODE && gpsActived()) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return
+            }
+            mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
+            mMap!!.isMyLocationEnabled = false
+        } else if (requestCode == Constants.SETTINGS_REQUEST_CODE && !gpsActived()) {
+            showAlertDialogNOGPS()
+        }
+    }
+
+    private fun gpsActived(): Boolean {
+        var isActive = false
+        val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            isActive = true
+        }
+        return isActive
+    }
+
+    private fun showAlertDialogNOGPS() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(resources.getString(R.string.active_gps_for_continue))
+                .setCancelable(false)
+                .setPositiveButton(resources.getString(R.string.active_gps)) { _, _ -> startActivityForResult(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), Constants.SETTINGS_REQUEST_CODE) }.create().show()
+    }
+
+    private fun checkLocationPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                AlertDialog.Builder(this)
+                        .setTitle(resources.getString(R.string.permision_for_continue))
+                        .setMessage(resources.getString(R.string.require_permision))
+                        .setPositiveButton(resources.getString(R.string.ok)) { _, _ -> ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), Constants.LOCATION_REQUEST_CODE) }
+                        .create()
+                        .show()
+            } else {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), Constants.LOCATION_REQUEST_CODE)
+            }
+        }
+    }
+
+    private fun startLocation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                if (gpsActived()) {
+                    mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
+                    mMap!!.isMyLocationEnabled = false
+                } else {
+                    showAlertDialogNOGPS()
+                }
+            } else {
+                checkLocationPermissions()
+            }
+        } else {
+            if (gpsActived()) {
+                mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
+                mMap!!.isMyLocationEnabled = false
+            } else {
+                showAlertDialogNOGPS()
+            }
+        }
+    }
+
+    override fun onMapReady(googleMap: GoogleMap?) {
+        mMap = googleMap
+        mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
+        mMap!!.uiSettings.isZoomControlsEnabled = true
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+        mMap!!.isMyLocationEnabled = true
+        mMap!!.setOnCameraIdleListener(mCameraListener)
+        mLocationRequest = LocationRequest()
+        mLocationRequest.interval = 1000
+        mLocationRequest.fastestInterval = 1000
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.smallestDisplacement = 5f
+        startLocation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+
+    override fun onPause() {
+        mapView.onPause()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        mapView.onDestroy()
+        super.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+
 
 }

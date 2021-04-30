@@ -26,6 +26,7 @@
     <string name="login"><u>Login</u></string>
 
     <string name="err_msg_enter_gender">Seleccione su género.</string>
+    <string name="err_msg_enter_location">Agrege la ubicación del negocio.</string>
     <string name="err_msg_enter_first_name">Ingrese sus nombres.</string>
     <string name="err_msg_enter_last_name">Ingrese su apellido.</string>
     <string name="err_msg_dni">Ingrese su DNI.</string>
@@ -204,6 +205,9 @@
     <string name="radio_no">No</string>
     <string name="male">Masculino</string>
     <string name="female">Femenino</string>
+    <string name="men">Hombre</string>
+    <string name="woman">Mujer</string>
+    <string name="add_location">Agregar ubicación</string>
 
 
 </resources>
