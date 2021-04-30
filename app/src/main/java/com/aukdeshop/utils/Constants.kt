@@ -17,6 +17,7 @@ object Constants {
     const val SETTINGS_REQUEST_CODE = 2
     const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
     const val USERS: String = "users"
+    const val TOKEN: String = "token"
     const val PRODUCTS: String = "products"
     const val CART_ITEMS: String = "cart_items"
     const val ADDRESSES: String = "addresses"

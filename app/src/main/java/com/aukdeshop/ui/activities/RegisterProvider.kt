@@ -42,6 +42,7 @@ import kotlinx.android.synthetic.main.activity_register.tv_login
 import kotlinx.android.synthetic.main.activity_register_provider.*
 
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class RegisterProvider : BaseActivity() , OnMapReadyCallback{
 
     //NOTA AGREGAR DIRECCIÓN , DEFERENCIA Y UBICACION EN TIEMPO REAL

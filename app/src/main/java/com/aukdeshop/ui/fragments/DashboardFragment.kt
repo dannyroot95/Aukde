@@ -16,6 +16,8 @@ import com.aukdeshop.ui.activities.SettingsActivity
 import com.aukdeshop.ui.adapters.DashboardItemsListAdapter
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.MSPTextView
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 
@@ -59,7 +61,6 @@ class DashboardFragment : BaseFragment() {
             textFilter.text = "Electrodomésticos"
             getDashboardTypeProductItemsList(listTypeProduct[2])
         }
-
         return view
     }
 

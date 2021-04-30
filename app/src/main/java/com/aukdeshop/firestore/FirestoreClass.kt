@@ -1,16 +1,12 @@
 package com.aukdeshop.firestore
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.aukdeshop.models.*
 import com.aukdeshop.ui.activities.*
 import com.aukdeshop.ui.fragments.DashboardFragment
@@ -18,8 +14,20 @@ import com.aukdeshop.ui.fragments.OrdersFragment
 import com.aukdeshop.ui.fragments.ProductsFragment
 import com.aukdeshop.ui.fragments.SoldProductsFragment
 import com.aukdeshop.utils.Constants
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+
 
 /**
  * A custom class where we will add the operation performed for the FireStore database.
@@ -40,12 +48,12 @@ class FirestoreClass {
             .addOnSuccessListener {
                 activity.providerRegistrationSuccess()
             }
-            .addOnFailureListener{e->
+            .addOnFailureListener{ e->
                 activity.hideProgressDialog()
                 Log.e(
-                    activity.javaClass.simpleName,
-                    "Error while registering the provider.",
-                    e
+                        activity.javaClass.simpleName,
+                        "Error while registering the provider.",
+                        e
                 )
             }
 
@@ -66,9 +74,9 @@ class FirestoreClass {
             .addOnFailureListener { e ->
                 activity.hideProgressDialog()
                 Log.e(
-                    activity.javaClass.simpleName,
-                    "Error while registering the user.",
-                    e
+                        activity.javaClass.simpleName,
+                        "Error while registering the user.",
+                        e
                 )
             }
     }
@@ -87,6 +95,20 @@ class FirestoreClass {
         }
 
         return currentUserID
+    }
+
+    fun createToken(id: String){
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            // Get new FCM registration token
+            if (task.isSuccessful){
+                FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
+                    val token = Token(instanceIdResult.token)
+                    mFireStore.collection(Constants.TOKEN).document(id).set(token)
+                    mDatabase.child(Constants.TOKEN).child(id).setValue(token)
+                }
+            }
+
+        })
     }
 
     /**
@@ -108,15 +130,15 @@ class FirestoreClass {
 
                 val sharedPreferences =
                     activity.getSharedPreferences(
-                        Constants.MYSHOPPAL_PREFERENCES,
-                        Context.MODE_PRIVATE
+                            Constants.MYSHOPPAL_PREFERENCES,
+                            Context.MODE_PRIVATE
                     )
 
                 // Create an instance of the editor which is help us to edit the SharedPreference.
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
                 editor.putString(
-                    Constants.LOGGED_IN_USERNAME,
-                    "${user.firstName} ${user.lastName}"
+                        Constants.LOGGED_IN_USERNAME,
+                        "${user.firstName} ${user.lastName}"
                 )
                 editor.apply()
 
@@ -144,9 +166,9 @@ class FirestoreClass {
                 }
 
                 Log.e(
-                    activity.javaClass.simpleName,
-                    "Error while getting user details.",
-                    e
+                        activity.javaClass.simpleName,
+                        "Error while getting user details.",
+                        e
                 )
             }
     }
@@ -185,9 +207,9 @@ class FirestoreClass {
                 }
 
                 Log.e(
-                    activity.javaClass.simpleName,
-                    "Error while updating the user details.",
-                    e
+                        activity.javaClass.simpleName,
+                        "Error while updating the user details.",
+                        e
                 )
             }
     }
@@ -197,11 +219,11 @@ class FirestoreClass {
 
         //getting the storage reference
         val sRef: StorageReference = FirebaseStorage.getInstance().reference.child(
-            imageType + System.currentTimeMillis() + "."
-                    + Constants.getFileExtension(
-                activity,
-                imageFileURI
-            )
+                imageType + System.currentTimeMillis() + "."
+                        + Constants.getFileExtension(
+                        activity,
+                        imageFileURI
+                )
         )
 
         //adding the file to reference
@@ -209,8 +231,8 @@ class FirestoreClass {
             .addOnSuccessListener { taskSnapshot ->
                 // The image upload is success
                 Log.e(
-                    "Firebase Image URL",
-                    taskSnapshot.metadata!!.reference!!.downloadUrl.toString()
+                        "Firebase Image URL",
+                        taskSnapshot.metadata!!.reference!!.downloadUrl.toString()
                 )
 
                 // Get the downloadable url from the task snapshot
@@ -244,9 +266,9 @@ class FirestoreClass {
                 }
 
                 Log.e(
-                    activity.javaClass.simpleName,
-                    exception.message,
-                    exception
+                        activity.javaClass.simpleName,
+                        exception.message,
+                        exception
                 )
             }
     }
@@ -270,9 +292,9 @@ class FirestoreClass {
                 activity.hideProgressDialog()
 
                 Log.e(
-                    activity.javaClass.simpleName,
-                    "Error while uploading the product details.",
-                    e
+                        activity.javaClass.simpleName,
+                        "Error while uploading the product details.",
+                        e
                 )
             }
     }
@@ -405,9 +427,9 @@ class FirestoreClass {
             }
     }
 
-    fun getDashboardTypeItemsList(fragment: DashboardFragment, type:String) {
+    fun getDashboardTypeItemsList(fragment: DashboardFragment, type: String) {
         // The collection name for PRODUCTS
-        mFireStore.collection(Constants.PRODUCTS).whereEqualTo("type_product",type)
+        mFireStore.collection(Constants.PRODUCTS).whereEqualTo("type_product", type)
                 .get() // Will get the documents snapshots.
                 .addOnSuccessListener { document ->
 
@@ -454,9 +476,9 @@ class FirestoreClass {
                 fragment.hideProgressDialog()
 
                 Log.e(
-                    fragment.requireActivity().javaClass.simpleName,
-                    "Error while deleting the product.",
-                    e
+                        fragment.requireActivity().javaClass.simpleName,
+                        "Error while deleting the product.",
+                        e
                 )
             }
     }
@@ -511,9 +533,9 @@ class FirestoreClass {
                 activity.hideProgressDialog()
 
                 Log.e(
-                    activity.javaClass.simpleName,
-                    "Error while creating the document for cart item.",
-                    e
+                        activity.javaClass.simpleName,
+                        "Error while creating the document for cart item.",
+                        e
                 )
             }
     }
@@ -543,9 +565,9 @@ class FirestoreClass {
                 activity.hideProgressDialog()
 
                 Log.e(
-                    activity.javaClass.simpleName,
-                    "Error while checking the existing cart list.",
-                    e
+                        activity.javaClass.simpleName,
+                        "Error while checking the existing cart list.",
+                        e
                 )
             }
     }
@@ -632,9 +654,9 @@ class FirestoreClass {
                     }
                 }
                 Log.e(
-                    context.javaClass.simpleName,
-                    "Error while removing the item from the cart list.",
-                    e
+                        context.javaClass.simpleName,
+                        "Error while removing the item from the cart list.",
+                        e
                 )
             }
     }
@@ -671,9 +693,9 @@ class FirestoreClass {
                 }
 
                 Log.e(
-                    context.javaClass.simpleName,
-                    "Error while updating the cart item.",
-                    e
+                        context.javaClass.simpleName,
+                        "Error while updating the cart item.",
+                        e
                 )
             }
     }
@@ -699,9 +721,9 @@ class FirestoreClass {
             .addOnFailureListener { e ->
                 activity.hideProgressDialog()
                 Log.e(
-                    activity.javaClass.simpleName,
-                    "Error while adding the address.",
-                    e
+                        activity.javaClass.simpleName,
+                        "Error while adding the address.",
+                        e
                 )
             }
     }
@@ -763,9 +785,9 @@ class FirestoreClass {
             .addOnFailureListener { e ->
                 activity.hideProgressDialog()
                 Log.e(
-                    activity.javaClass.simpleName,
-                    "Error while updating the Address.",
-                    e
+                        activity.javaClass.simpleName,
+                        "Error while updating the Address.",
+                        e
                 )
             }
     }
@@ -789,9 +811,9 @@ class FirestoreClass {
             .addOnFailureListener { e ->
                 activity.hideProgressDialog()
                 Log.e(
-                    activity.javaClass.simpleName,
-                    "Error while deleting the address.",
-                    e
+                        activity.javaClass.simpleName,
+                        "Error while deleting the address.",
+                        e
                 )
             }
     }
@@ -819,9 +841,9 @@ class FirestoreClass {
                 // Hide the progress dialog if there is any error.
                 activity.hideProgressDialog()
                 Log.e(
-                    activity.javaClass.simpleName,
-                    "Error while placing an order.",
-                    e
+                        activity.javaClass.simpleName,
+                        "Error while placing an order.",
+                        e
                 )
             }
     }
@@ -840,18 +862,18 @@ class FirestoreClass {
         for (cart in cartList) {
 
             val soldProduct = SoldProduct(
-                FirestoreClass().getCurrentUserID(),
-                cart.provider_id,
-                cart.title,
-                cart.price,
-                cart.cart_quantity,
-                cart.image,
-                order.title,
-                order.order_datetime,
-                order.sub_total_amount,
-                order.shipping_charge,
-                order.total_amount,
-                order.address
+                    FirestoreClass().getCurrentUserID(),
+                    cart.provider_id,
+                    cart.title,
+                    cart.price,
+                    cart.cart_quantity,
+                    cart.image,
+                    order.title,
+                    order.order_datetime,
+                    order.sub_total_amount,
+                    order.shipping_charge,
+                    order.total_amount,
+                    order.address
             )
 
             val documentReference = mFireStore.collection(Constants.SOLD_PRODUCTS)
@@ -890,9 +912,9 @@ class FirestoreClass {
             activity.hideProgressDialog()
 
             Log.e(
-                activity.javaClass.simpleName,
-                "Error while updating all the details after order placed.",
-                e
+                    activity.javaClass.simpleName,
+                    "Error while updating all the details after order placed.",
+                    e
             )
         }
     }
@@ -960,9 +982,9 @@ class FirestoreClass {
                 fragment.hideProgressDialog()
 
                 Log.e(
-                    fragment.javaClass.simpleName,
-                    "Error while getting the list of sold products.",
-                    e
+                        fragment.javaClass.simpleName,
+                        "Error while getting the list of sold products.",
+                        e
                 )
             }
     }

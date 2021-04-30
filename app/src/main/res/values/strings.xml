@@ -208,6 +208,7 @@
     <string name="men">Hombre</string>
     <string name="woman">Mujer</string>
     <string name="add_location">Agregar ubicación</string>
+    <string name="msg_token_fmt">token</string>
 
 
 </resources>

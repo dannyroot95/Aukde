@@ -10,6 +10,7 @@ import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.User
 import com.aukdeshop.utils.Constants
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_login.*
 
 /**
@@ -106,9 +107,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             // Log-In using FirebaseAuth
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
-
                     if (task.isSuccessful) {
+                        val firebaseUser: FirebaseUser = task.result!!.user!!
                         FirestoreClass().getUserDetails(this@LoginActivity)
+                        createPushToken(firebaseUser.uid)
                     } else {
                         // Hide the progress dialog
                         hideProgressDialog()
@@ -116,6 +118,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
         }
+    }
+
+    private fun createPushToken(id : String){
+        FirestoreClass().createToken(id)
     }
 
     /**
