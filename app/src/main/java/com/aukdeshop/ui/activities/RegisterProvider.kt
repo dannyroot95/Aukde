@@ -2,6 +2,8 @@ package com.aukdeshop.ui.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -15,11 +17,13 @@ import android.provider.Settings
 import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.Address
@@ -196,7 +200,7 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
         tv_login.setOnClickListener{
             // Here when the user click on login text we can either call the login activity or call the onBackPressed function.
             // We will call the onBackPressed function.
-            onBackPressed()
+            finish()
         }
 
         mCameraListener = GoogleMap.OnCameraIdleListener {
@@ -205,6 +209,7 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
                 mCurrentLatLng = mMap!!.cameraPosition.target
                 latitudeX = mCurrentLatLng.latitude
                 longitudeX = mCurrentLatLng.longitude
+                Toast.makeText(this,"Ubicación actualizada!",Toast.LENGTH_SHORT).show()
 
             }
             catch (e: Exception){}
@@ -214,9 +219,9 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
             closeMap()
         }
         showMap.setOnClickListener {
+            btn_show_map.hideKeyboard()
             openMap()
         }
-
     }
 
     /**
@@ -355,6 +360,7 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
 
     private fun threadSMS() {
 
+        //991900557
         val phone = "989280394"
         val client = OkHttpClient()
         val mediaType = MediaType.parse("application/json")
@@ -409,6 +415,11 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
         imageLocation.visibility = View.VISIBLE
     }
 
+    private fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         var mapViewBundle =
@@ -456,6 +467,13 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
         }
     }
 
+    private fun showAlertDialogNOGPS() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(resources.getString(R.string.active_gps_for_continue))
+                .setCancelable(false)
+                .setPositiveButton(resources.getString(R.string.active_gps)) { _, _ -> startActivityForResult(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), Constants.SETTINGS_REQUEST_CODE) }.create().show()
+    }
+
     private fun gpsActived(): Boolean {
         var isActive = false
         val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
@@ -465,17 +483,11 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
         return isActive
     }
 
-    private fun showAlertDialogNOGPS() {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage(resources.getString(R.string.active_gps_for_continue))
-                .setCancelable(false)
-                .setPositiveButton(resources.getString(R.string.active_gps)) { _, _ -> startActivityForResult(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), Constants.SETTINGS_REQUEST_CODE) }.create().show()
-    }
-
     private fun checkLocationPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 AlertDialog.Builder(this)
+                        .setCancelable(false)
                         .setTitle(resources.getString(R.string.permision_for_continue))
                         .setMessage(resources.getString(R.string.require_permision))
                         .setPositiveButton(resources.getString(R.string.ok)) { _, _ -> ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), Constants.LOCATION_REQUEST_CODE) }
@@ -513,10 +525,6 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
         mMap = googleMap
         mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
         mMap!!.uiSettings.isZoomControlsEnabled = true
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return
-        }
-        mMap!!.isMyLocationEnabled = true
         mMap!!.setOnCameraIdleListener(mCameraListener)
         mLocationRequest = LocationRequest()
         mLocationRequest.interval = 1000
@@ -556,5 +564,14 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
         mapView.onLowMemory()
     }
 
+    override fun onBackPressed() {
+        if (linearMap.isVisible){
+            closeMap()
+        }
+        else{
+            finish()
+        }
+
+    }
 
 }

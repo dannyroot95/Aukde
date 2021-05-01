@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.aukdeshop.models.*
 import com.aukdeshop.ui.activities.*
@@ -97,14 +98,24 @@ class FirestoreClass {
         return currentUserID
     }
 
-    fun createToken(id: String){
+    fun createToken(activity : Activity , id: String){
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             // Get new FCM registration token
             if (task.isSuccessful){
+
+                val sharedPreferences =
+                        activity.getSharedPreferences(
+                                Constants.TOKEN,
+                                Context.MODE_PRIVATE
+                        )
+
+                val editor: SharedPreferences.Editor = sharedPreferences.edit()
                 FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
                     val token = Token(instanceIdResult.token)
                     mFireStore.collection(Constants.TOKEN).document(id).set(token)
                     mDatabase.child(Constants.TOKEN).child(id).setValue(token)
+                    editor.putString(Constants.TOKEN,instanceIdResult.token)
+                    editor.apply()
                 }
             }
 
@@ -133,14 +144,25 @@ class FirestoreClass {
                             Constants.MYSHOPPAL_PREFERENCES,
                             Context.MODE_PRIVATE
                     )
+                val sharedPreferencesProduct =
+                        activity.getSharedPreferences(
+                                Constants.EXTRA_USER_TYPE_PRODUCT,
+                                Context.MODE_PRIVATE
+                        )
 
                 // Create an instance of the editor which is help us to edit the SharedPreference.
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                val editorProduct: SharedPreferences.Editor = sharedPreferencesProduct.edit()
+
                 editor.putString(
                         Constants.LOGGED_IN_USERNAME,
                         "${user.firstName} ${user.lastName}"
                 )
                 editor.apply()
+                editorProduct.putString(
+                        Constants.EXTRA_USER_TYPE_PRODUCT,
+                        user.type_product)
+                editorProduct.apply()
 
                 when (activity) {
                     is LoginActivity -> {

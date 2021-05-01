@@ -121,7 +121,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun createPushToken(id : String){
-        FirestoreClass().createToken(id)
+        FirestoreClass().createToken(this,id)
     }
 
     /**

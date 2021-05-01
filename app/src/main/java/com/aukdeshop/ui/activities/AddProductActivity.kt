@@ -38,12 +38,19 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
     private var mTypeProduct : String = ""
     lateinit var sharedTypeProduct : SharedPreferences
 
+    private var mToken : String = ""
+    lateinit var sharedToken : SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_product)
-        sharedTypeProduct    = getSharedPreferences(Constants.EXTRA_USER_TYPE_PRODUCT, MODE_PRIVATE)
+
+        sharedTypeProduct = getSharedPreferences(Constants.EXTRA_USER_TYPE_PRODUCT, MODE_PRIVATE)
         mTypeProduct = sharedTypeProduct.getString(Constants.EXTRA_USER_TYPE_PRODUCT, "").toString()
 
+        sharedToken = getSharedPreferences(Constants.TOKEN, MODE_PRIVATE)
+        mToken= sharedToken.getString(Constants.TOKEN, "").toString()
+       //
         setupActionBar()
         // Assign the click event to iv_add_update_product image.
         iv_add_update_product.setOnClickListener(this)

@@ -209,6 +209,7 @@
     <string name="woman">Mujer</string>
     <string name="add_location">Agregar ubicación</string>
     <string name="msg_token_fmt">token</string>
+    <string name="default_notification_channel_id">99</string>
 
 
 </resources>
