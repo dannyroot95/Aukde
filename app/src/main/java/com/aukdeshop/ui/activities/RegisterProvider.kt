@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Geocoder
 import android.location.LocationManager
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -29,8 +30,13 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.squareup.okhttp.MediaType
+import com.squareup.okhttp.OkHttpClient
+import com.squareup.okhttp.Request
+import com.squareup.okhttp.RequestBody
 import kotlinx.android.synthetic.main.activity_register.btn_register
 import kotlinx.android.synthetic.main.activity_register.cb_terms_and_condition
 import kotlinx.android.synthetic.main.activity_register.et_confirm_password
@@ -42,7 +48,7 @@ import kotlinx.android.synthetic.main.activity_register.tv_login
 import kotlinx.android.synthetic.main.activity_register_provider.*
 
 
-@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "DEPRECATION")
 class RegisterProvider : BaseActivity() , OnMapReadyCallback{
 
     //NOTA AGREGAR DIRECCIÓN , DEFERENCIA Y UBICACION EN TIEMPO REAL
@@ -85,7 +91,7 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
                     /*if (mMarker != null) {
                         mMarker!!.remove()
                     }*/
-                    // OBTENER LA LOCALIZACION DEL USUARIO EN TIEMPO REAL
+                    // GET LOCATION USER IN REAL TIME
                     mMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(
                             CameraPosition.Builder()
                                     .target(LatLng(location.latitude, location.longitude))
@@ -201,7 +207,7 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
                 longitudeX = mCurrentLatLng.longitude
 
             }
-            catch (e : Exception){}
+            catch (e: Exception){}
         }
 
         floatingMap.setOnClickListener {
@@ -333,13 +339,37 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
                     mDelivery,
                     et_store.text.toString().trim { it <= ' ' },
                     et_address.text.toString().trim { it <= ' ' },
-                    mTypeUser,"",latitudeX,longitudeX
+                    mTypeUser, "", latitudeX, longitudeX
             )
 
             // Pass the required values in the constructor.
             FirestoreClass().requestProvider(this, partner)
+            sendSMS()
             // Create an instance and create a register a user with email and password.
         }
+    }
+
+    private fun sendSMS() {
+        AsyncTask.execute { threadSMS() }
+    }
+
+    private fun threadSMS() {
+
+        val phone = "989280394"
+        val client = OkHttpClient()
+        val mediaType = MediaType.parse("application/json")
+        val body = RequestBody.create(mediaType, "{\"messages\": [{\"source\": \"mashape\",\"from\": \"Test\",\"body\": \"Alguien quiere ser nuestro SOCIO!, revisa el panel\",\"to\": \"+51$phone\",\"schedule\": \"1452244637\",\"custom_string\": \"Alguien quiere ser nuestro SOCIO! , revisa el panel\" }]}")
+
+        val request = Request.Builder()
+            .url("https://clicksend.p.rapidapi.com/sms/send")
+            .post(body)
+            .addHeader("content-type", "application/json")
+            .addHeader("authorization", "Basic Y29udGFjdG9AY29uZXhmaW4ub3JnOkZpbmFuemFzaW50ZWxpZ2VudGVzMTArKg==")
+            .addHeader("x-rapidapi-key", "a79f8e5c23mshc421c059f1161bfp1c0b26jsn40bee7f91d53")
+            .addHeader("x-rapidapi-host", "clicksend.p.rapidapi.com")
+            .build()
+
+         val response = client.newCall(request).execute()
     }
 
     private fun defineGender(){
@@ -382,7 +412,7 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         var mapViewBundle =
-                outState.getBundle(Constants.MAP_VIEW_BUNDLE_KEY )
+                outState.getBundle(Constants.MAP_VIEW_BUNDLE_KEY)
         if (mapViewBundle == null) {
             mapViewBundle = Bundle()
             outState.putBundle(
