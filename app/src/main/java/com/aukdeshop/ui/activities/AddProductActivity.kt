@@ -9,26 +9,31 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.Product
+import com.aukdeshop.notifications.server.FCMBody
+import com.aukdeshop.notifications.server.FCMResponse
+import com.aukdeshop.notifications.server.NotificationProvider
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.GlideLoader
 import kotlinx.android.synthetic.main.activity_add_product.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.IOException
+import java.util.*
 
 
 /**
  * Add Product screen of the app.
  */
+@Suppress("DEPRECATED_IDENTITY_EQUALS")
 class AddProductActivity : BaseActivity(), View.OnClickListener {
 
     // A global variable for URI of a selected image from phone storage.
@@ -41,6 +46,17 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
     private var mToken : String = ""
     lateinit var sharedToken : SharedPreferences
 
+    private var mPhoto : String = ""
+    lateinit var sharedPhoto : SharedPreferences
+
+    var path = "https://firebasestorage.googleapis.com/v0/b" +
+            "/gestor-de-pedidos-aukdefood.appspot.com/o" +
+            "/fotoDefault.jpg?alt=media&token=f74486bf-432e-4af6-b114-baa523e1f801"
+
+
+    lateinit var notificationProvider: NotificationProvider
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_product)
@@ -50,6 +66,11 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
 
         sharedToken = getSharedPreferences(Constants.TOKEN, MODE_PRIVATE)
         mToken= sharedToken.getString(Constants.TOKEN, "").toString()
+
+        sharedPhoto = getSharedPreferences(Constants.EXTRA_USER_PHOTO, MODE_PRIVATE)
+        mPhoto = sharedPhoto.getString(Constants.EXTRA_USER_PHOTO, "").toString()
+
+        notificationProvider = NotificationProvider()
        //
         setupActionBar()
         // Assign the click event to iv_add_update_product image.
@@ -57,6 +78,37 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
 
         // Assign the click event to submit button.
         btn_submit.setOnClickListener(this)
+        sendNotification()
+    }
+
+    private fun sendNotification(){
+
+        if (mPhoto == ""){
+            mPhoto = path
+        }
+
+        val map: MutableMap<String, String> = HashMap()
+        map["title"] = "Usted tiene un nuevo pedido!"
+        map["body"] = "Revise su lista de pedidos en su panel"
+        map["path"] = mPhoto
+        val fcmBody = FCMBody(mToken, "high", map)
+        notificationProvider.sendNotification(fcmBody).enqueue(object : Callback<FCMResponse?> {
+            override fun onResponse(call: Call<FCMResponse?>, response: Response<FCMResponse?>) {
+                if (response.body() != null) {
+                    if (response.body()!!.success === 1) {
+                        //Toast.makeText(this@AddProductActivity, "Notificación enviada", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this@AddProductActivity, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
+                    }
+                } else {
+                    Toast.makeText(this@AddProductActivity, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<FCMResponse?>, t: Throwable) {
+                Log.d("Error", "Error encontrado" + t.message)
+            }
+        })
     }
 
     override fun onClick(v: View?) {

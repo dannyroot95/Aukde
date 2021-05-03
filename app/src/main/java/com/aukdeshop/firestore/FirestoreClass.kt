@@ -127,6 +127,7 @@ class FirestoreClass {
      */
     fun getUserDetails(activity: Activity) {
 
+        //CREAR UNA BASE DE DATOS Y ALMACENARLOS PARA RECUPERARLO CUANDO NO EXISTA INTERNET
         // Here we pass the collection name from which we wants the data.
         mFireStore.collection(Constants.USERS)
             // The document id to get the Fields of user.
@@ -149,10 +150,16 @@ class FirestoreClass {
                                 Constants.EXTRA_USER_TYPE_PRODUCT,
                                 Context.MODE_PRIVATE
                         )
+                val sharedPhoto =
+                        activity.getSharedPreferences(
+                                Constants.EXTRA_USER_PHOTO,
+                                Context.MODE_PRIVATE
+                        )
 
                 // Create an instance of the editor which is help us to edit the SharedPreference.
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
                 val editorProduct: SharedPreferences.Editor = sharedPreferencesProduct.edit()
+                val editorPhoto: SharedPreferences.Editor = sharedPhoto.edit()
 
                 editor.putString(
                         Constants.LOGGED_IN_USERNAME,
@@ -163,6 +170,11 @@ class FirestoreClass {
                         Constants.EXTRA_USER_TYPE_PRODUCT,
                         user.type_product)
                 editorProduct.apply()
+
+                editorProduct.putString(
+                        Constants.EXTRA_USER_PHOTO,
+                        user.image)
+                editorPhoto.apply()
 
                 when (activity) {
                     is LoginActivity -> {

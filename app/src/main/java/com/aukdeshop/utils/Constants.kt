@@ -30,6 +30,7 @@ object Constants {
     // Intent extra constants.
     const val EXTRA_USER_DETAILS: String = "extra_user_details"
     const val EXTRA_USER_TYPE_PRODUCT : String = "extra_user_type_product"
+    const val EXTRA_USER_PHOTO : String = "extra_user_photo"
     const val EXTRA_PRODUCT_ID: String = "extra_product_id"
     const val EXTRA_PRODUCT_OWNER_ID: String = "extra_product_owner_id"
     const val EXTRA_ADDRESS_DETAILS: String = "AddressDetails"
