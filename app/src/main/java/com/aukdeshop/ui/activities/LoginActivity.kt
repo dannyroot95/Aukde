@@ -110,7 +110,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     if (task.isSuccessful) {
                         val firebaseUser: FirebaseUser = task.result!!.user!!
                         FirestoreClass().getUserDetails(this@LoginActivity)
-                        createPushToken(firebaseUser.uid)
+                        FirestoreClass().createToken(firebaseUser.uid)
+
                     } else {
                         // Hide the progress dialog
                         hideProgressDialog()
@@ -118,10 +119,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
         }
-    }
-
-    private fun createPushToken(id : String){
-        FirestoreClass().createToken(this,id)
     }
 
     /**

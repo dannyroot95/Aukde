@@ -6,9 +6,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.aukdeshop.models.*
+import com.aukdeshop.notifications.server.FCMBody
+import com.aukdeshop.notifications.server.FCMResponse
+import com.aukdeshop.notifications.server.NotificationProvider
 import com.aukdeshop.ui.activities.*
 import com.aukdeshop.ui.fragments.DashboardFragment
 import com.aukdeshop.ui.fragments.OrdersFragment
@@ -25,6 +29,9 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -38,7 +45,7 @@ class FirestoreClass {
     // Access a Cloud Firestore instance.
     private val mFireStore = FirebaseFirestore.getInstance()
     private var mDatabase : DatabaseReference = FirebaseDatabase.getInstance().reference
-
+    var notificationProvider: NotificationProvider = NotificationProvider()
     /**
      * A function to make an entry of the registered user in the FireStore database.
      */
@@ -98,28 +105,55 @@ class FirestoreClass {
         return currentUserID
     }
 
-    fun createToken(activity : Activity , id: String){
+    fun createToken(id: String){
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             // Get new FCM registration token
             if (task.isSuccessful){
-
-                val sharedPreferences =
-                        activity.getSharedPreferences(
-                                Constants.TOKEN,
-                                Context.MODE_PRIVATE
-                        )
-
-                val editor: SharedPreferences.Editor = sharedPreferences.edit()
                 FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
                     val token = Token(instanceIdResult.token)
                     mFireStore.collection(Constants.TOKEN).document(id).set(token)
                     mDatabase.child(Constants.TOKEN).child(id).setValue(token)
-                    editor.putString(Constants.TOKEN,instanceIdResult.token)
-                    editor.apply()
                 }
             }
-
         })
+    }
+
+    fun createNotification(tokenIDUser : String, mPhoto : String){
+        mFireStore.collection(Constants.TOKEN)
+                // The document id to get the Fields of user.
+                .document(tokenIDUser)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()){
+                        val token : String = document.getString(Constants.TOKEN).toString()
+                        val map: MutableMap<String, String> = java.util.HashMap()
+                        map["title"] = "Hay un pedido!"
+                        map["body"] = "Revise su lista de pedidos en su panel"
+                        map["path"] = mPhoto
+                        val fcmBody = FCMBody(token, "high", map)
+                        notificationProvider.sendNotification(fcmBody).enqueue(object : Callback<FCMResponse?> {
+                            override fun onResponse(call: Call<FCMResponse?>, response: Response<FCMResponse?>) {
+                                if (response.body() != null) {
+                                    if (response.body()!!.success === 1) {
+                                        //Toast.makeText(this@AddProductActivity, "Notificación enviada", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        //Toast.makeText(this, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
+                                    }
+                                } else {
+                                    //Toast.makeText(this, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
+                                }
+                            }
+
+                            override fun onFailure(call: Call<FCMResponse?>, t: Throwable) {
+                                Log.d("Error", "Error encontrado" + t.message)
+                            }
+                        })
+                    }
+                }
+                .addOnFailureListener { e ->
+                    // Hide the progress dialog if there is any error. And print the error in log.
+                }
+
     }
 
     /**
@@ -134,9 +168,7 @@ class FirestoreClass {
             .document(getCurrentUserID())
             .get()
             .addOnSuccessListener { document ->
-
                 Log.i(activity.javaClass.simpleName, document.toString())
-
                 // Here we have received the document snapshot which is converted into the User Data model object.
                 val user = document.toObject(User::class.java)!!
 
@@ -166,12 +198,13 @@ class FirestoreClass {
                         "${user.firstName} ${user.lastName}"
                 )
                 editor.apply()
+
                 editorProduct.putString(
                         Constants.EXTRA_USER_TYPE_PRODUCT,
                         user.type_product)
                 editorProduct.apply()
 
-                editorProduct.putString(
+                editorPhoto.putString(
                         Constants.EXTRA_USER_PHOTO,
                         user.image)
                 editorPhoto.apply()

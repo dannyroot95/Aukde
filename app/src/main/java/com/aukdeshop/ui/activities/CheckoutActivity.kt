@@ -2,6 +2,7 @@ package com.aukdeshop.ui.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -40,6 +41,14 @@ class CheckoutActivity : BaseActivity() {
     private lateinit var mOrderDetails: Order
 
     private var typeMoney : String = ""
+
+    private var mPhoto : String = ""
+    lateinit var sharedPhoto : SharedPreferences
+
+    var path = "https://firebasestorage.googleapis.com/v0/b" +
+            "/gestor-de-pedidos-aukdefood.appspot.com/o" +
+            "/fotoDefault.jpg?alt=media&token=f74486bf-432e-4af6-b114-baa523e1f801"
+
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -50,6 +59,9 @@ class CheckoutActivity : BaseActivity() {
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_checkout)
         typeMoney = resources.getString(R.string.type_money)
+
+        sharedPhoto = getSharedPreferences(Constants.EXTRA_USER_PHOTO, MODE_PRIVATE)
+        mPhoto = sharedPhoto.getString(Constants.EXTRA_USER_PHOTO, "").toString()
 
         setupActionBar()
 
@@ -175,6 +187,16 @@ class CheckoutActivity : BaseActivity() {
         } else {
             ll_checkout_place_order.visibility = View.GONE
         }
+
+    }
+
+    private fun sendNotification(){
+        if (mPhoto == ""){
+            mPhoto = path
+        }
+        for (submit in mCartItemsList) {
+            FirestoreClass().createNotification(submit.provider_id, path)
+        }
     }
 
     /**
@@ -186,17 +208,17 @@ class CheckoutActivity : BaseActivity() {
         showProgressDialog(resources.getString(R.string.please_wait))
 
         mOrderDetails = Order(
-            FirestoreClass().getCurrentUserID(),
-            mCartItemsList,
-            mAddressDetails!!,
-            "#${System.currentTimeMillis()}",
-            mCartItemsList[0].image,
-            mSubTotal.toString(),
-            "10.0", // The Shipping Charge is fixed as $10 for now in our case.
-            mTotalAmount.toString(),
-            System.currentTimeMillis()
+                FirestoreClass().getCurrentUserID(),
+                mCartItemsList,
+                mAddressDetails!!,
+                "#${System.currentTimeMillis()}",
+                mCartItemsList[0].image,
+                mSubTotal.toString(),
+                "10.0", // The Shipping Charge is fixed as $10 for now in our case.
+                mTotalAmount.toString(),
+                System.currentTimeMillis()
         )
-
+        sendNotification()
         FirestoreClass().placeOrder(this@CheckoutActivity, mOrderDetails)
     }
 
@@ -212,7 +234,6 @@ class CheckoutActivity : BaseActivity() {
      * A function to notify the success result after updating all the required details.
      */
     fun allDetailsUpdatedSuccessfully() {
-
         // Hide the progress dialog.
         hideProgressDialog()
 
