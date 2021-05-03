@@ -88,7 +88,7 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
         }
 
         val map: MutableMap<String, String> = HashMap()
-        map["title"] = "Usted tiene un nuevo pedido!"
+        map["title"] = "Hay un pedido!"
         map["body"] = "Revise su lista de pedidos en su panel"
         map["path"] = mPhoto
         val fcmBody = FCMBody(mToken, "high", map)
