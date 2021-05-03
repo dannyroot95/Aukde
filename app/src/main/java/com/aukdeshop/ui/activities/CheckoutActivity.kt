@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_checkout.*
 /**
  * A CheckOut activity screen.
  */
+
 class CheckoutActivity : BaseActivity() {
 
     // A global variable for the selected address details.
