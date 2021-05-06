@@ -1,16 +1,21 @@
 package com.aukdeshop.ui.activities
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aukdeshop.R
+import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.Order
 import com.aukdeshop.ui.adapters.CartItemsListAdapter
 import com.aukdeshop.utils.Constants
 import kotlinx.android.synthetic.main.activity_my_order_details.*
+import kotlinx.android.synthetic.main.activity_sold_product_details.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -39,6 +44,22 @@ class MyOrderDetailsActivity : AppCompatActivity() {
         }
 
         setupUI(myOrderDetails)
+
+        when (myOrderDetails.status) {
+            0 -> {
+                tv_order_status.text = resources.getString(R.string.order_status_pending)
+                tv_order_status.setTextColor(Color.parseColor("#FC0000"))
+            }
+            1 -> {
+                tv_order_status.text = resources.getString(R.string.order_status_in_process)
+                tv_order_status.setTextColor(Color.parseColor("#F1C40F"))
+            }
+            else -> {
+                tv_order_status.text = resources.getString(R.string.order_status_delivered)
+                tv_order_status.setTextColor(Color.parseColor("#5BBD00"))
+            }
+        }
+
     }
 
     /**
@@ -62,6 +83,7 @@ class MyOrderDetailsActivity : AppCompatActivity() {
      *
      * @param orderDetails Order details received through intent.
      */
+    @SuppressLint("SetTextI18n")
     private fun setupUI(orderDetails: Order) {
 
         tv_order_details_id.text = orderDetails.title

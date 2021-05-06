@@ -76,6 +76,12 @@ object Constants {
 
     const val REQUEST_PROVIDER: String = "SolicitudSocio"
 
+    const val PROCESSING : String = "Procesando"
+    const val PENDING : String = "Pendiente"
+    const val IN_ROUTE : String = "En ruta"
+    const val FINISH_ORDER : String = "Entregado"
+    const val CANCELLED : String = "Cancelado"
+
     /**
      * A function for user profile image selection from phone storage.
      */

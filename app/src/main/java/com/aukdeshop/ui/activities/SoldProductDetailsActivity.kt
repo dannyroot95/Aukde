@@ -1,9 +1,11 @@
 package com.aukdeshop.ui.activities
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import com.aukdeshop.R
+import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.SoldProduct
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.GlideLoader
@@ -17,6 +19,11 @@ import java.util.*
 class SoldProductDetailsActivity : BaseActivity() {
 
     private var typeMoney : String = ""
+    private var mPhoto : String = ""
+    lateinit var sharedPhoto : SharedPreferences
+    var path = "https://firebasestorage.googleapis.com/v0/b" +
+            "/gestor-de-pedidos-aukdefood.appspot.com/o" +
+            "/fotoDefault.jpg?alt=media&token=f74486bf-432e-4af6-b114-baa523e1f801"
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -28,6 +35,9 @@ class SoldProductDetailsActivity : BaseActivity() {
 
         typeMoney = resources.getString(R.string.type_money)
         var productDetails: SoldProduct = SoldProduct()
+
+        sharedPhoto = getSharedPreferences(Constants.EXTRA_USER_PHOTO, MODE_PRIVATE)
+        mPhoto = sharedPhoto.getString(Constants.EXTRA_USER_PHOTO, "").toString()
 
         if (intent.hasExtra(Constants.EXTRA_SOLD_PRODUCT_DETAILS)) {
             productDetails =
@@ -43,6 +53,25 @@ class SoldProductDetailsActivity : BaseActivity() {
         // START
         setupUI(productDetails)
         // END
+
+        btnUpdateInProcess.setOnClickListener {
+           FirestoreClass().updateStatusOrder(this,productDetails.order_date,1)
+           sendNotification(productDetails.user_id,productDetails.order_date.toString())
+        }
+
+    }
+
+    private fun sendNotification(id : String , numOrder : String) {
+        if (mPhoto == ""){
+            mPhoto = path
+        }
+        if (numOrder == "0"){
+            FirestoreClass().createNotificationUpdateStatus(id,numOrder,Constants.PROCESSING,mPhoto)
+        }
+        else{
+            FirestoreClass().createNotificationUpdateStatus(id,numOrder,Constants.IN_ROUTE,mPhoto)
+        }
+
     }
 
     // TODO Step 1: Create a function to setup action bar.

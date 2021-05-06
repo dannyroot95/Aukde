@@ -3,6 +3,7 @@ package com.aukdeshop.ui.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,6 +62,29 @@ open class MyOrdersListAdapter(
             holder.itemView.tv_item_price.text = context.resources.getString(R.string.type_money)+model.total_amount
 
             holder.itemView.ib_delete_product.visibility = View.GONE
+
+            when (model.status) {
+                -1 -> {
+                    holder.itemView.tv_item_status.text = Constants.CANCELLED
+                    holder.itemView.tv_item_status.setTextColor(Color.parseColor("#FC0000"))
+                }
+                0 -> {
+                    holder.itemView.tv_item_status.text = Constants.PENDING
+                    holder.itemView.tv_item_status.setTextColor(Color.parseColor("#FC0000"))
+                }
+                1 -> {
+                    holder.itemView.tv_item_status.text = Constants.PROCESSING
+                    holder.itemView.tv_item_status.setTextColor(Color.parseColor("#F1C40F"))
+                }
+                2 -> {
+                    holder.itemView.tv_item_status.text = Constants.IN_ROUTE
+                    holder.itemView.tv_item_status.setTextColor(Color.parseColor("#F1C40F"))
+                }
+                else -> {
+                    holder.itemView.tv_item_status.text = Constants.FINISH_ORDER
+                    holder.itemView.tv_item_status.setTextColor(Color.parseColor("#5BBD00"))
+                }
+            }
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, MyOrderDetailsActivity::class.java)

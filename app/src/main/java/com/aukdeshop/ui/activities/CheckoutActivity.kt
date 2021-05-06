@@ -196,7 +196,7 @@ class CheckoutActivity : BaseActivity() {
             mPhoto = path
         }
         for (submit in mCartItemsList) {
-            FirestoreClass().createNotification(submit.provider_id, path)
+            FirestoreClass().createNotificationOrder(submit.provider_id, path)
         }
     }
 

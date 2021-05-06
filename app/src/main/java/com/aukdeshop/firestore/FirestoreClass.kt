@@ -1,13 +1,10 @@
 package com.aukdeshop.firestore
 
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.aukdeshop.models.*
 import com.aukdeshop.notifications.server.FCMBody
@@ -118,7 +115,13 @@ class FirestoreClass {
         })
     }
 
-    fun createNotification(tokenIDUser : String, mPhoto : String){
+    fun deleteToken(id: String){
+        mFireStore.collection(Constants.TOKEN).document(id).delete()
+        mDatabase.child(Constants.TOKEN).child(id).removeValue()
+
+    }
+
+    fun createNotificationOrder(tokenIDUser : String, mPhoto : String){
         mFireStore.collection(Constants.TOKEN)
                 // The document id to get the Fields of user.
                 .document(tokenIDUser)
@@ -144,6 +147,43 @@ class FirestoreClass {
                                 }
                             }
 
+                            override fun onFailure(call: Call<FCMResponse?>, t: Throwable) {
+                                Log.d("Error", "Error encontrado" + t.message)
+                            }
+                        })
+                    }
+                }
+                .addOnFailureListener { e ->
+                    // Hide the progress dialog if there is any error. And print the error in log.
+                }
+
+    }
+
+    fun createNotificationUpdateStatus(tokenIDUser : String , numOrder : String , status : String , mPhoto : String){
+        mFireStore.collection(Constants.TOKEN)
+                // The document id to get the Fields of user.
+                .document(tokenIDUser)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()){
+                        val token : String = document.getString(Constants.TOKEN).toString()
+                        val map: MutableMap<String, String> = java.util.HashMap()
+                        map["title"] = "Pedido #$numOrder"
+                        map["body"] = "Estado : $status"
+                        map["path"] = mPhoto
+                        val fcmBody = FCMBody(token, "high", map)
+                        notificationProvider.sendNotification(fcmBody).enqueue(object : Callback<FCMResponse?> {
+                            override fun onResponse(call: Call<FCMResponse?>, response: Response<FCMResponse?>) {
+                                if (response.body() != null) {
+                                    if (response.body()!!.success === 1) {
+                                        //Toast.makeText(this@AddProductActivity, "Notificación enviada", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        //Toast.makeText(this, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
+                                    }
+                                } else {
+                                    //Toast.makeText(this, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
+                                }
+                            }
                             override fun onFailure(call: Call<FCMResponse?>, t: Throwable) {
                                 Log.d("Error", "Error encontrado" + t.message)
                             }
@@ -1004,7 +1044,7 @@ class FirestoreClass {
 
                     list.add(orderItem)
                 }
-
+                list.reverse()
                 fragment.populateOrdersListInUI(list)
             }
             .addOnFailureListener { e ->
@@ -1041,7 +1081,7 @@ class FirestoreClass {
 
                     list.add(soldProduct)
                 }
-
+                list.reverse()
                 fragment.successSoldProductsList(list)
             }
             .addOnFailureListener { e ->
@@ -1055,4 +1095,42 @@ class FirestoreClass {
                 )
             }
     }
+
+    fun updateStatusOrder(activity: Activity, numberOrder : Long, status : Int){
+        mFireStore.collection(Constants.ORDERS)
+                .whereEqualTo("order_datetime", numberOrder)
+                .get().addOnSuccessListener { document ->
+                    for (i in document.documents) {
+                        val key = i.id
+                        val map: MutableMap<String, Any> = java.util.HashMap()
+                        map["status"] = status
+                        mFireStore.collection(Constants.ORDERS).document(key).update(map)
+
+                    }
+                }.addOnFailureListener{ e ->
+                    Log.e(
+                            activity.javaClass.simpleName,
+                            "Error while getting the list of sold products.",
+                            e
+                    )
+                }
+        mFireStore.collection(Constants.SOLD_PRODUCTS)
+                .whereEqualTo("order_date", numberOrder)
+                .get().addOnSuccessListener { document ->
+                    for (i in document.documents) {
+                        val key = i.id
+                        val map: MutableMap<String, Any> = java.util.HashMap()
+                        map["status"] = status
+                        mFireStore.collection(Constants.SOLD_PRODUCTS).document(key).update(map)
+
+                    }
+                }.addOnFailureListener{ e ->
+                    Log.e(
+                            activity.javaClass.simpleName,
+                            "Error while getting the list of sold products.",
+                            e
+                    )
+                }
+    }
+
 }

@@ -65,7 +65,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private fun showNotificationApiOreo(title: String, body: String?, path: String?) {
         val intent = PendingIntent.getActivity(baseContext, 0, Intent(), PendingIntent.FLAG_ONE_SHOT)
-        val sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
         val notificationHelper = NotificationHelper(baseContext)
         val builder = notificationHelper.getNotification(title, body, intent, sound, path)
         notificationHelper.manager!!.notify(1, builder.build())
@@ -88,7 +88,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val cancelAction: Notification.Action = Notification.Action.Builder(
                 R.mipmap.ic_launcher, "Cerrar", cancelPendingIntent
         ).build()
-        val sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
         val notificationHelper = NotificationHelper(baseContext)
         val builder = notificationHelper.getNotificationActions(title, body, sound, path, acceptAction, cancelAction)
         notificationHelper.manager!!.notify(2, builder.build())
@@ -97,7 +97,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun showNotification(title: String, body: String?, path: String?) {
         val intent = PendingIntent.getActivity(baseContext, 0, Intent(), PendingIntent.FLAG_ONE_SHOT)
-        val sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
         val notificationHelper = NotificationHelper(baseContext)
         val builder = notificationHelper.getNotificationOldApi(title, (body)!!, (path)!!, intent, sound)
         notificationHelper.manager!!.notify(1, builder.build())
@@ -118,7 +118,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val cancelAction: NotificationCompat.Action = NotificationCompat.Action.Builder(
                 R.mipmap.ic_launcher, "Cerrar", cancelPendingIntent
         ).build()
-        val sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
         val notificationHelper = NotificationHelper(baseContext)
         val builder = notificationHelper.getNotificationOldApiActions(title, body, path, sound, acceptAction, cancelAction)
         notificationHelper.manager!!.notify(2, builder.build())

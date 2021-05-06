@@ -364,6 +364,25 @@
                         android:textSize="@dimen/sold_details_label_value_textSize"
                         tools:text="$110" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/btnUpdateInProcess"
+                        android:layout_width="0dp"
+                        android:text="Procesar pedido"
+                        android:layout_weight="2"
+                        android:layout_marginStart="@dimen/sold_details_content_marginStartEnd"
+                        android:layout_marginTop="@dimen/sold_details_content_marginTopBottom"
+                        android:layout_marginEnd="@dimen/sold_details_content_marginStartEnd"
+                        android:layout_marginBottom="@dimen/sold_details_content_marginTopBottom"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -58,7 +58,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 R.id.btn_logout -> {
-
+                    FirestoreClass().deleteToken(FirestoreClass().getCurrentUserID())
                     FirebaseAuth.getInstance().signOut()
 
                     val intent = Intent(this@SettingsActivity, LoginActivity::class.java)
