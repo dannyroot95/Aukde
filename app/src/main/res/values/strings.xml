@@ -178,8 +178,9 @@
     <string name="order_status_pending">Pendiente</string>
     <string name="order_details_lbl_shipping_address">Dirección de Envío</string>
 
-    <string name="order_status_in_process">En proceso</string>
-    <string name="order_status_delivered">Entregado</string>
+    <string name="order_status_in_process">Procesando</string>
+    <string name="order_status_in_route">En ruta</string>
+    <string name="order_status_finish">Entregado</string>
 
     <string name="title_sold_products">Pedidos</string>
     <string name="no_products_sold_out_yet">¡Sin pedidos!</string>

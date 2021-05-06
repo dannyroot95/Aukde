@@ -56,6 +56,27 @@
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/my_order_details_lbl_textSize" />
 
+            <com.shuhart.stepview.StepView
+                android:id="@+id/step_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                app:sv_selectedCircleColor="@color/colorDarkGrey"
+                app:sv_selectedTextColor="@color/colorDarkGrey"
+                app:sv_stepLineWidth="1dp"
+                app:sv_stepPadding="4dp"
+                app:sv_nextTextColor="@color/colorDarkGrey"
+                app:sv_nextStepLineColor="@color/quantum_black_100"
+                app:sv_doneCircleColor="@color/quantum_black_100"
+                app:sv_doneStepLineColor="@color/colorDarkGrey"
+                app:sv_doneCircleRadius="12dp"
+                app:sv_selectedCircleRadius="12dp"
+                app:sv_selectedStepNumberColor="@color/colorWhite"
+                app:sv_stepViewStyle="@style/StepView"
+                app:sv_doneStepMarkColor="@color/colorWhite"
+                app:sv_stepNumberTextSize="12sp"
+                app:sv_animationType="Line"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

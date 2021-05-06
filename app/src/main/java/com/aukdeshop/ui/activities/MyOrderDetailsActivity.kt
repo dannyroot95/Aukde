@@ -2,28 +2,34 @@ package com.aukdeshop.ui.activities
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aukdeshop.R
-import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.Order
 import com.aukdeshop.ui.adapters.CartItemsListAdapter
 import com.aukdeshop.utils.Constants
+import com.shuhart.stepview.StepView
 import kotlinx.android.synthetic.main.activity_my_order_details.*
 import kotlinx.android.synthetic.main.activity_sold_product_details.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+
 /**
  * My Order Details Screen.
  */
 class MyOrderDetailsActivity : AppCompatActivity() {
+
+    private lateinit var stepView : StepView
+    private val currentStep = 0
+    var myOrderDetails: Order = Order()
+    var colorWhite = Color.parseColor("#FFFFFF")
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -34,9 +40,8 @@ class MyOrderDetailsActivity : AppCompatActivity() {
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_my_order_details)
 
+        stepView = findViewById(R.id.step_view)
         setupActionBar()
-
-        var myOrderDetails: Order = Order()
 
         if (intent.hasExtra(Constants.EXTRA_MY_ORDER_DETAILS)) {
             myOrderDetails =
@@ -45,26 +50,88 @@ class MyOrderDetailsActivity : AppCompatActivity() {
 
         setupUI(myOrderDetails)
 
-        when (myOrderDetails.status) {
-            0 -> {
-                tv_order_status.text = resources.getString(R.string.order_status_pending)
-                tv_order_status.setTextColor(Color.parseColor("#FC0000"))
-            }
-            1 -> {
-                tv_order_status.text = resources.getString(R.string.order_status_in_process)
-                tv_order_status.setTextColor(Color.parseColor("#F1C40F"))
-            }
-            else -> {
-                tv_order_status.text = resources.getString(R.string.order_status_delivered)
-                tv_order_status.setTextColor(Color.parseColor("#5BBD00"))
-            }
-        }
-
+        setupStepView()
     }
 
     /**
      * A function for actionBar Setup.
      */
+
+    private fun setupStepView(){
+        stepView.state
+            .selectedTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+            .animationType(StepView.ANIMATION_CIRCLE)
+            .selectedCircleColor(ContextCompat.getColor(this, R.color.colorAccent))
+            .selectedCircleRadius(resources.getDimensionPixelSize(R.dimen.rv_item_name_textSize))
+            .selectedStepNumberColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.colorPrimary
+                )
+            ) // You should specify only stepsNumber or steps array of strings.
+            // In case you specify both steps array is chosen.
+            .steps(object : ArrayList<String?>() {
+                init {
+                    add(resources.getString(R.string.order_status_pending))
+                    add(resources.getString(R.string.order_status_in_process))
+                    add(resources.getString(R.string.order_status_in_route))
+                    add(resources.getString(R.string.order_status_finish))
+                }
+            }) // You should specify only steps number or steps array of strings.
+            // In case you specify both steps array is chosen.
+
+            .stepsNumber(4)
+            .animationDuration(resources.getInteger(android.R.integer.config_shortAnimTime))
+            .stepLineWidth(resources.getDimensionPixelSize(R.dimen.grey_border_stroke_size))
+            .textSize(resources.getDimensionPixelSize(R.dimen.cart_item_paddingTopBottom))
+            .stepNumberTextSize(resources.getDimensionPixelSize(R.dimen.rv_item_name_textSize))
+            .commit()
+            checkStatusStepView()
+    }
+
+
+    private fun checkStatusStepView(){
+        when (myOrderDetails.status) {
+            0 -> {
+                tv_order_status.text = resources.getString(R.string.order_status_pending)
+                tv_order_status.setTextColor(Color.parseColor("#FC0000"))
+                val color = Color.parseColor("#FC0000")
+                stepView.go(0, true)
+                stepView.state.selectedCircleColor(color).commit()
+                stepView.state.selectedTextColor(color).commit()
+                stepView.state.selectedStepNumberColor(colorWhite).commit()
+            }
+            1 -> {
+                tv_order_status.text = resources.getString(R.string.order_status_in_process)
+                tv_order_status.setTextColor(Color.parseColor("#F1C40F"))
+                val color = Color.parseColor("#F1C40F")
+                stepView.go(1, true)
+                stepView.state.selectedCircleColor(color).commit()
+                stepView.state.selectedTextColor(color).commit()
+                stepView.state.selectedStepNumberColor(colorWhite).commit()
+
+            }
+            2 -> {
+                tv_order_status.text = resources.getString(R.string.order_status_in_route)
+                tv_order_status.setTextColor(Color.parseColor("#154360"))
+                val color = Color.parseColor("#154360")
+                stepView.go(2, true)
+                stepView.state.selectedCircleColor(color).commit()
+                stepView.state.selectedTextColor(color).commit()
+                stepView.state.selectedStepNumberColor(colorWhite).commit()
+            }
+            3 -> {
+                tv_order_status.text = resources.getString(R.string.order_status_finish)
+                tv_order_status.setTextColor(Color.parseColor("#5BBD00"))
+                val color = Color.parseColor("#5BBD00")
+                stepView.go(3, true)
+                stepView.state.selectedCircleColor(color).commit()
+                stepView.state.selectedTextColor(color).commit()
+                stepView.state.selectedStepNumberColor(colorWhite).commit()
+            }
+        }
+    }
+
     private fun setupActionBar() {
 
         setSupportActionBar(toolbar_my_order_details_activity)
@@ -129,11 +196,11 @@ class MyOrderDetailsActivity : AppCompatActivity() {
                 )
             }
             else -> {
-                tv_order_status.text = resources.getString(R.string.order_status_delivered)
+                tv_order_status.text = resources.getString(R.string.order_status_finish)
                 tv_order_status.setTextColor(
                     ContextCompat.getColor(
                         this@MyOrderDetailsActivity,
-                        R.color.colorOrderStatusDelivered
+                        R.color.colorOrderStatusFinish
                     )
                 )
             }

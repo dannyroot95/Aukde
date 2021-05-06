@@ -61,7 +61,6 @@ class FirestoreClass {
                         e
                 )
             }
-
     }
 
     fun registerUser(activity: RegisterActivity, userInfo: User) {
@@ -153,7 +152,7 @@ class FirestoreClass {
                         })
                     }
                 }
-                .addOnFailureListener { e ->
+                .addOnFailureListener {
                     // Hide the progress dialog if there is any error. And print the error in log.
                 }
 

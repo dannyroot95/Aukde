@@ -28,6 +28,11 @@
 
     <color name="dashboard_item_details_bg">#F3F3F3</color>
 
+    <color name="colorOrderStatusPending">#FC0000</color>
+    <color name="colorOrderStatusInRoute">#154360</color>
     <color name="colorOrderStatusInProcess">#FF9800</color>
-    <color name="colorOrderStatusDelivered">#8BC34A</color>
+    <color name="colorOrderStatusFinish">#8BC34A</color>
+
+
+
 </resources>
