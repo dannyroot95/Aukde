@@ -58,7 +58,7 @@
             android:textStyle="bold"
             tools:text="$100.00" />
 
-        <com.aukdeshop.utils.MSPTextView
+        <com.aukdeshop.utils.MSPTextViewBold
             android:id="@+id/tv_item_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

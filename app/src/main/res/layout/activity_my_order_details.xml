@@ -146,7 +146,7 @@
                         android:textColor="@color/colorDarkGrey"
                         android:textSize="@dimen/my_order_details_label_value_textSize" />
 
-                    <com.aukdeshop.utils.MSPTextView
+                    <com.aukdeshop.utils.MSPTextViewBold
                         android:id="@+id/tv_order_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

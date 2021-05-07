@@ -3,10 +3,15 @@ package com.aukdeshop.ui.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aukdeshop.Maps.GeofireProvider
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.Address
@@ -15,6 +20,13 @@ import com.aukdeshop.models.Order
 import com.aukdeshop.models.Product
 import com.aukdeshop.ui.adapters.CartItemsListAdapter
 import com.aukdeshop.utils.Constants
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.firebase.geofire.GeoLocation
+import com.firebase.geofire.GeoQueryEventListener
+import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_checkout.*
 
 /**
@@ -46,6 +58,13 @@ class CheckoutActivity : BaseActivity() {
     private var mPhoto : String = ""
     lateinit var sharedPhoto : SharedPreferences
 
+    private var mGeofireProvider: GeofireProvider = GeofireProvider("active_drivers")
+    private lateinit var mCurrentLatLng: LatLng
+    private lateinit var mDriverFoundLatLng: LatLng
+    private val mRadius = 0.5
+    private var mDriverFound = false
+    private var mIdDriverFound = ""
+
     var path = "https://firebasestorage.googleapis.com/v0/b" +
             "/gestor-de-pedidos-aukdefood.appspot.com/o" +
             "/fotoDefault.jpg?alt=media&token=f74486bf-432e-4af6-b114-baa523e1f801"
@@ -76,6 +95,7 @@ class CheckoutActivity : BaseActivity() {
             tv_checkout_full_name.text = mAddressDetails?.name
             tv_checkout_address.text = "${mAddressDetails!!.address}, ${mAddressDetails!!.zipCode}"
             tv_checkout_additional_note.text = mAddressDetails?.additionalNote
+            mCurrentLatLng = LatLng(mAddressDetails!!.latitude, mAddressDetails!!.longitude)
 
             if (mAddressDetails?.otherDetails!!.isNotEmpty()) {
                 tv_checkout_other_details.text = mAddressDetails?.otherDetails
@@ -88,6 +108,11 @@ class CheckoutActivity : BaseActivity() {
         }
 
         getProductList()
+
+        btn_place_delivery.setOnClickListener{
+            getClosestDriver()
+        }
+
     }
 
     /**
@@ -200,6 +225,33 @@ class CheckoutActivity : BaseActivity() {
         }
     }
 
+    private fun getClosestDriver() {
+        mGeofireProvider.getActiveDrivers(mCurrentLatLng, mRadius)
+            .addGeoQueryEventListener(object : GeoQueryEventListener {
+                override fun onKeyEntered(key: String, location: GeoLocation) {
+                    if (!mDriverFound) {
+                        mDriverFound = true
+                        mIdDriverFound = key
+                        mDriverFoundLatLng = LatLng(location.latitude, location.longitude)
+
+                        Toast.makeText(this@CheckoutActivity,mIdDriverFound,Toast.LENGTH_SHORT).show()
+
+                        Log.d("driver", "ID: $mIdDriverFound")
+                    }
+
+                }
+
+                override fun onKeyExited(key: String) {
+                }
+
+                override fun onKeyMoved(key: String, location: GeoLocation) {
+                }
+
+                override fun onGeoQueryReady() {}
+                override fun onGeoQueryError(error: DatabaseError) {}
+            })
+    }
+
     /**
      * A function to prepare the Order details to place an order.
      */
@@ -209,15 +261,15 @@ class CheckoutActivity : BaseActivity() {
         showProgressDialog(resources.getString(R.string.please_wait))
 
         mOrderDetails = Order(
-                FirestoreClass().getCurrentUserID(),
-                mCartItemsList,
-                mAddressDetails!!,
-                "#${System.currentTimeMillis()}",
-                mCartItemsList[0].image,
-                mSubTotal.toString(),
-                "10.0", // The Shipping Charge is fixed as $10 for now in our case.
-                mTotalAmount.toString(),
-                System.currentTimeMillis()
+            FirestoreClass().getCurrentUserID(),
+            mCartItemsList,
+            mAddressDetails!!,
+            "#${System.currentTimeMillis()}",
+            mCartItemsList[0].image,
+            mSubTotal.toString(),
+            "10.0", // The Shipping Charge is fixed as $10 for now in our case.
+            mTotalAmount.toString(),
+            System.currentTimeMillis()
         )
         sendNotification()
         FirestoreClass().placeOrder(this@CheckoutActivity, mOrderDetails)
@@ -238,7 +290,11 @@ class CheckoutActivity : BaseActivity() {
         // Hide the progress dialog.
         hideProgressDialog()
 
-        Toast.makeText(this@CheckoutActivity, "Su pedido se realizó correctamente.", Toast.LENGTH_SHORT)
+        Toast.makeText(
+            this@CheckoutActivity,
+            "Su pedido se realizó correctamente.",
+            Toast.LENGTH_SHORT
+        )
             .show()
 
         val intent = Intent(this@CheckoutActivity, DashboardActivity::class.java)

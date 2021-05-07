@@ -84,6 +84,7 @@ dependencies {
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation 'com.firebase:geofire-android:2.2.0'
     implementation "com.google.android.gms:play-services-location:18.0.0"
+    implementation 'com.firebase:geofire-android:2.2.0'
 
     implementation 'com.shuhart.stepview:stepview:1.5.1'
 
