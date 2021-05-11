@@ -6,6 +6,7 @@ import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
+import com.aukdeshop.models.Partner
 import com.aukdeshop.models.User
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.GlideLoader
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_settings.*
 class SettingsActivity : BaseActivity(), View.OnClickListener {
 
     // A variable for user details which will be initialized later on.
-    private lateinit var mUserDetails: User
+    private lateinit var mUserDetails: Partner
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -101,7 +102,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
     /**
      * A function to receive the user details and populate it in the UI.
      */
-    fun userDetailsSuccess(user: User) {
+    fun userDetailsSuccess(user: Partner) {
 
         mUserDetails = user
 

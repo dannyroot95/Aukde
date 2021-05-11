@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
+import com.aukdeshop.Maps.GeofireDriverProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
-import com.aukdeshop.models.User
+import com.aukdeshop.models.Partner
 import com.aukdeshop.utils.Constants
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -124,18 +126,24 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     /**
      * A function to notify user that logged in success and get the user details from the FireStore database after authentication.
      */
-    fun userLoggedInSuccess(user: User) {
+    fun userLoggedInSuccess(user: Partner) {
 
         // Hide the progress dialog.
         hideProgressDialog()
 
         if (user.profileCompleted == 0) {
             // If the user profile is incomplete then launch the UserProfileActivity.
+            val location = LatLng(user.latitude, user.longitude)
+            val mGeofireProvider  = GeofireDriverProvider("store")
             val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)
+            mGeofireProvider.saveLocation(FirestoreClass().getCurrentUserID(),location)
             intent.putExtra(Constants.EXTRA_USER_DETAILS, user)
             startActivity(intent)
         } else {
             // Redirect the user to Dashboard Screen after log in.
+            val location = LatLng(user.latitude, user.longitude)
+            val mGeofireProvider  = GeofireDriverProvider("store")
+            mGeofireProvider.saveLocation(FirestoreClass().getCurrentUserID(),location)
             startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
         }
         finish()

@@ -18,8 +18,7 @@ import com.aukdeshop.ui.fragments.SoldProductsFragment
 import com.aukdeshop.utils.Constants
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.iid.FirebaseInstanceId
@@ -97,14 +96,13 @@ class FirestoreClass {
         if (currentUser != null) {
             currentUserID = currentUser.uid
         }
-
         return currentUserID
     }
 
     fun createToken(id: String){
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             // Get new FCM registration token
-            if (task.isSuccessful){
+            if (task.isSuccessful) {
                 FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
                     val token = Token(instanceIdResult.token)
                     mFireStore.collection(Constants.TOKEN).document(id).set(token)
@@ -114,13 +112,16 @@ class FirestoreClass {
         })
     }
 
+    fun getTokenDriver(idUser: String): DatabaseReference {
+        return mDatabase.child("Tokens").child(idUser)
+    }
+
     fun deleteToken(id: String){
         mFireStore.collection(Constants.TOKEN).document(id).delete()
         mDatabase.child(Constants.TOKEN).child(id).removeValue()
-
     }
 
-    fun createNotificationOrder(tokenIDUser : String, mPhoto : String){
+    fun createNotificationOrder(tokenIDUser: String, mPhoto: String){
         mFireStore.collection(Constants.TOKEN)
                 // The document id to get the Fields of user.
                 .document(tokenIDUser)
@@ -158,7 +159,7 @@ class FirestoreClass {
 
     }
 
-    fun createNotificationUpdateStatus(tokenIDUser : String , numOrder : String , status : String , mPhoto : String){
+    fun createNotificationUpdateStatus(tokenIDUser: String, numOrder: String, status: String, mPhoto: String){
         mFireStore.collection(Constants.TOKEN)
                 // The document id to get the Fields of user.
                 .document(tokenIDUser)
@@ -183,6 +184,7 @@ class FirestoreClass {
                                     //Toast.makeText(this, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
                                 }
                             }
+
                             override fun onFailure(call: Call<FCMResponse?>, t: Throwable) {
                                 Log.d("Error", "Error encontrado" + t.message)
                             }
@@ -209,7 +211,7 @@ class FirestoreClass {
             .addOnSuccessListener { document ->
                 Log.i(activity.javaClass.simpleName, document.toString())
                 // Here we have received the document snapshot which is converted into the User Data model object.
-                val user = document.toObject(User::class.java)!!
+                val user = document.toObject(Partner::class.java)!!
 
                 val sharedPreferences =
                     activity.getSharedPreferences(
@@ -646,6 +648,26 @@ class FirestoreClass {
             }
     }
 
+    fun addCartItemsForLocation(providerID : String){
+        mDatabase.child(Constants.STORE).child(providerID).addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val getData : Store = snapshot.getValue(Store::class.java)!!
+                    val latLong : ArrayList<Double> = ArrayList()
+                    latLong.add(getData.l[0])
+                    latLong.add(getData.l[1])
+                    val location  = Store(getData.g,latLong)
+                    mDatabase.child(Constants.CART).child(FirestoreClass().getCurrentUserID()).child(providerID).setValue(location)
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
     /**
      * A function to check whether the item already exist in the cart or not.
      */
@@ -932,18 +954,15 @@ class FirestoreClass {
      * @param order Order Info
      */
     fun placeOrder(activity: CheckoutActivity, order: Order) {
-
         mFireStore.collection(Constants.ORDERS)
             .document()
             // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
             .set(order, SetOptions.merge())
             .addOnSuccessListener {
-
                 // Here call a function of base activity for transferring the result to it.
                 activity.orderPlacedSuccess()
             }
             .addOnFailureListener { e ->
-
                 // Hide the progress dialog if there is any error.
                 activity.hideProgressDialog()
                 Log.e(
@@ -1095,7 +1114,7 @@ class FirestoreClass {
             }
     }
 
-    fun updateStatusOrder(activity: Activity, numberOrder : Long, status : Int){
+    fun updateStatusOrder(activity: Activity, numberOrder: Long, status: Int){
         mFireStore.collection(Constants.ORDERS)
                 .whereEqualTo("order_datetime", numberOrder)
                 .get().addOnSuccessListener { document ->

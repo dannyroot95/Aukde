@@ -18,6 +18,8 @@ object Constants {
     const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
     const val USERS: String = "users"
     const val TOKEN: String = "token"
+    const val CART: String = "cart"
+    const val STORE: String = "store"
     const val PRODUCTS: String = "products"
     const val CART_ITEMS: String = "cart_items"
     const val ADDRESSES: String = "addresses"
@@ -29,6 +31,7 @@ object Constants {
 
     // Intent extra constants.
     const val EXTRA_USER_DETAILS: String = "extra_user_details"
+    const val EXTRA_DRIVER_ID: String = "extra_driver_id"
     const val EXTRA_USER_TYPE_PRODUCT : String = "extra_user_type_product"
     const val EXTRA_USER_PHOTO : String = "extra_user_photo"
     const val EXTRA_PRODUCT_ID: String = "extra_product_id"
@@ -81,6 +84,9 @@ object Constants {
     const val IN_ROUTE : String = "En ruta"
     const val FINISH_ORDER : String = "Entregado"
     const val CANCELLED : String = "Cancelado"
+
+    const val TITTLE_NOTIFICATION : String = "SOLICITUD DE SERVICIO"
+    const val BODY_NOTIFICATION : String = "Revise su lista de pedidos en su panel"
 
     /**
      * A function for user profile image selection from phone storage.

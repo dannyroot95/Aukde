@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.aukdeshop.R
+import com.aukdeshop.utils.Constants
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -29,26 +30,27 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         if (title != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if(title.contains("Nuevo pedido #")) {
-                    /*val idClient = data["idClient"]
+                if(title.contains(Constants.TITTLE_NOTIFICATION)) {
+                    val idClient = data["idClient"]
                     val numPedido = data["numPedido"]
                     val nombre = data["nombre"]
-                    val telefono = data["telefono"]
+                    /*val telefono = data["telefono"]
                     val direccion = data["direccion"]
                     val hora = data["hora"]
                     val fecha = data["fecha"]
                     val ganancia = data["ganancia"]
                     val repartidor = data["repartidor"]*/
                     //showNotificationApiOreoActions(title,body,path,idClient);
+
                 } else {
                     showNotificationApiOreo(title, body, path)
                 }
             } else {
-                if (title.contains("Nuevo pedido #")) {
-                    /*val idClient = data["idClient"]
+                if(title.contains("SOLICITUD DE SERVICIO A")) {
+                    val idClient = data["idClient"]
                     val numPedido = data["numPedido"]
                     val nombre = data["nombre"]
-                    val telefono = data["telefono"]
+                    /*val telefono = data["telefono"]
                     val direccion = data["direccion"]
                     val hora = data["hora"]
                     val fecha = data["fecha"]

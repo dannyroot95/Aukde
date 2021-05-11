@@ -7,11 +7,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 
-class GeofireProvider(reference: String) {
+class GeofireDriverProvider(reference: String) {
 
     private var mDatabase: DatabaseReference = FirebaseDatabase.getInstance().reference.child(reference)
-    private var mGeofire: GeoFire = GeoFire(mDatabase)
+    private var mGeofire = GeoFire(mDatabase)
     var mAuth = FirebaseAuth.getInstance()
 
 
@@ -19,6 +20,7 @@ class GeofireProvider(reference: String) {
     fun saveLocation(idDriver: String, latLng: LatLng) {
         mGeofire.setLocation(idDriver, GeoLocation(latLng.latitude, latLng.longitude))
     }
+
 
     //Delete location
     fun removeLocation(idDriver: String) {
@@ -35,6 +37,10 @@ class GeofireProvider(reference: String) {
     //TO OBTAIN THE LOCATION OF THE DRIVER
     fun getDriverLocation(idDriver: String?): DatabaseReference {
         return mDatabase.child(idDriver!!).child("l")
+    }
+
+    fun getDriverKeyLocation(idDriver: String?): DatabaseReference {
+        return mDatabase.child(idDriver!!)
     }
 
     //

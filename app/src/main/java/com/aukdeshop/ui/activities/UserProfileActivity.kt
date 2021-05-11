@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
+import com.aukdeshop.models.Partner
 import com.aukdeshop.models.User
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.GlideLoader
@@ -27,7 +28,7 @@ import java.io.IOException
 class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
     // Instance of User data model class. We will initialize it later on.
-    private lateinit var mUserDetails: User
+    private lateinit var mUserDetails: Partner
 
     lateinit var sharedTypeProduct : SharedPreferences
 

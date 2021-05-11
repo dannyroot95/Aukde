@@ -12,8 +12,11 @@ import com.aukdeshop.models.Cart
 import com.aukdeshop.models.Product
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.GlideLoader
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.item_cart_layout.view.*
+import java.util.*
+
 
 /**
  * Product Details Screen.
@@ -28,6 +31,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
     private var typeMoney : String = ""
 
     private var mProviderId: String = ""
+
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -73,7 +77,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
                     addToCart()
                 }
 
-                R.id.btn_go_to_cart->{
+                R.id.btn_go_to_cart -> {
                     startActivity(Intent(this@ProductDetailsActivity, CartListActivity::class.java))
                 }
             }
@@ -83,21 +87,22 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
     /**
      * A function to prepare the cart item to add it to the cart in cloud firestore.
      */
+
     private fun addToCart() {
 
         val addToCart = Cart(
-            FirestoreClass().getCurrentUserID(),
-            mProviderId,
-            mProductId,
-            mProductDetails.title,
-            mProductDetails.price,
-            mProductDetails.image,
-            Constants.DEFAULT_CART_QUANTITY
+                FirestoreClass().getCurrentUserID(),
+                mProviderId,
+                mProductId,
+                mProductDetails.title,
+                mProductDetails.price,
+                mProductDetails.image,
+                Constants.DEFAULT_CART_QUANTITY
         )
 
         // Show the progress dialog
         showProgressDialog(resources.getString(R.string.please_wait))
-
+        FirestoreClass().addCartItemsForLocation(mProviderId)
         FirestoreClass().addCartItems(this@ProductDetailsActivity, addToCart)
     }
 
@@ -141,8 +146,8 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
 
         // Populate the product details in the UI.
         GlideLoader(this@ProductDetailsActivity).loadProductPicture(
-            product.image,
-            iv_product_detail_image
+                product.image,
+                iv_product_detail_image
         )
 
         tv_product_details_title.text = product.title
@@ -164,10 +169,10 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
                 resources.getString(R.string.lbl_out_of_stock)
 
             tv_product_details_stock_quantity.setTextColor(
-                ContextCompat.getColor(
-                    this@ProductDetailsActivity,
-                    R.color.colorSnackBarError
-                )
+                    ContextCompat.getColor(
+                            this@ProductDetailsActivity,
+                            R.color.colorSnackBarError
+                    )
             )
         }else{
 
@@ -203,9 +208,9 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         hideProgressDialog()
 
         Toast.makeText(
-            this@ProductDetailsActivity,
-            resources.getString(R.string.success_message_item_added_to_cart),
-            Toast.LENGTH_SHORT
+                this@ProductDetailsActivity,
+                resources.getString(R.string.success_message_item_added_to_cart),
+                Toast.LENGTH_SHORT
         ).show()
 
         // Hide the AddToCart button if the item is already in the cart.
