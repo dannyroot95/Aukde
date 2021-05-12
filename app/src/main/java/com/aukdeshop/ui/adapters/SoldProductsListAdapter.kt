@@ -3,6 +3,7 @@ package com.aukdeshop.ui.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,9 @@ import com.aukdeshop.ui.activities.SoldProductDetailsActivity
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.GlideLoader
 import kotlinx.android.synthetic.main.item_list_layout.view.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A adapter class for sold products list items.
@@ -52,6 +56,10 @@ open class SoldProductsListAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = list[position]
+        val dateFormat = "dd MMM yyyy HH:mm"
+        val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.timeInMillis = model.order_date
 
         if (holder is MyViewHolder) {
 
@@ -62,8 +70,27 @@ open class SoldProductsListAdapter(
 
             holder.itemView.tv_item_name.text = model.title
             holder.itemView.tv_item_price.text = context.resources.getString(R.string.type_money)+model.price
-
+            holder.itemView.tv_item_date_and_hour.text = formatter.format(calendar.time)
             holder.itemView.ib_delete_product.visibility = View.GONE
+
+            when (model.status) {
+                -1 -> {
+                    holder.itemView.tv_item_status.text = Constants.CANCELLED
+                    holder.itemView.tv_item_status.setTextColor(Color.parseColor("#FC0000"))
+                }
+                0 -> {
+                    holder.itemView.tv_item_status.text = Constants.PENDING
+                    holder.itemView.tv_item_status.setTextColor(Color.parseColor("#FC0000"))
+                }
+                1 -> {
+                    holder.itemView.tv_item_status.text = Constants.PROCESSING
+                    holder.itemView.tv_item_status.setTextColor(Color.parseColor("#F1C40F"))
+                }
+                else -> {
+                    holder.itemView.tv_item_status.text = Constants.FINISH_ORDER
+                    holder.itemView.tv_item_status.setTextColor(Color.parseColor("#5BBD00"))
+                }
+            }
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, SoldProductDetailsActivity::class.java)

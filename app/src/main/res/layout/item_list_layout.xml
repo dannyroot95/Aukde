@@ -58,6 +58,16 @@
             android:textStyle="bold"
             tools:text="$100.00" />
 
+        <com.aukdeshop.utils.MSPTextView
+            android:id="@+id/tv_item_date_and_hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rv_item_price_marginTop"
+            android:textColor="@color/item_value_text_color"
+            android:textSize="@dimen/rv_item_price_textSize"
+            android:textStyle="bold"
+            tools:text="" />
+
         <com.aukdeshop.utils.MSPTextViewBold
             android:id="@+id/tv_item_status"
             android:layout_width="match_parent"

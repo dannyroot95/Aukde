@@ -18,5 +18,6 @@ data class Order(
     val total_amount: String = "",
     val order_datetime: Long = 0L,
     var id: String = "",
-    var status : Int = 0
+    var status : Int = 0,
+    var driver_id : String = ""
 ) : Parcelable

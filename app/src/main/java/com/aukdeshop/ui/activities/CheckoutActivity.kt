@@ -1,6 +1,8 @@
 package com.aukdeshop.ui.activities
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -72,6 +74,9 @@ class CheckoutActivity : BaseActivity() {
     private var mClientBookingProvider : ClientBookingProvider = ClientBookingProvider()
     private var mListener: ValueEventListener? = null
     private var mNotificationProvider = NotificationProvider()
+    private lateinit var progressDialog : ProgressDialog
+    private lateinit var progressDialogDriverFound : ProgressDialog
+    private lateinit var progressDialogDriverAccept : ProgressDialog
 
     var photo_default = "https://firebasestorage.googleapis.com/v0/b" +
             "/gestor-de-pedidos-aukdefood.appspot.com/o" +
@@ -86,6 +91,9 @@ class CheckoutActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_checkout)
+        progressDialog = ProgressDialog(this,R.style.ThemeOverlay_AppCompat_Dialog)
+        progressDialogDriverFound = ProgressDialog(this,R.style.ThemeOverlay_AppCompat_Dialog)
+        progressDialogDriverAccept= ProgressDialog(this,R.style.ThemeOverlay_AppCompat_Dialog)
         typeMoney = resources.getString(R.string.type_money)
         sharedPhoto = getSharedPreferences(Constants.EXTRA_USER_PHOTO, MODE_PRIVATE)
         mPhoto = sharedPhoto.getString(Constants.EXTRA_USER_PHOTO, "").toString()
@@ -112,7 +120,7 @@ class CheckoutActivity : BaseActivity() {
         }
 
         btn_place_order.setOnClickListener {
-              showProgressDialog(resources.getString(R.string.please_wait))
+              customDialog(resources.getString(R.string.please_wait))
               getClosestStore()
             }
 
@@ -122,6 +130,28 @@ class CheckoutActivity : BaseActivity() {
     /**
      * A function for actionBar Setup.
      */
+
+    private fun customDialog(message : String){
+        progressDialog.setTitle("")
+        progressDialog.setMessage(message)
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+    }
+
+    private fun customDialogDriverFound(){
+        progressDialogDriverFound.setTitle(Constants.DRIVER_FOUND)
+        progressDialogDriverFound.setMessage(Constants.PLEASE_WAIT)
+        progressDialogDriverFound.setCancelable(false)
+        progressDialogDriverFound.show()
+    }
+
+    private fun customDialogDriverTakeOrder(){
+        progressDialogDriverAccept.setTitle(Constants.TAKE_ORDER_DRIVER)
+        progressDialogDriverAccept.setMessage(Constants.PLEASE_WAIT)
+        progressDialogDriverAccept.setCancelable(false)
+        progressDialogDriverAccept.show()
+    }
+
     private fun setupActionBar() {
 
         setSupportActionBar(toolbar_checkout_activity)
@@ -173,10 +203,8 @@ class CheckoutActivity : BaseActivity() {
      */
     @SuppressLint("SetTextI18n")
     fun successCartItemsList(cartList: ArrayList<Cart>) {
-
         // Hide progress dialog.
         hideProgressDialog()
-
         for (product in mProductsList) {
             for (cart in cartList) {
                 if (product.product_id == cart.product_id) {
@@ -222,13 +250,12 @@ class CheckoutActivity : BaseActivity() {
 
 
     private fun getClosestStore() {
-
         mGeofireStore.getActiveStore(mCurrentLatLng, mRadius)
             .addGeoQueryEventListener(object : GeoQueryEventListener {
                 override fun onKeyEntered(key: String, location: GeoLocation) {
                     if (!mStoreFound) {
-                        hideProgressDialog()
-                        showProgressDialog(Constants.SEARCH_DRIVER)
+                        progressDialog.dismiss()
+                        customDialog(Constants.SEARCH_DRIVER)
                         mStoreFound = true
                         mIdStoreFound = key
                         mStoreFoundLatLng = LatLng(location.latitude, location.longitude)
@@ -248,7 +275,7 @@ class CheckoutActivity : BaseActivity() {
                         mRadius += 0.1f
                         // NO ENCONTRO NINGUN CONDUCTOR
                         if (mRadius > 5) {
-                            hideProgressDialog()
+                            progressDialog.dismiss()
                             finish()
                             return
                         } else {
@@ -266,8 +293,8 @@ class CheckoutActivity : BaseActivity() {
                 .addGeoQueryEventListener(object : GeoQueryEventListener {
                     override fun onKeyEntered(keyDriver: String, locationDriver: GeoLocation) {
                         if (!mDriverFound) {
-                            hideProgressDialog()
-                            showProgressDialog(Constants.DRIVER_FOUND)
+                            progressDialog.dismiss()
+                            customDialogDriverFound()
                             mDriverFound = true
                             mIdDriverFound = keyDriver
                             mDriverFoundLatLng = LatLng(locationDriver.latitude, locationDriver.longitude)
@@ -284,9 +311,11 @@ class CheckoutActivity : BaseActivity() {
                             mRadiusDriver += 0.1f
                             // NO ENCONTRO NINGUN CONDUCTOR
                             if (mRadiusDriver > 5) {
-                                hideProgressDialog()
-                                finish()
-                                Toast.makeText(this@CheckoutActivity, Constants.NO_CLOSEST_DRIVER, Toast.LENGTH_LONG).show()
+                                progressDialogDriverFound.dismiss()
+                                if (!progressDialogDriverFound.isShowing) {
+                                    Toast.makeText(this@CheckoutActivity, Constants.NO_CLOSEST_DRIVER, Toast.LENGTH_SHORT).show()
+                                    finish()
+                                }
                                 return
                             } else {
                                 getClosestDriver()
@@ -354,13 +383,18 @@ class CheckoutActivity : BaseActivity() {
                 if (snapshot.exists()) {
                     val status: String = snapshot.value.toString()
                     if (status == "accept") {
-                        hideProgressDialog()
-                        showProgressDialog(Constants.TAKE_ORDER_DRIVER)
-                        placeAnOrder()
+                        if (progressDialogDriverFound.isShowing) {
+                            progressDialogDriverFound.dismiss()
+                            customDialogDriverTakeOrder()
+                            placeAnOrder()
+                        }
                     } else if (status == "cancel") {
-                        hideProgressDialog()
-                        Toast.makeText(this@CheckoutActivity, Constants.FAILED_ORDER, Toast.LENGTH_LONG).show()
-                        finish()
+                        //delete clientBooking
+                        progressDialogDriverFound.dismiss()
+                        if (!progressDialogDriverFound.isShowing) {
+                            Toast.makeText(this@CheckoutActivity, Constants.FAILED_ORDER, Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
                     }
                 }
             }
@@ -374,8 +408,10 @@ class CheckoutActivity : BaseActivity() {
      * A function to prepare the Order details to place an order.
      */
     private fun placeAnOrder() {
-        // Show the progress dialog.
-        //showProgressDialog(resources.getString(R.string.please_wait))
+        progressDialogDriverAccept.dismiss()
+
+        customDialog(Constants.FINISHING_ORDER)
+
         mOrderDetails = Order(
                 FirestoreClass().getCurrentUserID(),
                 mCartItemsList,
@@ -385,7 +421,10 @@ class CheckoutActivity : BaseActivity() {
                 mSubTotal.toString(),
                 "10.0", // The Shipping Charge is fixed as $10 for now in our case.
                 mTotalAmount.toString(),
-                System.currentTimeMillis()
+                System.currentTimeMillis(),
+                "",
+                0,
+                mIdDriverFound
         )
         sendNotificationStore()
         FirestoreClass().placeOrder(this@CheckoutActivity, mOrderDetails)
@@ -402,17 +441,22 @@ class CheckoutActivity : BaseActivity() {
      * A function to notify the success result after updating all the required details.
      */
     fun allDetailsUpdatedSuccessfully() {
-        // Hide the progress dialog.
-        hideProgressDialog()
-        Toast.makeText(
-                this@CheckoutActivity,
-                Constants.SUCCESS_ORDER,
-                Toast.LENGTH_LONG
-        )
-            .show()
-        val intent = Intent(this@CheckoutActivity, DashboardActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
+
+        FirestoreClass().deleteCartRealtime(FirestoreClass().getCurrentUserID()).addOnSuccessListener {
+            ClientBookingProvider().delete(FirestoreClass().getCurrentUserID()).addOnSuccessListener {
+                progressDialog.dismiss()
+                Toast.makeText(
+                        this@CheckoutActivity,
+                        Constants.SUCCESS_ORDER,
+                        Toast.LENGTH_SHORT
+                )
+                        .show()
+                val intent = Intent(this@CheckoutActivity, DashboardActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+            }
+        }
+
     }
 }

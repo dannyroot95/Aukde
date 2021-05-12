@@ -14,6 +14,9 @@ import com.aukdeshop.ui.activities.MyOrderDetailsActivity
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.GlideLoader
 import kotlinx.android.synthetic.main.item_list_layout.view.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 open class MyOrdersListAdapter(
     private val context: Context,
@@ -50,6 +53,10 @@ open class MyOrdersListAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = list[position]
+        val dateFormat = "dd MMM yyyy HH:mm"
+        val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.timeInMillis = model.order_datetime
 
         if (holder is MyViewHolder) {
 
@@ -60,7 +67,7 @@ open class MyOrdersListAdapter(
 
             holder.itemView.tv_item_name.text = model.title
             holder.itemView.tv_item_price.text = context.resources.getString(R.string.type_money)+model.total_amount
-
+            holder.itemView.tv_item_date_and_hour.text = formatter.format(calendar.time)
             holder.itemView.ib_delete_product.visibility = View.GONE
 
             when (model.status) {
@@ -80,6 +87,11 @@ open class MyOrdersListAdapter(
                     holder.itemView.tv_item_status.text = Constants.IN_ROUTE
                     holder.itemView.tv_item_status.setTextColor(Color.parseColor("#154360"))
                 }
+                /*3 -> {
+                    holder.itemView.tv_item_status.text = Constants.DELIVERED
+                    holder.itemView.tv_item_status.setTextColor(Color.parseColor("#4A235A"))
+                }*/
+                // PARA EL CONDUCTOR
                 else -> {
                     holder.itemView.tv_item_status.text = Constants.FINISH_ORDER
                     holder.itemView.tv_item_status.setTextColor(Color.parseColor("#5BBD00"))

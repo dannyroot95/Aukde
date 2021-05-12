@@ -126,6 +126,10 @@ class FirestoreClass {
         return mDatabase.child(Constants.TOKEN).child(id).removeValue()
     }
 
+    fun deleteCartRealtime(id: String): Task<Void> {
+        return mDatabase.child(Constants.CART).child(id).removeValue()
+    }
+
     fun createNotificationOrder(tokenIDUser: String, mPhoto: String){
         mFireStore.collection(Constants.TOKEN)
                 // The document id to get the Fields of user.
@@ -1002,7 +1006,8 @@ class FirestoreClass {
                     order.sub_total_amount,
                     order.shipping_charge,
                     order.total_amount,
-                    order.address
+                    order.address,
+                    order.driver_id
             )
 
             val documentReference = mFireStore.collection(Constants.SOLD_PRODUCTS)
