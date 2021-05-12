@@ -98,6 +98,9 @@ object Constants {
     const val PLEASE_WAIT : String = "espere un momento..."
     const val FINISHING_ORDER : String = "Finalizando Compra"
     const val DELIVERED : String = "Recibido"
+    const val USERS_REALTIME : String = "Usuarios"
+    const val DRIVER_OUR : String = "Aukdeliver"
+
 
     /**
      * A function for user profile image selection from phone storage.

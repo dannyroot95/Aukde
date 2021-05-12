@@ -15,4 +15,11 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ThemeOverlayCustom" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="colorPrimary">#000</item>
+        <item name="fontFamily">@font/monserrat</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

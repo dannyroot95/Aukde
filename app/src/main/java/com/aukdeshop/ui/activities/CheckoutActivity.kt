@@ -2,10 +2,10 @@ package com.aukdeshop.ui.activities
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +29,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+
 
 /**
  * A CheckOut activity screen.
@@ -60,7 +61,7 @@ class CheckoutActivity : BaseActivity() {
     lateinit var sharedPhoto : SharedPreferences
 
     private var mGeofireDriverDriver: GeofireDriverProvider = GeofireDriverProvider("active_drivers")
-    private var mGeofireStore : GeofireStoreProvider = GeofireStoreProvider("cart",FirestoreClass().getCurrentUserID())
+    private var mGeofireStore : GeofireStoreProvider = GeofireStoreProvider("cart", FirestoreClass().getCurrentUserID())
 
     private lateinit var mCurrentLatLng: LatLng
     private lateinit var mDriverFoundLatLng: LatLng
@@ -91,9 +92,9 @@ class CheckoutActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_checkout)
-        progressDialog = ProgressDialog(this,R.style.ThemeOverlay_AppCompat_Dialog)
-        progressDialogDriverFound = ProgressDialog(this,R.style.ThemeOverlay_AppCompat_Dialog)
-        progressDialogDriverAccept= ProgressDialog(this,R.style.ThemeOverlay_AppCompat_Dialog)
+        progressDialog = ProgressDialog(this, R.style.ThemeOverlayCustom)
+        progressDialogDriverFound = ProgressDialog(this, R.style.ThemeOverlayCustom)
+        progressDialogDriverAccept= ProgressDialog(this, R.style.ThemeOverlayCustom)
         typeMoney = resources.getString(R.string.type_money)
         sharedPhoto = getSharedPreferences(Constants.EXTRA_USER_PHOTO, MODE_PRIVATE)
         mPhoto = sharedPhoto.getString(Constants.EXTRA_USER_PHOTO, "").toString()
@@ -131,26 +132,13 @@ class CheckoutActivity : BaseActivity() {
      * A function for actionBar Setup.
      */
 
-    private fun customDialog(message : String){
+    private fun customDialog(message: String){
         progressDialog.setTitle("")
         progressDialog.setMessage(message)
         progressDialog.setCancelable(false)
         progressDialog.show()
     }
 
-    private fun customDialogDriverFound(){
-        progressDialogDriverFound.setTitle(Constants.DRIVER_FOUND)
-        progressDialogDriverFound.setMessage(Constants.PLEASE_WAIT)
-        progressDialogDriverFound.setCancelable(false)
-        progressDialogDriverFound.show()
-    }
-
-    private fun customDialogDriverTakeOrder(){
-        progressDialogDriverAccept.setTitle(Constants.TAKE_ORDER_DRIVER)
-        progressDialogDriverAccept.setMessage(Constants.PLEASE_WAIT)
-        progressDialogDriverAccept.setCancelable(false)
-        progressDialogDriverAccept.show()
-    }
 
     private fun setupActionBar() {
 
@@ -254,8 +242,7 @@ class CheckoutActivity : BaseActivity() {
             .addGeoQueryEventListener(object : GeoQueryEventListener {
                 override fun onKeyEntered(key: String, location: GeoLocation) {
                     if (!mStoreFound) {
-                        progressDialog.dismiss()
-                        customDialog(Constants.SEARCH_DRIVER)
+                        progressDialog.setMessage(Constants.SEARCH_DRIVER)
                         mStoreFound = true
                         mIdStoreFound = key
                         mStoreFoundLatLng = LatLng(location.latitude, location.longitude)
@@ -263,6 +250,7 @@ class CheckoutActivity : BaseActivity() {
                         //Log.d("store", "ID: $mIdStoreFound")
                     }
                 }
+
                 override fun onKeyExited(key: String) {
                 }
 
@@ -276,52 +264,56 @@ class CheckoutActivity : BaseActivity() {
                         // NO ENCONTRO NINGUN CONDUCTOR
                         if (mRadius > 5) {
                             progressDialog.dismiss()
-                            finish()
-                            return
+                            if (!progressDialog.isShowing) {
+                                finish()
+                                return
+                            }
                         } else {
                             getClosestStore()
                         }
                     }
 
                 }
+
                 override fun onGeoQueryError(error: DatabaseError) {}
             })
     }
 
     private fun getClosestDriver(){
-        mGeofireDriverDriver.getActiveDrivers(mStoreFoundLatLng,mRadiusDriver)
+        mGeofireDriverDriver.getActiveDrivers(mStoreFoundLatLng, mRadiusDriver)
                 .addGeoQueryEventListener(object : GeoQueryEventListener {
                     override fun onKeyEntered(keyDriver: String, locationDriver: GeoLocation) {
                         if (!mDriverFound) {
-                            progressDialog.dismiss()
-                            customDialogDriverFound()
+                            progressDialog.setMessage(Constants.DRIVER_FOUND+"\n"+Constants.PLEASE_WAIT)
                             mDriverFound = true
                             mIdDriverFound = keyDriver
                             mDriverFoundLatLng = LatLng(locationDriver.latitude, locationDriver.longitude)
                             sendNotificationDriver()
                         }
                     }
+
                     override fun onKeyExited(keyDriver: String) {
                     }
+
                     override fun onKeyMoved(keyDriver: String, locationDriver: GeoLocation) {
                     }
+
                     override fun onGeoQueryReady() {
                         // INGRESA CUANDO TERMINA LA BUSQUEDA DEL DRIVER EN UN RADIO DE 0.1 KM
                         if (!mDriverFound) {
                             mRadiusDriver += 0.1f
                             // NO ENCONTRO NINGUN CONDUCTOR
                             if (mRadiusDriver > 5) {
-                                progressDialogDriverFound.dismiss()
-                                if (!progressDialogDriverFound.isShowing) {
-                                    Toast.makeText(this@CheckoutActivity, Constants.NO_CLOSEST_DRIVER, Toast.LENGTH_SHORT).show()
-                                    finish()
-                                }
+                                progressDialog.dismiss()
+                                Toast.makeText(this@CheckoutActivity, Constants.NO_CLOSEST_DRIVER, Toast.LENGTH_SHORT).show()
+                                finish()
                                 return
                             } else {
                                 getClosestDriver()
                             }
                         }
                     }
+
                     override fun onGeoQueryError(error: DatabaseError) {
                     }
                 })
@@ -340,7 +332,7 @@ class CheckoutActivity : BaseActivity() {
                     map["numPedido"] = "#12345" // para testear
                     map["nombre"] = FirestoreClass().getCurrentUserID()
                     val fcmBody = FCMBody(token, "high", map)
-                    mNotificationProvider.sendNotification(fcmBody).enqueue(object : Callback<FCMResponse>{
+                    mNotificationProvider.sendNotification(fcmBody).enqueue(object : Callback<FCMResponse> {
                         override fun onResponse(call: Call<FCMResponse>, response: Response<FCMResponse>) {
                             if (response.body() != null) {
                                 if (response.body()!!.success === 1) {
@@ -356,12 +348,14 @@ class CheckoutActivity : BaseActivity() {
                                 }
                             }
                         }
+
                         override fun onFailure(call: Call<FCMResponse>, t: Throwable) {
                         }
                     })
 
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {
             }
         })
@@ -383,18 +377,11 @@ class CheckoutActivity : BaseActivity() {
                 if (snapshot.exists()) {
                     val status: String = snapshot.value.toString()
                     if (status == "accept") {
-                        if (progressDialogDriverFound.isShowing) {
-                            progressDialogDriverFound.dismiss()
-                            customDialogDriverTakeOrder()
-                            placeAnOrder()
-                        }
+                        placeAnOrder()
                     } else if (status == "cancel") {
-                        //delete clientBooking
-                        progressDialogDriverFound.dismiss()
-                        if (!progressDialogDriverFound.isShowing) {
-                            Toast.makeText(this@CheckoutActivity, Constants.FAILED_ORDER, Toast.LENGTH_SHORT).show()
-                            finish()
-                        }
+                        progressDialog.dismiss()
+                        Toast.makeText(this@CheckoutActivity, Constants.FAILED_ORDER, Toast.LENGTH_SHORT).show()
+                        finish()
                     }
                 }
             }
@@ -408,9 +395,6 @@ class CheckoutActivity : BaseActivity() {
      * A function to prepare the Order details to place an order.
      */
     private fun placeAnOrder() {
-        progressDialogDriverAccept.dismiss()
-
-        customDialog(Constants.FINISHING_ORDER)
 
         mOrderDetails = Order(
                 FirestoreClass().getCurrentUserID(),
@@ -426,8 +410,9 @@ class CheckoutActivity : BaseActivity() {
                 0,
                 mIdDriverFound
         )
+        progressDialog.setMessage(Constants.TAKE_ORDER_DRIVER+"\n"+Constants.FINISHING_ORDER)
         sendNotificationStore()
-        FirestoreClass().placeOrder(this@CheckoutActivity, mOrderDetails)
+        FirestoreClass().placeOrder(this@CheckoutActivity, mOrderDetails, mIdDriverFound)
     }
 
     /**
@@ -442,9 +427,10 @@ class CheckoutActivity : BaseActivity() {
      */
     fun allDetailsUpdatedSuccessfully() {
 
+        progressDialog.dismiss()
+
         FirestoreClass().deleteCartRealtime(FirestoreClass().getCurrentUserID()).addOnSuccessListener {
             ClientBookingProvider().delete(FirestoreClass().getCurrentUserID()).addOnSuccessListener {
-                progressDialog.dismiss()
                 Toast.makeText(
                         this@CheckoutActivity,
                         Constants.SUCCESS_ORDER,
