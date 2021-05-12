@@ -59,13 +59,24 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 R.id.btn_logout -> {
-                    FirestoreClass().deleteToken(FirestoreClass().getCurrentUserID())
-                    FirebaseAuth.getInstance().signOut()
+                    showProgressDialog(Constants.LOGOUT)
+                    FirestoreClass().deleteToken(FirestoreClass().getCurrentUserID()).addOnSuccessListener {
+                        FirestoreClass().deleteTokenRealtime(FirestoreClass().getCurrentUserID()).addOnSuccessListener {
+                            hideProgressDialog()
+                            FirebaseAuth.getInstance().signOut()
+                            val intent = Intent(this@SettingsActivity, LoginActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+                            finish()
+                        }.addOnFailureListener{
+                            hideProgressDialog()
+                            //error
+                        }
+                    }.addOnFailureListener{
+                        hideProgressDialog()
+                        //error
+                    }
 
-                    val intent = Intent(this@SettingsActivity, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
-                    finish()
                 }
             }
         }

@@ -112,8 +112,9 @@ class CheckoutActivity : BaseActivity() {
         }
 
         btn_place_order.setOnClickListener {
-            getClosestDriverAndStore()
-        }
+              showProgressDialog(resources.getString(R.string.please_wait))
+              getClosestStore()
+            }
 
         getProductList()
     }
@@ -220,18 +221,17 @@ class CheckoutActivity : BaseActivity() {
     }
 
 
-    private fun getClosestDriverAndStore() {
-
-        showProgressDialog(resources.getString(R.string.please_wait))
+    private fun getClosestStore() {
 
         mGeofireStore.getActiveStore(mCurrentLatLng, mRadius)
             .addGeoQueryEventListener(object : GeoQueryEventListener {
                 override fun onKeyEntered(key: String, location: GeoLocation) {
                     if (!mStoreFound) {
+                        hideProgressDialog()
+                        showProgressDialog(Constants.SEARCH_DRIVER)
                         mStoreFound = true
                         mIdStoreFound = key
                         mStoreFoundLatLng = LatLng(location.latitude, location.longitude)
-                        //Toast.makeText(this@CheckoutActivity,"STORE FOUND!",Toast.LENGTH_LONG).show()
                         getClosestDriver()
                         //Log.d("store", "ID: $mIdStoreFound")
                     }
@@ -250,10 +250,9 @@ class CheckoutActivity : BaseActivity() {
                         if (mRadius > 5) {
                             hideProgressDialog()
                             finish()
-                            Toast.makeText(this@CheckoutActivity, "el local esta muy lejos", Toast.LENGTH_SHORT).show()
                             return
                         } else {
-                            getClosestDriverAndStore()
+                            getClosestStore()
                         }
                     }
 
@@ -267,12 +266,12 @@ class CheckoutActivity : BaseActivity() {
                 .addGeoQueryEventListener(object : GeoQueryEventListener {
                     override fun onKeyEntered(keyDriver: String, locationDriver: GeoLocation) {
                         if (!mDriverFound) {
+                            hideProgressDialog()
+                            showProgressDialog(Constants.DRIVER_FOUND)
                             mDriverFound = true
                             mIdDriverFound = keyDriver
                             mDriverFoundLatLng = LatLng(locationDriver.latitude, locationDriver.longitude)
-                            //Toast.makeText(this@CheckoutActivity,"DRIVER FOUND!",Toast.LENGTH_LONG).show()
                             sendNotificationDriver()
-                            //Log.d("driver", "ID: $mIdDriverFound")
                         }
                     }
                     override fun onKeyExited(keyDriver: String) {
@@ -280,14 +279,14 @@ class CheckoutActivity : BaseActivity() {
                     override fun onKeyMoved(keyDriver: String, locationDriver: GeoLocation) {
                     }
                     override fun onGeoQueryReady() {
-                        // INGRESA CUANDO TERMINA LA BUSQUEDA DEL LOCAL EN UN RADIO DE 0.1 KM
+                        // INGRESA CUANDO TERMINA LA BUSQUEDA DEL DRIVER EN UN RADIO DE 0.1 KM
                         if (!mDriverFound) {
                             mRadiusDriver += 0.1f
                             // NO ENCONTRO NINGUN CONDUCTOR
                             if (mRadiusDriver > 5) {
                                 hideProgressDialog()
                                 finish()
-                                Toast.makeText(this@CheckoutActivity, "No hay conductor cercano", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@CheckoutActivity, Constants.NO_CLOSEST_DRIVER, Toast.LENGTH_LONG).show()
                                 return
                             } else {
                                 getClosestDriver()
@@ -316,13 +315,13 @@ class CheckoutActivity : BaseActivity() {
                         override fun onResponse(call: Call<FCMResponse>, response: Response<FCMResponse>) {
                             if (response.body() != null) {
                                 if (response.body()!!.success === 1) {
-                                    val solicitud = ClientBooking(
+                                    val bookingStatus = ClientBooking(
                                             "",
                                             FirestoreClass().getCurrentUserID(),
                                             mIdDriverFound,
                                             "create"
                                     )
-                                    mClientBookingProvider.create(solicitud).addOnSuccessListener {
+                                    mClientBookingProvider.create(bookingStatus).addOnSuccessListener {
                                         checkStatusClientBooking()
                                     }
                                 }
@@ -355,11 +354,12 @@ class CheckoutActivity : BaseActivity() {
                 if (snapshot.exists()) {
                     val status: String = snapshot.value.toString()
                     if (status == "accept") {
+                        hideProgressDialog()
+                        showProgressDialog(Constants.TAKE_ORDER_DRIVER)
                         placeAnOrder()
-                        Toast.makeText(this@CheckoutActivity, "Aceptó el pedido", Toast.LENGTH_SHORT).show()
                     } else if (status == "cancel") {
                         hideProgressDialog()
-                        Toast.makeText(this@CheckoutActivity, "NO aceptó el pedido", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@CheckoutActivity, Constants.FAILED_ORDER, Toast.LENGTH_LONG).show()
                         finish()
                     }
                 }
@@ -376,7 +376,6 @@ class CheckoutActivity : BaseActivity() {
     private fun placeAnOrder() {
         // Show the progress dialog.
         //showProgressDialog(resources.getString(R.string.please_wait))
-
         mOrderDetails = Order(
                 FirestoreClass().getCurrentUserID(),
                 mCartItemsList,
@@ -407,8 +406,8 @@ class CheckoutActivity : BaseActivity() {
         hideProgressDialog()
         Toast.makeText(
                 this@CheckoutActivity,
-                "Su pedido se realizó correctamente.",
-                Toast.LENGTH_SHORT
+                Constants.SUCCESS_ORDER,
+                Toast.LENGTH_LONG
         )
             .show()
         val intent = Intent(this@CheckoutActivity, DashboardActivity::class.java)

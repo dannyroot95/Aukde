@@ -77,6 +77,8 @@ object Constants {
     const val OFFICE: String = "Oficina"
     const val OTHER: String = "Otro"
 
+    const val LOGOUT : String = "Cerrando sesión"
+
     const val REQUEST_PROVIDER: String = "SolicitudSocio"
 
     const val PROCESSING : String = "Procesando"
@@ -87,6 +89,12 @@ object Constants {
 
     const val TITTLE_NOTIFICATION : String = "SOLICITUD DE SERVICIO"
     const val BODY_NOTIFICATION : String = "Revise su lista de pedidos en su panel"
+    const val SEARCH_DRIVER : String = "Buscando Aukdeliver\ncercano..."
+    const val DRIVER_FOUND : String = "Aukdeliver encontrado!\nespere un momento..."
+    const val NO_CLOSEST_DRIVER : String = "No hay aukdeliver cercano"
+    const val TAKE_ORDER_DRIVER : String = "El Aukdeliver tomó tu pedido !\nespere un momento..."
+    const val SUCCESS_ORDER : String = "Su pedido se realizó correctamente."
+    const val FAILED_ORDER : String = "No aceptó el pedido, intentelo de nuevo !"
 
     /**
      * A function for user profile image selection from phone storage.

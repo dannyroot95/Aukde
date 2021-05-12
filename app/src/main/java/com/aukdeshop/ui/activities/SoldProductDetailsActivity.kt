@@ -24,6 +24,9 @@ class SoldProductDetailsActivity : BaseActivity() {
     var path = "https://firebasestorage.googleapis.com/v0/b" +
             "/gestor-de-pedidos-aukdefood.appspot.com/o" +
             "/fotoDefault.jpg?alt=media&token=f74486bf-432e-4af6-b114-baa523e1f801"
+
+    var statusProccesing = 1
+
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -55,7 +58,7 @@ class SoldProductDetailsActivity : BaseActivity() {
         // END
 
         btnUpdateInProcess.setOnClickListener {
-           FirestoreClass().updateStatusOrder(this,productDetails.order_date,1)
+           FirestoreClass().updateStatusOrder(this,productDetails.order_date,statusProccesing)
            sendNotification(productDetails.user_id,productDetails.order_date.toString())
         }
 
@@ -65,7 +68,7 @@ class SoldProductDetailsActivity : BaseActivity() {
         if (mPhoto == ""){
             mPhoto = path
         }
-        if (numOrder == "0"){
+        if (statusProccesing.toString() == "1"){
             FirestoreClass().createNotificationUpdateStatus(id,numOrder,Constants.PROCESSING,mPhoto)
         }
         else{

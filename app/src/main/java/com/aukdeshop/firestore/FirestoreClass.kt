@@ -17,6 +17,7 @@ import com.aukdeshop.ui.fragments.ProductsFragment
 import com.aukdeshop.ui.fragments.SoldProductsFragment
 import com.aukdeshop.utils.Constants
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
@@ -116,9 +117,13 @@ class FirestoreClass {
         return mDatabase.child("Tokens").child(idUser)
     }
 
-    fun deleteToken(id: String){
-        mFireStore.collection(Constants.TOKEN).document(id).delete()
-        mDatabase.child(Constants.TOKEN).child(id).removeValue()
+    fun deleteToken(id: String): Task<Void> {
+        return mFireStore.collection(Constants.TOKEN).document(id).delete()
+        //mDatabase.child(Constants.TOKEN).child(id).removeValue()
+    }
+
+    fun deleteTokenRealtime(id: String): Task<Void> {
+        return mDatabase.child(Constants.TOKEN).child(id).removeValue()
     }
 
     fun createNotificationOrder(tokenIDUser: String, mPhoto: String){
@@ -648,15 +653,15 @@ class FirestoreClass {
             }
     }
 
-    fun addCartItemsForLocation(providerID : String){
-        mDatabase.child(Constants.STORE).child(providerID).addListenerForSingleValueEvent(object : ValueEventListener{
+    fun addCartItemsForLocation(providerID: String){
+        mDatabase.child(Constants.STORE).child(providerID).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    val getData : Store = snapshot.getValue(Store::class.java)!!
-                    val latLong : ArrayList<Double> = ArrayList()
+                    val getData: Store = snapshot.getValue(Store::class.java)!!
+                    val latLong: ArrayList<Double> = ArrayList()
                     latLong.add(getData.l[0])
                     latLong.add(getData.l[1])
-                    val location  = Store(getData.g,latLong)
+                    val location = Store(getData.g, latLong)
                     mDatabase.child(Constants.CART).child(FirestoreClass().getCurrentUserID()).child(providerID).setValue(location)
 
                 }
@@ -961,8 +966,7 @@ class FirestoreClass {
             .addOnSuccessListener {
                 // Here call a function of base activity for transferring the result to it.
                 activity.orderPlacedSuccess()
-            }
-            .addOnFailureListener { e ->
+            }.addOnFailureListener { e ->
                 // Hide the progress dialog if there is any error.
                 activity.hideProgressDialog()
                 Log.e(
