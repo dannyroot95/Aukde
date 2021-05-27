@@ -109,6 +109,17 @@
                     android:src="@drawable/ic_vector_add" />
             </LinearLayout>
         </RelativeLayout>
+        <com.aukdeshop.utils.MSPTextViewBold
+            android:id="@+id/tv_cart_status"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/item_value_text_color"
+            android:textSize="@dimen/cart_item_price_textSize"
+            android:textStyle="bold"
+            tools:text="Pendiente" />
     </LinearLayout>
 
     <ImageButton

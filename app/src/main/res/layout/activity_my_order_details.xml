@@ -206,7 +206,6 @@
                     android:paddingBottom="@dimen/address_details_marginTop"
                     android:textColor="@color/item_value_text_color"
                     android:textSize="@dimen/address_details_textSize"
-                    android:textStyle="bold"
                     tools:text="Home" />
 
                 <com.aukdeshop.utils.MSPTextViewBold

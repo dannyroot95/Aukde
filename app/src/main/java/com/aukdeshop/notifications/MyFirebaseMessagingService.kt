@@ -46,7 +46,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     showNotificationApiOreo(title, body, path)
                 }
             } else {
-                if(title.contains("SOLICITUD DE SERVICIO A")) {
+                if(title.contains(Constants.TITTLE_NOTIFICATION)) {
                     val idClient = data["idClient"]
                     val numPedido = data["numPedido"]
                     val nombre = data["nombre"]

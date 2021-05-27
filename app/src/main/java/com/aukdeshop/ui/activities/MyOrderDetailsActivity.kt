@@ -172,40 +172,6 @@ class MyOrderDetailsActivity : AppCompatActivity() {
         // If the difference in hours is 2 or greater then 1 then the order status will be PROCESSING.
         // And, if the difference in hours is 3 or greater then the order status will be DELIVERED.
 
-        val diffInMilliSeconds: Long = System.currentTimeMillis() - orderDetails.order_datetime
-        val diffInHours: Long = TimeUnit.MILLISECONDS.toHours(diffInMilliSeconds)
-        Log.e("Diferencia en Horas", "$diffInHours")
-
-        when {
-            diffInHours < 1 -> {
-                tv_order_status.text = resources.getString(R.string.order_status_pending)
-                tv_order_status.setTextColor(
-                    ContextCompat.getColor(
-                        this@MyOrderDetailsActivity,
-                        R.color.colorAccent
-                    )
-                )
-            }
-            diffInHours < 2 -> {
-                tv_order_status.text = resources.getString(R.string.order_status_in_process)
-                tv_order_status.setTextColor(
-                    ContextCompat.getColor(
-                        this@MyOrderDetailsActivity,
-                        R.color.colorOrderStatusInProcess
-                    )
-                )
-            }
-            else -> {
-                tv_order_status.text = resources.getString(R.string.order_status_finish)
-                tv_order_status.setTextColor(
-                    ContextCompat.getColor(
-                        this@MyOrderDetailsActivity,
-                        R.color.colorOrderStatusFinish
-                    )
-                )
-            }
-        }
-
         rv_my_order_items_list.layoutManager = LinearLayoutManager(this@MyOrderDetailsActivity)
         rv_my_order_items_list.setHasFixedSize(true)
 

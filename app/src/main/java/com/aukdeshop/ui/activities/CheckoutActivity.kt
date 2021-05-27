@@ -5,7 +5,6 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -233,7 +232,6 @@ class CheckoutActivity : BaseActivity() {
         } else {
             ll_checkout_place_order.visibility = View.GONE
         }
-
     }
 
 
@@ -284,7 +282,7 @@ class CheckoutActivity : BaseActivity() {
                 .addGeoQueryEventListener(object : GeoQueryEventListener {
                     override fun onKeyEntered(keyDriver: String, locationDriver: GeoLocation) {
                         if (!mDriverFound) {
-                            progressDialog.setMessage(Constants.DRIVER_FOUND+"\n"+Constants.PLEASE_WAIT)
+                            progressDialog.setMessage(Constants.DRIVER_FOUND + "\n" + Constants.PLEASE_WAIT)
                             mDriverFound = true
                             mIdDriverFound = keyDriver
                             mDriverFoundLatLng = LatLng(locationDriver.latitude, locationDriver.longitude)
@@ -391,6 +389,7 @@ class CheckoutActivity : BaseActivity() {
         })
     }
 
+
     /**
      * A function to prepare the Order details to place an order.
      */
@@ -410,7 +409,7 @@ class CheckoutActivity : BaseActivity() {
                 0,
                 mIdDriverFound
         )
-        progressDialog.setMessage(Constants.TAKE_ORDER_DRIVER+"\n"+Constants.FINISHING_ORDER)
+        progressDialog.setMessage(Constants.TAKE_ORDER_DRIVER + "\n" + Constants.FINISHING_ORDER)
         sendNotificationStore()
         FirestoreClass().placeOrder(this@CheckoutActivity, mOrderDetails, mIdDriverFound)
     }

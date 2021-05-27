@@ -17,7 +17,6 @@ class DashboardActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
-
         // Update the background color of the action bar as per our design requirement.
         supportActionBar!!.setBackgroundDrawable(
             ContextCompat.getDrawable(

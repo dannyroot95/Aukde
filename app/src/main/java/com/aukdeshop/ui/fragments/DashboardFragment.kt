@@ -4,8 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aukdeshop.R
@@ -17,8 +16,6 @@ import com.aukdeshop.ui.activities.SettingsActivity
 import com.aukdeshop.ui.adapters.DashboardItemsListAdapter
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.MSPTextView
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 
@@ -36,6 +33,7 @@ class DashboardFragment : BaseFragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        //(activity as AppCompatActivity).supportActionBar?.hide()
         val view  = inflater.inflate(R.layout.fragment_dashboard, container, false)
         val textFilter = view.findViewById(R.id.textFilter) as MSPTextView
         val btnRecently = view.findViewById(R.id.btnRecently) as CardView
@@ -100,14 +98,12 @@ class DashboardFragment : BaseFragment() {
     private fun getDashboardItemsList() {
         // Show the progress dialog.
         showProgressDialog(resources.getString(R.string.please_wait))
-
         FirestoreClass().getDashboardItemsList(this@DashboardFragment)
     }
 
     private fun getDashboardTypeProductItemsList(type: String) {
         // Show the progress dialog.
         showProgressDialog(resources.getString(R.string.please_wait))
-
         FirestoreClass().getDashboardTypeItemsList(this@DashboardFragment, type)
     }
 
@@ -147,5 +143,10 @@ class DashboardFragment : BaseFragment() {
             rv_dashboard_items.visibility = View.GONE
             tv_no_dashboard_items_found.visibility = View.VISIBLE
         }
+
+
+
     }
+
+
 }

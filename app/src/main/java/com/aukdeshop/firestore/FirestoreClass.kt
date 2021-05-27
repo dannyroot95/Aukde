@@ -1,6 +1,7 @@
 package com.aukdeshop.firestore
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
@@ -427,7 +428,6 @@ class FirestoreClass {
             .whereEqualTo(Constants.USER_ID, getCurrentUserID())
             .get() // Will get the documents snapshots.
             .addOnSuccessListener { document ->
-
                 // Here we get the list of boards in the form of documents.
                 Log.e("Products List", document.documents.toString())
 
@@ -1061,32 +1061,34 @@ class FirestoreClass {
     /**
      * A function to get the list of orders from cloud firestore.
      */
+
     fun getMyOrdersList(fragment: OrdersFragment) {
         mFireStore.collection(Constants.ORDERS)
-            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
-            .get() // Will get the documents snapshots.
-            .addOnSuccessListener { document ->
-                Log.e(fragment.javaClass.simpleName, document.documents.toString())
-                val list: ArrayList<Order> = ArrayList()
+                .whereEqualTo(Constants.USER_ID, getCurrentUserID()).addSnapshotListener {document, e ->
+                    if (document != null) {
+                        Log.e(fragment.javaClass.simpleName, document.documents.toString())
+                        val list: ArrayList<Order> = ArrayList()
+                        list.clear()
+                        for (i in document.documents) {
+                            val orderItem = i.toObject(Order::class.java)!!
+                            orderItem.id = i.id
+                            list.add(orderItem)
+                        }
+                        list.reverse()
+                        fragment.populateOrdersListInUI(list)
+                    }
 
-                for (i in document.documents) {
+                    if (e != null) {
+                        fragment.hideProgressDialog()
+                        Log.e(fragment.javaClass.simpleName, "Error while getting the orders list.", e)
+                        return@addSnapshotListener
+                    }
 
-                    val orderItem = i.toObject(Order::class.java)!!
-                    orderItem.id = i.id
 
-                    list.add(orderItem)
                 }
-                list.reverse()
-                fragment.populateOrdersListInUI(list)
-            }
-            .addOnFailureListener { e ->
-                // Here call a function of base activity for transferring the result to it.
 
-                fragment.hideProgressDialog()
-
-                Log.e(fragment.javaClass.simpleName, "Error while getting the orders list.", e)
-            }
     }
+
 
     /**
      * A function to get the list of sold products from the cloud firestore.

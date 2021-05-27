@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
@@ -30,6 +31,7 @@ class ProductsFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        //(activity as AppCompatActivity).supportActionBar?.show()
         mRootView = inflater.inflate(R.layout.fragment_products, container, false)
         return mRootView
     }
@@ -51,7 +53,6 @@ class ProductsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-
         getProductListFromFireStore()
     }
 

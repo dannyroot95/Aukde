@@ -2,6 +2,7 @@ package com.aukdeshop.ui.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.Cart
 import com.aukdeshop.ui.activities.CartListActivity
+import com.aukdeshop.ui.activities.MyOrderDetailsActivity
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.GlideLoader
 import kotlinx.android.synthetic.main.item_cart_layout.view.*
@@ -163,6 +165,27 @@ open class CartItemsListAdapter(
 
                 FirestoreClass().removeItemFromCart(context, model.id)
             }
+
+            if (context is MyOrderDetailsActivity){
+                when (model.status) {
+                    0 -> {
+                        holder.itemView.tv_cart_status.visibility = View.VISIBLE
+                        holder.itemView.tv_cart_status.text = Constants.PENDING
+                        holder.itemView.tv_cart_status.setTextColor(Color.parseColor("#fc0000"))
+                    }
+                    1 -> {
+                        holder.itemView.tv_cart_status.visibility = View.VISIBLE
+                        holder.itemView.tv_cart_status.text = Constants.PROCESSING
+                        holder.itemView.tv_cart_status.setTextColor(Color.parseColor("#F1C40F"))
+                    }
+                    else -> {
+                        holder.itemView.tv_cart_status.visibility = View.VISIBLE
+                        holder.itemView.tv_cart_status.text = "Recibido por conductor"
+                        holder.itemView.tv_cart_status.setTextColor(Color.parseColor("#5bbd00"))
+                    }
+                }
+            }
+
         }
     }
 
