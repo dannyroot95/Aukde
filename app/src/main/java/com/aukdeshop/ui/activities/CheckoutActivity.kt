@@ -411,7 +411,7 @@ class CheckoutActivity : BaseActivity() {
         )
         progressDialog.setMessage(Constants.TAKE_ORDER_DRIVER + "\n" + Constants.FINISHING_ORDER)
         sendNotificationStore()
-        FirestoreClass().placeOrder(this@CheckoutActivity, mOrderDetails, mIdDriverFound)
+        FirestoreClass().placeOrder(this@CheckoutActivity, mOrderDetails)
     }
 
     /**

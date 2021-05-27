@@ -962,19 +962,14 @@ class FirestoreClass {
      * @param activity base class
      * @param order Order Info
      */
-    fun placeOrder(activity: CheckoutActivity, order: Order , keyDriver : String) {
+    fun placeOrder(activity: CheckoutActivity, order: Order) {
         mFireStore.collection(Constants.ORDERS)
             .document()
             // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
             .set(order, SetOptions.merge())
             .addOnSuccessListener {
-                mDatabase.child(Constants.USERS_REALTIME).child(Constants.DRIVER_OUR).child(keyDriver)
-                        .child(Constants.ORDERS).push().setValue(order)
-                        .addOnSuccessListener {
-                            activity.orderPlacedSuccess()
-                        }
+                activity.orderPlacedSuccess()
                 // Here call a function of base activity for transferring the result to it.
-
             }.addOnFailureListener { e ->
                 // Hide the progress dialog if there is any error.
                 activity.hideProgressDialog()
