@@ -25,8 +25,6 @@ open class SoldProductsListAdapter(
     private val context: Context,
     private var list: ArrayList<SoldProduct>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-
     /**
      * Inflates the item views which is designed in xml layout file
      *
@@ -97,6 +95,8 @@ open class SoldProductsListAdapter(
                 intent.putExtra(Constants.EXTRA_SOLD_PRODUCT_DETAILS, model)
                 context.startActivity(intent)
             }
+
+
         }
     }
 

@@ -2,13 +2,18 @@ package com.aukdeshop.ui.activities
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
+import com.aukdeshop.models.Order
 import com.aukdeshop.models.SoldProduct
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.GlideLoader
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_my_order_details.*
 import kotlinx.android.synthetic.main.activity_sold_product_details.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,6 +31,8 @@ class SoldProductDetailsActivity : BaseActivity() {
             "/fotoDefault.jpg?alt=media&token=f74486bf-432e-4af6-b114-baa523e1f801"
 
     var statusProccesing = 1
+    var position = 0
+    var mFiresbase : FirebaseFirestore = FirebaseFirestore.getInstance()
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -58,21 +65,27 @@ class SoldProductDetailsActivity : BaseActivity() {
         // END
 
         btnUpdateInProcess.setOnClickListener {
-           FirestoreClass().updateStatusOrder(this,productDetails.order_date,statusProccesing)
-           sendNotification(productDetails.user_id,productDetails.order_date.toString())
+            if (productDetails.status == 0){
+                FirestoreClass().updateStatusOrder(this, productDetails.order_id, 1, productDetails.id,position)
+
+            }
+            else if (productDetails.status == 1){
+                FirestoreClass().updateStatusOrder(this, productDetails.order_id, 2, productDetails.id,position)
+            }
+           //sendNotification(productDetails.user_id,productDetails.order_date.toString())
         }
 
     }
 
-    private fun sendNotification(id : String , numOrder : String) {
+    private fun sendNotification(id: String, numOrder: String) {
         if (mPhoto == ""){
             mPhoto = path
         }
         if (statusProccesing.toString() == "1"){
-            FirestoreClass().createNotificationUpdateStatus(id,numOrder,Constants.PROCESSING,mPhoto)
+            FirestoreClass().createNotificationUpdateStatus(id, numOrder, Constants.PROCESSING, mPhoto)
         }
         else{
-            FirestoreClass().createNotificationUpdateStatus(id,numOrder,Constants.IN_ROUTE,mPhoto)
+            FirestoreClass().createNotificationUpdateStatus(id, numOrder, Constants.IN_ROUTE, mPhoto)
         }
 
     }
@@ -106,6 +119,12 @@ class SoldProductDetailsActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setupUI(productDetails: SoldProduct) {
 
+        //Toast.makeText(this , "Usuario : "+productDetails.user_id + "Pedido : "+productDetails.order_id,Toast.LENGTH_LONG).show()
+        //REALIZAR LA CONSULTA EN FUNCION AL NUMERO DE PEDIDO
+        linear_sold_product.setOnClickListener{
+            Toast.makeText(this, "click", Toast.LENGTH_LONG).show()
+        }
+
         tv_sold_product_details_id.text = productDetails.order_id
 
         // Date Format in which the date will be displayed in the UI.
@@ -118,9 +137,28 @@ class SoldProductDetailsActivity : BaseActivity() {
         calendar.timeInMillis = productDetails.order_date
         tv_sold_product_details_date.text = formatter.format(calendar.time)
 
+        when (productDetails.status) {
+            0 -> {
+                tv_sold_product_status.text = resources.getString(R.string.order_status_pending)
+                tv_sold_product_status.setTextColor(Color.parseColor("#FC0000"))
+            }
+            1 -> {
+                tv_sold_product_status.text = resources.getString(R.string.order_status_in_process)
+                tv_sold_product_status.setTextColor(Color.parseColor("#F1C40F"))
+            }
+            2 -> {
+                tv_sold_product_status.text = resources.getString(R.string.order_status_in_route)
+                tv_sold_product_status.setTextColor(Color.parseColor("#154360"))
+            }
+            else -> {
+                tv_sold_product_status.text = resources.getString(R.string.order_status_finish)
+                tv_sold_product_status.setTextColor(Color.parseColor("#5BBD00"))
+            }
+        }
+
         GlideLoader(this@SoldProductDetailsActivity).loadProductPicture(
-            productDetails.image,
-            iv_product_item_image
+                productDetails.image,
+                iv_product_item_image
         )
         tv_product_item_name.text = productDetails.title
         tv_product_item_price.text = typeMoney+productDetails.price
@@ -143,6 +181,30 @@ class SoldProductDetailsActivity : BaseActivity() {
         tv_sold_product_sub_total.text = productDetails.sub_total_amount
         tv_sold_product_shipping_charge.text = productDetails.shipping_charge
         tv_sold_product_total_amount.text = productDetails.total_amount
+
+        mFiresbase.collection(Constants.ORDERS)
+                .whereEqualTo("title", productDetails.order_id)
+                .addSnapshotListener{ document, e ->
+                    if (document != null) {
+                        for (i in document.documents) {
+                            val orderItem = i.toObject(Order::class.java)!!
+                            orderItem.id = i.id
+                            val product = orderItem.items
+
+                            for (j in 0 until product.size) {
+                                if (product[j].title == productDetails.title){
+                                    position = j
+                                }
+                            }
+
+                        }
+                    }
+                    if (e != null) {
+                        return@addSnapshotListener
+                    }
+
+        }
+
     }
     // END
 }

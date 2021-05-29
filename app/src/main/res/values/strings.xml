@@ -43,7 +43,7 @@
 
     <string name="title_forgot_password">OLVIDÓ SU CONTRASEÑA?</string>
     <string name="forgot_password_title_description">Ingrese su nombre de usuario y dirección de correo electrónico, le enviaremos un correo electrónico para restablecer su contraseña</string>
-    <string name="btn_lbl_submit">Guardar</string>
+    <string name="btn_lbl_submit">Recuperar</string>
 
     <string name="email_sent_success">¡Correo electrónico enviado con éxito para restablecer su contraseña!</string>
 

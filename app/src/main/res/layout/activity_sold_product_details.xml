@@ -112,6 +112,30 @@
                         tools:text="20 Oct 2020" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.aukdeshop.utils.MSPTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/order_details_lbl_order_status"
+                        android:textColor="@color/colorDarkGrey"
+                        android:textSize="@dimen/my_order_details_label_value_textSize" />
+
+                    <com.aukdeshop.utils.MSPTextViewBold
+                        android:id="@+id/tv_sold_product_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/order_status_pending"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/my_order_details_label_value_textSize" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <com.aukdeshop.utils.MSPTextView
@@ -128,6 +152,7 @@
                 android:textSize="@dimen/sold_details_lbl_textSize" />
 
             <LinearLayout
+                android:id="@+id/linear_sold_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite"

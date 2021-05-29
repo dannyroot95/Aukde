@@ -23,7 +23,6 @@ open class MyOrdersListAdapter(
     private var list: ArrayList<Order>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
     /**
      * Inflates the item views which is designed in xml layout file
      *

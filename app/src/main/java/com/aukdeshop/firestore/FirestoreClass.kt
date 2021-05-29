@@ -1,7 +1,6 @@
 package com.aukdeshop.firestore
 
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
@@ -21,6 +20,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.iid.FirebaseInstanceId
@@ -1059,7 +1059,7 @@ class FirestoreClass {
 
     fun getMyOrdersList(fragment: OrdersFragment) {
         mFireStore.collection(Constants.ORDERS)
-                .whereEqualTo(Constants.USER_ID, getCurrentUserID()).addSnapshotListener {document, e ->
+                .whereEqualTo(Constants.USER_ID, getCurrentUserID()).addSnapshotListener { document, e ->
                     if (document != null) {
                         Log.e(fragment.javaClass.simpleName, document.documents.toString())
                         val list: ArrayList<Order> = ArrayList()
@@ -1107,7 +1107,6 @@ class FirestoreClass {
 
                     val soldProduct = i.toObject(SoldProduct::class.java)!!
                     soldProduct.id = i.id
-
                     list.add(soldProduct)
                 }
                 list.reverse()
@@ -1125,17 +1124,49 @@ class FirestoreClass {
             }
     }
 
-    fun updateStatusOrder(activity: Activity, numberOrder: Long, status: Int){
+    fun updateStatusOrder(activity: Activity, orderId: String, status: Int, id : String , position : Int){
+
         mFireStore.collection(Constants.ORDERS)
-                .whereEqualTo("order_datetime", numberOrder)
+                .whereEqualTo("title", orderId)
                 .get().addOnSuccessListener { document ->
                     for (i in document.documents) {
+
                         val key = i.id
+                        val order = i.toObject(Order::class.java)!!
+
                         val map: MutableMap<String, Any> = java.util.HashMap()
-                        map["status"] = status
-                        mFireStore.collection(Constants.ORDERS).document(key).update(map)
+                        map["cart_quantity"] = order.items[position].cart_quantity
+                        map["id"] = order.items[position].id
+                        map["image"] = order.items[position].image
+                        map["price"] = order.items[position].price
+                        map["product_id"] = order.items[position].product_id
+                        map["provider_id"] = order.items[position].provider_id
+                        map["status"] = order.items[position].status
+                        map["stock_quantity"] = order.items[position].stock_quantity
+                        map["title"] = order.items[position].title
+                        map["user_id"] = order.items[position].user_id
+
+                        val map2: MutableMap<String, Any> = java.util.HashMap()
+                        map2["cart_quantity"] = order.items[position].cart_quantity
+                        map2["id"] = order.items[position].id
+                        map2["image"] = order.items[position].image
+                        map2["price"] = order.items[position].price
+                        map2["product_id"] = order.items[position].product_id
+                        map2["provider_id"] = order.items[position].provider_id
+                        map2["status"] = status
+                        map2["stock_quantity"] = order.items[position].stock_quantity
+                        map2["title"] = order.items[position].title
+                        map2["user_id"] = order.items[position].user_id
+
+                        mFireStore.collection(Constants.ORDERS).document(key).update("items",FieldValue.arrayRemove(map) ,
+                                "items",FieldValue.arrayUnion(map2))
+
+                        val map3: MutableMap<String, Any> = java.util.HashMap()
+                        map3["status"] = status
+                        mFireStore.collection(Constants.SOLD_PRODUCTS).document(id).update(map3)
 
                     }
+
                 }.addOnFailureListener{ e ->
                     Log.e(
                             activity.javaClass.simpleName,
@@ -1143,23 +1174,7 @@ class FirestoreClass {
                             e
                     )
                 }
-        mFireStore.collection(Constants.SOLD_PRODUCTS)
-                .whereEqualTo("order_date", numberOrder)
-                .get().addOnSuccessListener { document ->
-                    for (i in document.documents) {
-                        val key = i.id
-                        val map: MutableMap<String, Any> = java.util.HashMap()
-                        map["status"] = status
-                        mFireStore.collection(Constants.SOLD_PRODUCTS).document(key).update(map)
 
-                    }
-                }.addOnFailureListener{ e ->
-                    Log.e(
-                            activity.javaClass.simpleName,
-                            "Error while getting the list of sold products.",
-                            e
-                    )
-                }
     }
 
 }
