@@ -92,7 +92,7 @@ open class MyOrdersListAdapter(
                 }*/
                 // PARA EL CONDUCTOR
                 else -> {
-                    holder.itemView.tv_item_status.text = Constants.FINISH_ORDER
+                    holder.itemView.tv_item_status.text = Constants.COMPLETED
                     holder.itemView.tv_item_status.setTextColor(Color.parseColor("#5BBD00"))
                 }
             }

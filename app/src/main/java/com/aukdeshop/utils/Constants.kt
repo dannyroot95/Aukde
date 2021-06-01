@@ -25,6 +25,7 @@ object Constants {
     const val ADDRESSES: String = "addresses"
     const val ORDERS: String = "orders"
     const val SOLD_PRODUCTS: String = "sold_products"
+    const val DELIVER_ORDER: String = "Entregar pedido"
 
     const val MYSHOPPAL_PREFERENCES: String = "MyShopPalPrefs"
     const val LOGGED_IN_USERNAME: String = "logged_in_username"
@@ -60,6 +61,7 @@ object Constants {
     const val GENDER: String = "gender"
     const val IMAGE: String = "image"
     const val COMPLETE_PROFILE: String = "profileCompleted"
+    const val COMPLETED: String = "Completado"
     const val FIRST_NAME: String = "firstName"
     const val LAST_NAME: String = "lastName"
     const val USER_ID: String = "user_id"

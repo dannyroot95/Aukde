@@ -1165,6 +1165,15 @@ class FirestoreClass {
                         map3["status"] = status
                         mFireStore.collection(Constants.SOLD_PRODUCTS).document(id).update(map3)
 
+                        mFireStore.collection(Constants.ORDERS).document(key).get().addOnSuccessListener { document  ->
+                            if (document.exists()){
+                                val verifyStatus = document.data?.get("status").toString().toInt()
+                                if (status > verifyStatus){
+                                    mFireStore.collection(Constants.ORDERS).document(key).update(map3)
+                                }
+                            }
+                        }
+
                     }
 
                 }.addOnFailureListener{ e ->

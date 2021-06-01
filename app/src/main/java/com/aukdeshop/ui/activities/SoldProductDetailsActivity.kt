@@ -64,6 +64,13 @@ class SoldProductDetailsActivity : BaseActivity() {
         setupUI(productDetails)
         // END
 
+        if (productDetails.status == 1){
+            btnUpdateInProcess.text = Constants.DELIVER_ORDER
+        }
+        else if (productDetails.status == 2) {
+            btnUpdateInProcess.visibility = View.GONE
+        }
+
         btnUpdateInProcess.setOnClickListener {
             if (productDetails.status == 0){
                 FirestoreClass().updateStatusOrder(this, productDetails.order_id, 1, productDetails.id,position)
@@ -147,13 +154,10 @@ class SoldProductDetailsActivity : BaseActivity() {
                 tv_sold_product_status.setTextColor(Color.parseColor("#F1C40F"))
             }
             2 -> {
-                tv_sold_product_status.text = resources.getString(R.string.order_status_in_route)
-                tv_sold_product_status.setTextColor(Color.parseColor("#154360"))
-            }
-            else -> {
                 tv_sold_product_status.text = resources.getString(R.string.order_status_finish)
                 tv_sold_product_status.setTextColor(Color.parseColor("#5BBD00"))
             }
+
         }
 
         GlideLoader(this@SoldProductDetailsActivity).loadProductPicture(

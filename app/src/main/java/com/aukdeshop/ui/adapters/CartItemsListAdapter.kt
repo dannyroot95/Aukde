@@ -104,6 +104,8 @@ open class CartItemsListAdapter(
                 )
             }
 
+
+
             holder.itemView.ib_remove_cart_item.setOnClickListener {
 
                 if (model.cart_quantity == "1") {
@@ -167,7 +169,15 @@ open class CartItemsListAdapter(
             }
 
             if (context is MyOrderDetailsActivity){
+
                 when (model.status) {
+
+                    -1 -> {
+                        holder.itemView.tv_cart_status.visibility = View.VISIBLE
+                        holder.itemView.tv_cart_status.text = Constants.CANCELLED
+                        holder.itemView.tv_cart_status.setTextColor(Color.parseColor("#fc0000"))
+                    }
+
                     0 -> {
                         holder.itemView.tv_cart_status.visibility = View.VISIBLE
                         holder.itemView.tv_cart_status.text = Constants.PENDING
@@ -178,9 +188,16 @@ open class CartItemsListAdapter(
                         holder.itemView.tv_cart_status.text = Constants.PROCESSING
                         holder.itemView.tv_cart_status.setTextColor(Color.parseColor("#F1C40F"))
                     }
+
+                    2 -> {
+                        holder.itemView.tv_cart_status.visibility = View.VISIBLE
+                        holder.itemView.tv_cart_status.text = Constants.IN_ROUTE
+                        holder.itemView.tv_cart_status.setTextColor(Color.parseColor("#154360"))
+                    }
+
                     else -> {
                         holder.itemView.tv_cart_status.visibility = View.VISIBLE
-                        holder.itemView.tv_cart_status.text = "Recibido por conductor"
+                        holder.itemView.tv_cart_status.text = Constants.COMPLETED
                         holder.itemView.tv_cart_status.setTextColor(Color.parseColor("#5bbd00"))
                     }
                 }
