@@ -40,6 +40,7 @@
     <string name="err_msg_agree_terms_and_condition">Acepte los términos y condiciones.</string>
 
     <string name="please_wait">Espere&#8230;</string>
+    <string name="updating">Actualizando&#8230;</string>
 
     <string name="title_forgot_password">OLVIDÓ SU CONTRASEÑA?</string>
     <string name="forgot_password_title_description">Ingrese su nombre de usuario y dirección de correo electrónico, le enviaremos un correo electrónico para restablecer su contraseña</string>

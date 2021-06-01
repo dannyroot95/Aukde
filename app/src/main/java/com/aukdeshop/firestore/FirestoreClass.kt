@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.aukdeshop.R
 import com.aukdeshop.models.*
 import com.aukdeshop.notifications.server.FCMBody
 import com.aukdeshop.notifications.server.FCMResponse
@@ -169,7 +171,8 @@ class FirestoreClass {
 
     }
 
-    fun createNotificationUpdateStatus(tokenIDUser: String, numOrder: String, status: String, mPhoto: String){
+    fun createNotificationUpdateStatusProvider(activity : SoldProductDetailsActivity, tokenIDUser: String, numOrder: String,
+                                               status: String, mPhoto: String,title :String){
         mFireStore.collection(Constants.TOKEN)
                 // The document id to get the Fields of user.
                 .document(tokenIDUser)
@@ -178,25 +181,32 @@ class FirestoreClass {
                     if (document.exists()){
                         val token : String = document.getString(Constants.TOKEN).toString()
                         val map: MutableMap<String, String> = java.util.HashMap()
-                        map["title"] = "Pedido #$numOrder"
-                        map["body"] = "Estado : $status"
+                        map["title"] = "Pedido $numOrder"
+                        map["body"] = "Producto : $title" +
+                                "     \nEstado : $status"
                         map["path"] = mPhoto
                         val fcmBody = FCMBody(token, "high", map)
                         notificationProvider.sendNotification(fcmBody).enqueue(object : Callback<FCMResponse?> {
                             override fun onResponse(call: Call<FCMResponse?>, response: Response<FCMResponse?>) {
                                 if (response.body() != null) {
                                     if (response.body()!!.success === 1) {
+                                        activity.hideProgressDialog()
+                                        activity.finish()
                                         //Toast.makeText(this@AddProductActivity, "Notificación enviada", Toast.LENGTH_LONG).show();
                                     } else {
-                                        //Toast.makeText(this, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
+                                        activity.hideProgressDialog()
+                                        Toast.makeText(activity, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
                                     }
                                 } else {
-                                    //Toast.makeText(this, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
+                                    activity.hideProgressDialog()
+                                    Toast.makeText(activity, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
                                 }
                             }
 
                             override fun onFailure(call: Call<FCMResponse?>, t: Throwable) {
+                                Toast.makeText(activity, "ERROR!", Toast.LENGTH_LONG).show()
                                 Log.d("Error", "Error encontrado" + t.message)
+                                activity.hideProgressDialog()
                             }
                         })
                     }
@@ -1124,8 +1134,8 @@ class FirestoreClass {
             }
     }
 
-    fun updateStatusOrder(activity: Activity, orderId: String, status: Int, id : String , position : Int){
-
+    fun updateStatusOrder(activity: SoldProductDetailsActivity, orderId: String, status: Int, id : String , position : Int){
+        //activity.showProgressDialog()
         mFireStore.collection(Constants.ORDERS)
                 .whereEqualTo("title", orderId)
                 .get().addOnSuccessListener { document ->
@@ -1172,11 +1182,16 @@ class FirestoreClass {
                                     mFireStore.collection(Constants.ORDERS).document(key).update(map3)
                                 }
                             }
+                        }.addOnFailureListener{
+                            activity.hideProgressDialog()
+                            Toast.makeText(activity,"Error",Toast.LENGTH_SHORT).show()
                         }
 
                     }
 
                 }.addOnFailureListener{ e ->
+                    activity.hideProgressDialog()
+                    Toast.makeText(activity,"Error",Toast.LENGTH_SHORT).show()
                     Log.e(
                             activity.javaClass.simpleName,
                             "Error while getting the list of sold products.",

@@ -62,7 +62,6 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 app:sv_selectedCircleColor="@color/colorDarkGrey"
-                app:sv_selectedTextColor="@color/colorDarkGrey"
                 app:sv_stepLineWidth="1dp"
                 app:sv_stepPadding="4dp"
                 app:sv_nextTextColor="@color/colorDarkGrey"

@@ -33,6 +33,7 @@ class SoldProductDetailsActivity : BaseActivity() {
     var statusProccesing = 1
     var position = 0
     var mFiresbase : FirebaseFirestore = FirebaseFirestore.getInstance()
+    var updating : Boolean = false
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -64,7 +65,14 @@ class SoldProductDetailsActivity : BaseActivity() {
         setupUI(productDetails)
         // END
 
-        if (productDetails.status == 1){
+        if (productDetails.status == 0){
+            btnUpdateInProcess.setTextColor(Color.parseColor("#FFFFFF"))
+            btnUpdateInProcess.setBackgroundColor(Color.parseColor("#F1C40F"))
+            btnUpdateInProcess.text = Constants.PROCESSING_ORDER
+        }
+        else if (productDetails.status == 1) {
+            btnUpdateInProcess.setTextColor(Color.parseColor("#FFFFFF"))
+            btnUpdateInProcess.setBackgroundColor(Color.parseColor("#5BBD00"))
             btnUpdateInProcess.text = Constants.DELIVER_ORDER
         }
         else if (productDetails.status == 2) {
@@ -72,27 +80,35 @@ class SoldProductDetailsActivity : BaseActivity() {
         }
 
         btnUpdateInProcess.setOnClickListener {
+
+            showProgressDialog(resources.getString(R.string.updating))
+            updating = true
+
             if (productDetails.status == 0){
                 FirestoreClass().updateStatusOrder(this, productDetails.order_id, 1, productDetails.id,position)
+                sendNotification(productDetails.user_id,productDetails.order_id,1,productDetails)
+                updating = false
 
             }
             else if (productDetails.status == 1){
                 FirestoreClass().updateStatusOrder(this, productDetails.order_id, 2, productDetails.id,position)
+                sendNotification(productDetails.user_id,productDetails.order_id,2,productDetails)
+                updating = false
             }
            //sendNotification(productDetails.user_id,productDetails.order_date.toString())
         }
 
     }
 
-    private fun sendNotification(id: String, numOrder: String) {
-        if (mPhoto == ""){
-            mPhoto = path
-        }
-        if (statusProccesing.toString() == "1"){
-            FirestoreClass().createNotificationUpdateStatus(id, numOrder, Constants.PROCESSING, mPhoto)
+    private fun sendNotification(id: String, numOrder: String , status : Int , item : SoldProduct) {
+
+        if (status == 1){
+            FirestoreClass().createNotificationUpdateStatusProvider(this,id, numOrder, Constants.PROCESSING,
+                    item.image,item.title)
         }
         else{
-            FirestoreClass().createNotificationUpdateStatus(id, numOrder, Constants.IN_ROUTE, mPhoto)
+            FirestoreClass().createNotificationUpdateStatusProvider(this,id, numOrder, Constants.IN_ROUTE,
+                    item.image,item.title)
         }
 
     }
@@ -208,7 +224,17 @@ class SoldProductDetailsActivity : BaseActivity() {
                     }
 
         }
+    }
+
+    override fun onBackPressed() {
+        if (updating){
+        }
+        else
+        {
+            super.onBackPressed()
+        }
 
     }
+
     // END
 }

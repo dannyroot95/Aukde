@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,8 @@ import com.aukdeshop.R
 import com.aukdeshop.models.Order
 import com.aukdeshop.ui.adapters.CartItemsListAdapter
 import com.aukdeshop.utils.Constants
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.FirebaseFirestore
 import com.shuhart.stepview.StepView
 import kotlinx.android.synthetic.main.activity_my_order_details.*
 import kotlinx.android.synthetic.main.activity_sold_product_details.*
@@ -27,7 +30,6 @@ import java.util.concurrent.TimeUnit
 class MyOrderDetailsActivity : AppCompatActivity() {
 
     private lateinit var stepView : StepView
-    private val currentStep = 0
     var myOrderDetails: Order = Order()
     var colorWhite = Color.parseColor("#FFFFFF")
 
@@ -49,8 +51,9 @@ class MyOrderDetailsActivity : AppCompatActivity() {
         }
 
         setupUI(myOrderDetails)
-
         setupStepView()
+        reactiveGetAllData(myOrderDetails)
+
     }
 
     /**
@@ -68,22 +71,10 @@ class MyOrderDetailsActivity : AppCompatActivity() {
                     this,
                     R.color.colorPrimary
                 )
-            ) // You should specify only stepsNumber or steps array of strings.
-            // In case you specify both steps array is chosen.
-            .steps(object : ArrayList<String?>() {
-                init {
-                    add(resources.getString(R.string.order_status_pending))
-                    add(resources.getString(R.string.order_status_in_process))
-                    add(resources.getString(R.string.order_status_in_route))
-                    add(resources.getString(R.string.order_status_finish))
-                }
-            }) // You should specify only steps number or steps array of strings.
-            // In case you specify both steps array is chosen.
-
+            )
             .stepsNumber(4)
             .animationDuration(resources.getInteger(android.R.integer.config_shortAnimTime))
             .stepLineWidth(resources.getDimensionPixelSize(R.dimen.grey_border_stroke_size))
-            .textSize(resources.getDimensionPixelSize(R.dimen.cart_item_paddingTopBottom))
             .stepNumberTextSize(resources.getDimensionPixelSize(R.dimen.rv_item_name_textSize))
             .commit()
             checkStatusStepView()
@@ -196,5 +187,18 @@ class MyOrderDetailsActivity : AppCompatActivity() {
         tv_order_details_sub_total.text = orderDetails.sub_total_amount
         tv_order_details_shipping_charge.text = orderDetails.shipping_charge
         tv_order_details_total_amount.text = orderDetails.total_amount
+
     }
+
+    private fun reactiveGetAllData(orderId : Order){
+        val mFirestore : FirebaseFirestore = FirebaseFirestore.getInstance()
+        mFirestore.collection(Constants.ORDERS).document(orderId.id).addSnapshotListener { document , e ->
+            if (document != null) {
+                myOrderDetails = document.toObject(Order::class.java)!!
+                setupUI(myOrderDetails)
+                setupStepView()
+            }
+        }
+    }
+
 }

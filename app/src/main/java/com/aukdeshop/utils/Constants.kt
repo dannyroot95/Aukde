@@ -99,6 +99,7 @@ object Constants {
     const val FAILED_ORDER : String = "No aceptó el pedido, intentelo de nuevo !"
     const val PLEASE_WAIT : String = "espere un momento..."
     const val FINISHING_ORDER : String = "Finalizando Compra"
+    const val PROCESSING_ORDER : String = "Procesar pedido"
     const val DELIVERED : String = "Recibido"
     const val USERS_REALTIME : String = "Usuarios"
     const val DRIVER_OUR : String = "Aukdeliver"
