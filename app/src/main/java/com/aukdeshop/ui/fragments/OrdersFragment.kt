@@ -51,16 +51,18 @@ class OrdersFragment : BaseFragment() {
         hideProgressDialog()
 
         if (ordersList.size > 0) {
+            if (rv_my_order_items != null){
+                rv_my_order_items.visibility = View.VISIBLE
+                tv_no_orders_found.visibility = View.GONE
 
-            rv_my_order_items.visibility = View.VISIBLE
-            tv_no_orders_found.visibility = View.GONE
+                rv_my_order_items.layoutManager = LinearLayoutManager(activity)
+                rv_my_order_items.setHasFixedSize(true)
 
-            rv_my_order_items.layoutManager = LinearLayoutManager(activity)
-            rv_my_order_items.setHasFixedSize(true)
-
-            val myOrdersAdapter = MyOrdersListAdapter(requireActivity(), ordersList)
-            rv_my_order_items.adapter = myOrdersAdapter
-        } else {
+                val myOrdersAdapter = MyOrdersListAdapter(requireActivity(), ordersList)
+                rv_my_order_items.adapter = myOrdersAdapter
+            }
+        }
+        else {
             rv_my_order_items.visibility = View.GONE
             tv_no_orders_found.visibility = View.VISIBLE
         }

@@ -74,6 +74,7 @@ object Constants {
     const val CART_QUANTITY: String = "cart_quantity"
 
     const val STOCK_QUANTITY: String = "stock_quantity"
+    const val SKU : String = "sku"
 
     const val HOME: String = "Casa"
     const val OFFICE: String = "Oficina"

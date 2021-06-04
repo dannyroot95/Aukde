@@ -22,5 +22,6 @@ data class Partner (
     val image: String = "",
     val latitude : Double = 0.0,
     val longitude : Double = 0.0,
-    val profileCompleted: Int = 0
+    val profileCompleted: Int = 0,
+    val sku : String = ""
 ): Parcelable

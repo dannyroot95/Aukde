@@ -142,6 +142,7 @@ class MyOrderDetailsActivity : AppCompatActivity() {
      * @param orderDetails Order details received through intent.
      */
     @SuppressLint("SetTextI18n")
+
     private fun setupUI(orderDetails: Order) {
 
         tv_order_details_id.text = orderDetails.title

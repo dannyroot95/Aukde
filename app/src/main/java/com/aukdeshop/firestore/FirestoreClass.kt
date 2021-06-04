@@ -189,7 +189,7 @@ class FirestoreClass {
                         notificationProvider.sendNotification(fcmBody).enqueue(object : Callback<FCMResponse?> {
                             override fun onResponse(call: Call<FCMResponse?>, response: Response<FCMResponse?>) {
                                 if (response.body() != null) {
-                                    if (response.body()!!.success === 1) {
+                                    if (response.body()!!.success == 1) {
                                         activity.hideProgressDialog()
                                         activity.finish()
                                         //Toast.makeText(this@AddProductActivity, "Notificación enviada", Toast.LENGTH_LONG).show();
@@ -249,10 +249,17 @@ class FirestoreClass {
                                 Context.MODE_PRIVATE
                         )
 
+                val sharedSku =
+                        activity.getSharedPreferences(
+                                Constants.SKU,
+                                Context.MODE_PRIVATE
+                        )
+
                 // Create an instance of the editor which is help us to edit the SharedPreference.
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
                 val editorProduct: SharedPreferences.Editor = sharedPreferencesProduct.edit()
                 val editorPhoto: SharedPreferences.Editor = sharedPhoto.edit()
+                val editorSku: SharedPreferences.Editor = sharedSku.edit()
 
                 editor.putString(
                         Constants.LOGGED_IN_USERNAME,
@@ -269,6 +276,11 @@ class FirestoreClass {
                         Constants.EXTRA_USER_PHOTO,
                         user.image)
                 editorPhoto.apply()
+
+                editorSku.putString(
+                        Constants.SKU,
+                        user.sku)
+                editorSku.apply()
 
                 when (activity) {
                     is LoginActivity -> {

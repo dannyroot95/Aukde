@@ -1,6 +1,7 @@
 package com.aukdeshop.ui.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -9,11 +10,14 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.Product
@@ -22,6 +26,8 @@ import com.aukdeshop.notifications.server.FCMResponse
 import com.aukdeshop.notifications.server.NotificationProvider
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.GlideLoader
+import com.aukdeshop.utils.MSPEditText
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_add_product.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,7 +46,10 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
     // A global variable for uploaded product image URL.
     private var mProductImageURL: String = ""
     private var mTypeProduct : String = ""
+    private var mSku : String = ""
+
     lateinit var sharedTypeProduct : SharedPreferences
+    lateinit var sharedSku : SharedPreferences
 
     var path = "https://firebasestorage.googleapis.com/v0/b" +
             "/gestor-de-pedidos-aukdefood.appspot.com/o" +
@@ -55,7 +64,10 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_add_product)
 
         sharedTypeProduct = getSharedPreferences(Constants.EXTRA_USER_TYPE_PRODUCT, MODE_PRIVATE)
+        sharedSku = getSharedPreferences(Constants.SKU, MODE_PRIVATE)
+
         mTypeProduct = sharedTypeProduct.getString(Constants.EXTRA_USER_TYPE_PRODUCT, "").toString()
+        mSku = sharedSku.getString(Constants.SKU, "").toString()
 
         notificationProvider = NotificationProvider()
        //
@@ -65,6 +77,20 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
 
         // Assign the click event to submit button.
         btn_submit.setOnClickListener(this)
+
+        et_product_sku.stickPrefix(mSku)
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun MSPEditText.stickPrefix(prefix: String) {
+        this.addTextChangedListener(afterTextChanged = {
+            if (!it.toString().startsWith(prefix) && it?.isNotEmpty() == true) {
+                this.setText(prefix + this.text)
+                this.setSelection(this.length())
+
+            }
+        })
     }
 
     override fun onClick(v: View?) {
@@ -190,6 +216,11 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
 
             TextUtils.isEmpty(et_product_title.text.toString().trim { it <= ' ' }) -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_product_title), true)
+                false
+            }
+
+            TextUtils.isEmpty(et_product_sku.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_product_sku), true)
                 false
             }
 

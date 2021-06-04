@@ -88,12 +88,14 @@
 
     <string name="title_add_product">AGREGAR PRODUCTO</string>
     <string name="et_hint_product_title">Nombre del producto</string>
+    <string name="et_hint_product_sku">Código SKU</string>
     <string name="et_hint_product_price">Precio (S/)</string>
     <string name="et_hint_product_description">Descripción del producto</string>
     <string name="et_hint_product_quantity">Cantidad</string>
 
     <string name="err_msg_select_product_image">Seleccione una imagen.</string>
-    <string name="err_msg_enter_product_title">Ingrese el nombre del producto .</string>
+    <string name="err_msg_enter_product_title">Ingrese el nombre del producto.</string>
+    <string name="err_msg_enter_product_sku">Ingrese el codigo SKU.</string>
     <string name="err_msg_enter_product_price">Ingrese el precio del producto.</string>
     <string name="err_msg_enter_product_description">Agregue una descripción.</string>
     <string name="err_msg_enter_product_quantity">Ingrese la cantidad.</string>

@@ -9,6 +9,7 @@ import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.SoldProduct
 import com.aukdeshop.ui.adapters.SoldProductsListAdapter
+import com.google.firebase.messaging.RemoteMessage
 import kotlinx.android.synthetic.main.fragment_sold_products.*
 
 /**
@@ -61,4 +62,6 @@ class SoldProductsFragment : BaseFragment() {
             tv_no_sold_products_found.visibility = View.VISIBLE
         }
     }
+
+
 }
