@@ -255,11 +255,18 @@ class FirestoreClass {
                                 Context.MODE_PRIVATE
                         )
 
+                val sharedNameStore =
+                        activity.getSharedPreferences(
+                                Constants.NAME_STORE,
+                                Context.MODE_PRIVATE
+                        )
+
                 // Create an instance of the editor which is help us to edit the SharedPreference.
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
                 val editorProduct: SharedPreferences.Editor = sharedPreferencesProduct.edit()
                 val editorPhoto: SharedPreferences.Editor = sharedPhoto.edit()
                 val editorSku: SharedPreferences.Editor = sharedSku.edit()
+                val editorNameStore: SharedPreferences.Editor = sharedNameStore.edit()
 
                 editor.putString(
                         Constants.LOGGED_IN_USERNAME,
@@ -281,6 +288,11 @@ class FirestoreClass {
                         Constants.SKU,
                         user.sku)
                 editorSku.apply()
+
+                editorNameStore.putString(
+                        Constants.NAME_STORE,
+                        user.name_store)
+                editorNameStore.apply()
 
                 when (activity) {
                     is LoginActivity -> {

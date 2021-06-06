@@ -20,6 +20,7 @@ object Constants {
     const val TOKEN: String = "token"
     const val CART: String = "cart"
     const val STORE: String = "store"
+    const val NAME_STORE: String = "name_store"
     const val PRODUCTS: String = "products"
     const val CART_ITEMS: String = "cart_items"
     const val ADDRESSES: String = "addresses"
