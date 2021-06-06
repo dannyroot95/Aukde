@@ -416,27 +416,55 @@ class FirestoreClass {
     /**
      * A function to make an entry of the user's product in the cloud firestore database.
      */
-    fun uploadProductDetails(activity: AddProductActivity, productInfo: Product) {
+
+    fun searchSKUAndUpload(activity: AddProductActivity, productInfo: Product , sku : String){
+
+        mFireStore.collection(Constants.PRODUCTS).whereEqualTo(Constants.SKU,sku).get().addOnCompleteListener { documents ->
+
+            if (documents.isSuccessful){
+                if (!documents.result.isEmpty){
+                    activity.hideProgressDialog()
+                    activity.showErrorSnackBar(activity.resources.getString(R.string.err_msg_enter_product_sku_exist),
+                            true)
+                }
+                else {
+                    uploadProductDetails(activity, productInfo)
+                }
+            }
+            else{
+                activity.hideProgressDialog()
+                Toast.makeText(activity,"ERROR!",Toast.LENGTH_SHORT).show()
+            }
+
+        }.addOnCanceledListener {
+            activity.hideProgressDialog()
+            Toast.makeText(activity,"ERROR!",Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener{
+            activity.hideProgressDialog()
+            Toast.makeText(activity,"ERROR!",Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun uploadProductDetails(activity: AddProductActivity, productInfo: Product) {
 
         mFireStore.collection(Constants.PRODUCTS)
             .document()
             // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
             .set(productInfo, SetOptions.merge())
             .addOnSuccessListener {
-
                 // Here call a function of base activity for transferring the result to it.
                 activity.productUploadSuccess()
             }
             .addOnFailureListener { e ->
-
                 activity.hideProgressDialog()
-
                 Log.e(
-                        activity.javaClass.simpleName,
-                        "Error while uploading the product details.",
-                        e
+                    activity.javaClass.simpleName,
+                    "Error while uploading the product details.",
+                    e
                 )
             }
+
     }
 
     /**

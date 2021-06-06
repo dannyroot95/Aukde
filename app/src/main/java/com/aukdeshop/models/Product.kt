@@ -18,5 +18,6 @@ data class Product(
     val image: String = "",
     var type_product: String = "",
     var product_id: String = "",
+    var sku : String = "",
 
 ) : Parcelable

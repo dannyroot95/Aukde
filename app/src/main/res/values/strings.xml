@@ -45,6 +45,7 @@
     <string name="title_forgot_password">OLVIDÓ SU CONTRASEÑA?</string>
     <string name="forgot_password_title_description">Ingrese su nombre de usuario y dirección de correo electrónico, le enviaremos un correo electrónico para restablecer su contraseña</string>
     <string name="btn_lbl_submit">Recuperar</string>
+    <string name="btn_lbl_add">Agregar</string>
 
     <string name="email_sent_success">¡Correo electrónico enviado con éxito para restablecer su contraseña!</string>
 
@@ -98,6 +99,7 @@
     <string name="err_msg_enter_product_sku">Ingrese el codigo SKU.</string>
     <string name="err_msg_enter_product_price">Ingrese el precio del producto.</string>
     <string name="err_msg_enter_product_description">Agregue una descripción.</string>
+    <string name="err_msg_enter_product_sku_exist">El código SKU ya existe!</string>
     <string name="err_msg_enter_product_quantity">Ingrese la cantidad.</string>
 
     <string name="product_uploaded_success_message">Producto subido correctamente!.</string>

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -78,19 +79,9 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
         // Assign the click event to submit button.
         btn_submit.setOnClickListener(this)
 
-        et_product_sku.stickPrefix(mSku)
+        et_product_sku.prefix = mSku
+        et_product_sku.setHintTextColor(Color.parseColor("#FF86CA"))
 
-    }
-
-    @SuppressLint("SetTextI18n")
-    fun MSPEditText.stickPrefix(prefix: String) {
-        this.addTextChangedListener(afterTextChanged = {
-            if (!it.toString().startsWith(prefix) && it?.isNotEmpty() == true) {
-                this.setText(prefix + this.text)
-                this.setSelection(this.length())
-
-            }
-        })
     }
 
     override fun onClick(v: View?) {
@@ -277,6 +268,7 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
 
     private fun uploadProductDetails() {
         val id_user = FirestoreClass().getCurrentUserID()
+        val sku_code = mSku+et_product_sku.text.toString()
         // Get the logged in username from the SharedPreferences that we have stored at a time of login.
         val username =
             this.getSharedPreferences(Constants.MYSHOPPAL_PREFERENCES, Context.MODE_PRIVATE)
@@ -293,9 +285,11 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
                 et_product_quantity.text.toString().trim { it <= ' ' },
                 mProductImageURL,
                 mTypeProduct,
+                "",
+                sku_code
         )
 
-        FirestoreClass().uploadProductDetails(this@AddProductActivity, product)
+        FirestoreClass().searchSKUAndUpload(this@AddProductActivity, product , sku_code )
     }
 
     /**
