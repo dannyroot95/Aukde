@@ -1,5 +1,6 @@
 package com.aukdeshop.ui.activities
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -148,4 +149,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         }
         finish()
     }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
 }

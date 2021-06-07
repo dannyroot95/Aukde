@@ -57,14 +57,17 @@ class DashboardFragment : BaseFragment() {
             textFilter.text = "Hogar y Cocina"
             getDashboardTypeProductItemsList(listTypeProduct[1])
         }
-        btnElectro.setOnClickListener{
-            textFilter.text = "Electrodomésticos"
-            getDashboardTypeProductItemsList(listTypeProduct[2])
-        }
+
         btnSuperMarket.setOnClickListener{
             textFilter.text = "SuperMercado"
+            getDashboardTypeProductItemsList(listTypeProduct[2])
+        }
+
+        btnElectro.setOnClickListener{
+            textFilter.text = "Electrodomésticos"
             getDashboardTypeProductItemsList(listTypeProduct[3])
         }
+
         return view
     }
 

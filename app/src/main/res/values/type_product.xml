@@ -3,8 +3,8 @@
     <string-array name="type_product">
         <item>Comidas y Bebidas</item>
         <item>Hogar y Cocina</item>
-        <item>Electrodomésticos</item>
         <item>SuperMercado</item>
+        <item>Electrodomésticos</item>
         <item>Calzados</item>
         <item>Articulos de Diversión</item>
         <item>Artículos Tecnológicos</item>

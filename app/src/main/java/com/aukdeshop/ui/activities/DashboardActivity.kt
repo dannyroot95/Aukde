@@ -1,6 +1,9 @@
 package com.aukdeshop.ui.activities
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Html
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,10 +24,10 @@ class DashboardActivity : BaseActivity() {
         supportActionBar!!.setBackgroundDrawable(
             ContextCompat.getDrawable(
                 this@DashboardActivity,
-                R.drawable.app_gradient_color_background
+                R.drawable.app_toolbar_background
             )
         )
-        // END
+
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 

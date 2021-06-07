@@ -48,13 +48,11 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
     private var mProductImageURL: String = ""
     private var mTypeProduct : String = ""
     private var mSku : String = ""
-    private var mImageProvider: String = ""
     private var mNameStore : String = ""
 
     private lateinit var sharedTypeProduct : SharedPreferences
     lateinit var sharedSku : SharedPreferences
     lateinit var sharedNameStore : SharedPreferences
-    lateinit var sharedImageProvider : SharedPreferences
 
 
     var path = "https://firebasestorage.googleapis.com/v0/b" +
@@ -72,10 +70,8 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
         sharedTypeProduct = getSharedPreferences(Constants.EXTRA_USER_TYPE_PRODUCT, MODE_PRIVATE)
         sharedSku = getSharedPreferences(Constants.SKU, MODE_PRIVATE)
         sharedNameStore = getSharedPreferences(Constants.NAME_STORE, MODE_PRIVATE)
-        sharedImageProvider = getSharedPreferences(Constants.EXTRA_USER_PHOTO, MODE_PRIVATE)
 
         mTypeProduct = sharedTypeProduct.getString(Constants.EXTRA_USER_TYPE_PRODUCT, "").toString()
-        mImageProvider = sharedImageProvider.getString(Constants.EXTRA_USER_PHOTO,"").toString()
         mNameStore = sharedNameStore.getString(Constants.NAME_STORE,"").toString()
 
         mSku = sharedSku.getString(Constants.SKU, "").toString()
@@ -297,8 +293,7 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
                 mTypeProduct,
                 "",
                 sku_code,
-                mNameStore,
-                mImageProvider
+                mNameStore
         )
 
         FirestoreClass().searchSKUAndUpload(this@AddProductActivity, product , sku_code )

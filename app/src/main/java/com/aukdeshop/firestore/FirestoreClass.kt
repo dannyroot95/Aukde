@@ -149,7 +149,7 @@ class FirestoreClass {
                         notificationProvider.sendNotification(fcmBody).enqueue(object : Callback<FCMResponse?> {
                             override fun onResponse(call: Call<FCMResponse?>, response: Response<FCMResponse?>) {
                                 if (response.body() != null) {
-                                    if (response.body()!!.success === 1) {
+                                    if (response.body()!!.success == 1) {
                                         //Toast.makeText(this@AddProductActivity, "Notificación enviada", Toast.LENGTH_LONG).show();
                                     } else {
                                         //Toast.makeText(this, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
@@ -248,7 +248,6 @@ class FirestoreClass {
                                 Constants.EXTRA_USER_PHOTO,
                                 Context.MODE_PRIVATE
                         )
-
                 val sharedSku =
                         activity.getSharedPreferences(
                                 Constants.SKU,
