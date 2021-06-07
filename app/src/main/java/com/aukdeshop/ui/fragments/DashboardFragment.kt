@@ -40,8 +40,9 @@ class DashboardFragment : BaseFragment() {
         val btnFood = view.findViewById(R.id.btnFood) as CardView
         val btnCuisine = view.findViewById(R.id.btnCuisine) as CardView
         val btnElectro = view.findViewById(R.id.btnElectro) as CardView
+        val btnSuperMarket = view.findViewById(R.id.btnSuperMarket) as CardView
 
-        val listTypeProduct = resources.getStringArray(R.array.type_product);
+        val listTypeProduct = resources.getStringArray(R.array.type_product)
 
         btnRecently.setOnClickListener{
             textFilter.text = "Mas recientes"
@@ -59,6 +60,10 @@ class DashboardFragment : BaseFragment() {
         btnElectro.setOnClickListener{
             textFilter.text = "Electrodomésticos"
             getDashboardTypeProductItemsList(listTypeProduct[2])
+        }
+        btnSuperMarket.setOnClickListener{
+            textFilter.text = "SuperMercado"
+            getDashboardTypeProductItemsList(listTypeProduct[3])
         }
         return view
     }
