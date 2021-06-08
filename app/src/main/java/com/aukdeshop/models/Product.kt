@@ -20,4 +20,5 @@ data class Product(
     var product_id: String = "",
     var sku : String = "",
     var name_store : String = "",
+    var delivery : String = "",
 ) : Parcelable

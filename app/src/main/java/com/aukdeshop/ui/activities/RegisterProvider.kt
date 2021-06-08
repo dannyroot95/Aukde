@@ -180,9 +180,9 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
 
         radioGroup?.setOnCheckedChangeListener { _, checkedId ->
             mDelivery = if (checkedId == R.id.rdb_yes) {
-                "Si"
+                "si"
             } else{
-                "No"
+                "no"
             }
         }
 

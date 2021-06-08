@@ -82,6 +82,8 @@ class CheckoutActivity : BaseActivity() {
             "/gestor-de-pedidos-aukdefood.appspot.com/o" +
             "/fotoDefault.jpg?alt=media&token=f74486bf-432e-4af6-b114-baa523e1f801"
 
+    var hasDelivery = false
+
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -120,9 +122,14 @@ class CheckoutActivity : BaseActivity() {
         }
 
         btn_place_order.setOnClickListener {
-              customDialog(resources.getString(R.string.please_wait))
-              getClosestStore()
+            if (!hasDelivery){
+                getClosestStore()
             }
+            else{
+                customDialog(resources.getString(R.string.please_wait))
+                placeAnOrder()
+            }
+        }
 
         getProductList()
     }
@@ -232,6 +239,9 @@ class CheckoutActivity : BaseActivity() {
         } else {
             ll_checkout_place_order.visibility = View.GONE
         }
+
+        checkingDelivery()
+
     }
 
 
@@ -389,11 +399,14 @@ class CheckoutActivity : BaseActivity() {
         })
     }
 
-
     /**
      * A function to prepare the Order details to place an order.
      */
     private fun placeAnOrder() {
+
+        if (!hasDelivery){
+            progressDialog.setMessage(Constants.TAKE_ORDER_DRIVER + "\n" + Constants.FINISHING_ORDER)
+        }
 
         mOrderDetails = Order(
                 FirestoreClass().getCurrentUserID(),
@@ -409,7 +422,7 @@ class CheckoutActivity : BaseActivity() {
                 0,
                 mIdDriverFound
         )
-        progressDialog.setMessage(Constants.TAKE_ORDER_DRIVER + "\n" + Constants.FINISHING_ORDER)
+
         sendNotificationStore()
         FirestoreClass().placeOrder(this@CheckoutActivity, mOrderDetails)
     }
@@ -442,6 +455,14 @@ class CheckoutActivity : BaseActivity() {
                 finish()
             }
         }
-
     }
+
+    private fun checkingDelivery(){
+        for (i in 0 until mProductsList.size) {
+            if (mProductsList[i].delivery == "si"){
+                hasDelivery = true
+            }
+        }
+    }
+
 }

@@ -49,10 +49,12 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
     private var mTypeProduct : String = ""
     private var mSku : String = ""
     private var mNameStore : String = ""
+    private var mHasDelivery : String = ""
 
     private lateinit var sharedTypeProduct : SharedPreferences
     lateinit var sharedSku : SharedPreferences
     lateinit var sharedNameStore : SharedPreferences
+    lateinit var sharedHasDelivery : SharedPreferences
 
 
     var path = "https://firebasestorage.googleapis.com/v0/b" +
@@ -70,11 +72,13 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
         sharedTypeProduct = getSharedPreferences(Constants.EXTRA_USER_TYPE_PRODUCT, MODE_PRIVATE)
         sharedSku = getSharedPreferences(Constants.SKU, MODE_PRIVATE)
         sharedNameStore = getSharedPreferences(Constants.NAME_STORE, MODE_PRIVATE)
+        sharedHasDelivery = getSharedPreferences(Constants.HAS_DELIVERY, MODE_PRIVATE)
+
 
         mTypeProduct = sharedTypeProduct.getString(Constants.EXTRA_USER_TYPE_PRODUCT, "").toString()
         mNameStore = sharedNameStore.getString(Constants.NAME_STORE,"").toString()
-
         mSku = sharedSku.getString(Constants.SKU, "").toString()
+        mHasDelivery = sharedHasDelivery.getString(Constants.HAS_DELIVERY,"").toString()
 
         notificationProvider = NotificationProvider()
        //
@@ -293,7 +297,8 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
                 mTypeProduct,
                 "",
                 sku_code,
-                mNameStore
+                mNameStore,
+                mHasDelivery
         )
 
         FirestoreClass().searchSKUAndUpload(this@AddProductActivity, product , sku_code )

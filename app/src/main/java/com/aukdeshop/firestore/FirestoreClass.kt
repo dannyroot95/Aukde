@@ -158,7 +158,6 @@ class FirestoreClass {
                                     //Toast.makeText(this, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
                                 }
                             }
-
                             override fun onFailure(call: Call<FCMResponse?>, t: Throwable) {
                                 Log.d("Error", "Error encontrado" + t.message)
                             }
@@ -260,12 +259,21 @@ class FirestoreClass {
                                 Context.MODE_PRIVATE
                         )
 
+
+                val sharedHasDelivery =
+                        activity.getSharedPreferences(
+                                Constants.HAS_DELIVERY,
+                                Context.MODE_PRIVATE
+                        )
+
+
                 // Create an instance of the editor which is help us to edit the SharedPreference.
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
                 val editorProduct: SharedPreferences.Editor = sharedPreferencesProduct.edit()
                 val editorPhoto: SharedPreferences.Editor = sharedPhoto.edit()
                 val editorSku: SharedPreferences.Editor = sharedSku.edit()
                 val editorNameStore: SharedPreferences.Editor = sharedNameStore.edit()
+                val editorHasDelivery: SharedPreferences.Editor = sharedHasDelivery.edit()
 
                 editor.putString(
                         Constants.LOGGED_IN_USERNAME,
@@ -292,6 +300,11 @@ class FirestoreClass {
                         Constants.NAME_STORE,
                         user.name_store)
                 editorNameStore.apply()
+
+                editorHasDelivery.putString(
+                        Constants.HAS_DELIVERY,
+                        user.delivery)
+                editorHasDelivery.apply()
 
                 when (activity) {
                     is LoginActivity -> {
@@ -1197,6 +1210,7 @@ class FirestoreClass {
 
                         val map: MutableMap<String, Any> = java.util.HashMap()
                         map["cart_quantity"] = order.items[position].cart_quantity
+                        map["delivery"] = order.items[position].delivery
                         map["id"] = order.items[position].id
                         map["image"] = order.items[position].image
                         map["price"] = order.items[position].price
@@ -1209,6 +1223,7 @@ class FirestoreClass {
 
                         val map2: MutableMap<String, Any> = java.util.HashMap()
                         map2["cart_quantity"] = order.items[position].cart_quantity
+                        map2["delivery"] = order.items[position].delivery
                         map2["id"] = order.items[position].id
                         map2["image"] = order.items[position].image
                         map2["price"] = order.items[position].price

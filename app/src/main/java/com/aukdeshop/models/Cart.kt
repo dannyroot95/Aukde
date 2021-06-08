@@ -17,5 +17,6 @@ data class Cart(
         var cart_quantity: String = "",
         var stock_quantity: String = "",
         var id: String = "",
-        var status : Int = 0
+        var status : Int = 0,
+        var delivery : String = ""
 ) : Parcelable

@@ -46,7 +46,6 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
     var latitudeX  = 0.0
     var longitudeX  = 0.0
     var mapViewBundle: Bundle? = null
-    private lateinit var scrollAdress : ScrollView
     private var mMarker: Marker? = null
     lateinit var mCurrentLatLng: LatLng
     private val mCameraListener: OnCameraIdleListener? = null
@@ -113,8 +112,6 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
         mapView = findViewById(R.id.map_view)
         mapView.onCreate(mapViewBundle)
         mapView.getMapAsync(this)
-
-        scrollAdress = findViewById(R.id.scrollAdresss)
 
         setupActionBar()
 

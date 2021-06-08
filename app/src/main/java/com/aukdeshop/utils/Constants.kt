@@ -21,6 +21,7 @@ object Constants {
     const val CART: String = "cart"
     const val STORE: String = "store"
     const val NAME_STORE: String = "name_store"
+    const val HAS_DELIVERY: String = "has_delivery"
     const val PRODUCTS: String = "products"
     const val CART_ITEMS: String = "cart_items"
     const val ADDRESSES: String = "addresses"
@@ -105,6 +106,7 @@ object Constants {
     const val DELIVERED : String = "Recibido"
     const val USERS_REALTIME : String = "Usuarios"
     const val DRIVER_OUR : String = "Aukdeliver"
+    const val SENDING_STORE : String = "Producto enviado por el mismo negocio!"
 
 
     /**

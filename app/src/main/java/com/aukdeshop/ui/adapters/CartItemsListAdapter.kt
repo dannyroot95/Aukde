@@ -3,6 +3,7 @@ package com.aukdeshop.ui.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -123,7 +124,6 @@ open class CartItemsListAdapter(
                     if (context is CartListActivity) {
                         context.showProgressDialog(context.resources.getString(R.string.please_wait))
                     }
-
                     FirestoreClass().updateMyCart(context, model.id, itemHashMap)
                 }
             }
@@ -169,6 +169,13 @@ open class CartItemsListAdapter(
             }
 
             if (context is MyOrderDetailsActivity){
+
+                if (model.delivery == "si"){
+                    holder.itemView.tv_alert_delivery.visibility = View.VISIBLE
+                    holder.itemView.tv_alert_delivery.text = Constants.SENDING_STORE
+                    holder.itemView.tv_alert_delivery.setTextColor(Color.parseColor("#fc0000"))
+                }
+
 
                 when (model.status) {
 
