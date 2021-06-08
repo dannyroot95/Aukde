@@ -1,37 +1,55 @@
 package com.aukdeshop.ui.activities
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aukdeshop.Maps.GeofireDriverProvider
 import com.aukdeshop.R
 import com.aukdeshop.models.Order
 import com.aukdeshop.ui.adapters.CartItemsListAdapter
 import com.aukdeshop.utils.Constants
-import com.google.firebase.firestore.EventListener
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shuhart.stepview.StepView
 import kotlinx.android.synthetic.main.activity_my_order_details.*
 import kotlinx.android.synthetic.main.activity_sold_product_details.*
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 /**
  * My Order Details Screen.
  */
-class MyOrderDetailsActivity : AppCompatActivity() {
+class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
 
     private lateinit var stepView : StepView
     var myOrderDetails: Order = Order()
     var colorWhite = Color.parseColor("#FFFFFF")
+    private var geocoder: Geocoder? = null
+    private var mMap: GoogleMap? = null
+    private lateinit var mapView: MapView
+    var mapViewBundle: Bundle? = null
+    private var mMarker: Marker? = null
+    lateinit var mDriverLatLng: LatLng
+    private val mCameraListener: GoogleMap.OnCameraIdleListener? = null
+    private var mIsFirstTime = true
+    private lateinit var mListener : ValueEventListener
+    private lateinit var mGeofireProvider: GeofireDriverProvider
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -42,6 +60,20 @@ class MyOrderDetailsActivity : AppCompatActivity() {
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_my_order_details)
 
+        mGeofireProvider = GeofireDriverProvider("active_drivers")
+
+        geocoder = Geocoder(this)
+
+        if (savedInstanceState != null) {
+            mapViewBundle =
+                    savedInstanceState.getBundle(Constants.MAP_VIEW_BUNDLE_KEY)
+        }
+
+        mapView = findViewById(R.id.map_view)
+        mapView.onCreate(mapViewBundle)
+        mapView.getMapAsync(this)
+
+
         stepView = findViewById(R.id.step_view)
         setupActionBar()
 
@@ -49,6 +81,7 @@ class MyOrderDetailsActivity : AppCompatActivity() {
             myOrderDetails =
                 intent.getParcelableExtra<Order>(Constants.EXTRA_MY_ORDER_DETAILS)!!
         }
+
 
         setupUI(myOrderDetails)
         setupStepView()
@@ -67,10 +100,10 @@ class MyOrderDetailsActivity : AppCompatActivity() {
             .selectedCircleColor(ContextCompat.getColor(this, R.color.colorAccent))
             .selectedCircleRadius(resources.getDimensionPixelSize(R.dimen.rv_item_name_textSize))
             .selectedStepNumberColor(
-                ContextCompat.getColor(
-                    this,
-                    R.color.colorPrimary
-                )
+                    ContextCompat.getColor(
+                            this,
+                            R.color.colorPrimary
+                    )
             )
             .stepsNumber(4)
             .animationDuration(resources.getInteger(android.R.integer.config_shortAnimTime))
@@ -91,6 +124,7 @@ class MyOrderDetailsActivity : AppCompatActivity() {
                 stepView.state.selectedCircleColor(color).commit()
                 stepView.state.selectedTextColor(color).commit()
                 stepView.state.selectedStepNumberColor(colorWhite).commit()
+                map_container.visibility = View.GONE
             }
             1 -> {
                 tv_order_status.text = resources.getString(R.string.order_status_in_process)
@@ -100,6 +134,7 @@ class MyOrderDetailsActivity : AppCompatActivity() {
                 stepView.state.selectedCircleColor(color).commit()
                 stepView.state.selectedTextColor(color).commit()
                 stepView.state.selectedStepNumberColor(colorWhite).commit()
+                map_container.visibility = View.GONE
 
             }
             2 -> {
@@ -110,6 +145,7 @@ class MyOrderDetailsActivity : AppCompatActivity() {
                 stepView.state.selectedCircleColor(color).commit()
                 stepView.state.selectedTextColor(color).commit()
                 stepView.state.selectedStepNumberColor(colorWhite).commit()
+                map_container.visibility = View.VISIBLE
             }
             3 -> {
                 tv_order_status.text = resources.getString(R.string.order_status_finish)
@@ -119,6 +155,7 @@ class MyOrderDetailsActivity : AppCompatActivity() {
                 stepView.state.selectedCircleColor(color).commit()
                 stepView.state.selectedTextColor(color).commit()
                 stepView.state.selectedStepNumberColor(colorWhite).commit()
+                map_container.visibility = View.GONE
             }
         }
     }
@@ -188,18 +225,116 @@ class MyOrderDetailsActivity : AppCompatActivity() {
         tv_order_details_sub_total.text = orderDetails.sub_total_amount
         tv_order_details_shipping_charge.text = orderDetails.shipping_charge
         tv_order_details_total_amount.text = orderDetails.total_amount
-
+        getDriverLocation()
     }
 
-    private fun reactiveGetAllData(orderId : Order){
+    private fun reactiveGetAllData(orderId: Order){
         val mFirestore : FirebaseFirestore = FirebaseFirestore.getInstance()
-        mFirestore.collection(Constants.ORDERS).document(orderId.id).addSnapshotListener { document , e ->
+        mFirestore.collection(Constants.ORDERS).document(orderId.id).addSnapshotListener { document, e ->
             if (document != null) {
                 myOrderDetails = document.toObject(Order::class.java)!!
                 setupUI(myOrderDetails)
                 setupStepView()
             }
         }
+    }
+
+    private fun getDriverLocation(){
+
+            mListener = mGeofireProvider
+                    .getDriverLocation(myOrderDetails.driver_id)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (snapshot.exists()) {
+                                val latitude: Double? = snapshot.child("0").value.toString().toDoubleOrNull()
+                                val longitude: Double? = snapshot.child("1").value.toString().toDoubleOrNull()
+                                mDriverLatLng = LatLng(latitude!!, longitude!!)
+                                if (mMarker != null) {
+                                    mMarker?.remove()
+                                }
+                                mMarker = mMap!!.addMarker(MarkerOptions()
+                                        .position(LatLng(latitude, longitude))
+                                        .title("Tu Pedido")
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.motomap)))
+
+                             
+                                mMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(
+                                        CameraPosition.Builder()
+                                                .target(mDriverLatLng)
+                                                .zoom(16f)
+                                                .build()
+                                ))
+
+                                mMarker!!.showInfoWindow()
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+
+                        }
+                    })
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        var mapViewBundle =
+                outState.getBundle(Constants.MAP_VIEW_BUNDLE_KEY)
+        if (mapViewBundle == null) {
+            mapViewBundle = Bundle()
+            outState.putBundle(
+                    Constants.MAP_VIEW_BUNDLE_KEY,
+                    mapViewBundle
+            )
+        }
+        mapView.onSaveInstanceState(mapViewBundle)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap?) {
+        mMap = googleMap
+        mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
+        mMap!!.uiSettings.isZoomControlsEnabled = true
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        mMap!!.isMyLocationEnabled = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+
+    override fun onPause() {
+        mapView.onPause()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        mapView.onDestroy()
+        super.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
     }
 
 }

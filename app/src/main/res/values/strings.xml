@@ -217,6 +217,7 @@
     <string name="add_location">Agregar ubicación</string>
     <string name="msg_token_fmt">token</string>
     <string name="default_notification_channel_id">99</string>
+    <string name="location_order">Ubicacion de tu pedido</string>
 
 
 </resources>
