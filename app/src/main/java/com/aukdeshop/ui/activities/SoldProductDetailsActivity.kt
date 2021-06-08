@@ -30,10 +30,12 @@ class SoldProductDetailsActivity : BaseActivity() {
             "/gestor-de-pedidos-aukdefood.appspot.com/o" +
             "/fotoDefault.jpg?alt=media&token=f74486bf-432e-4af6-b114-baa523e1f801"
 
-    var statusProccesing = 1
     var position = 0
     var mFiresbase : FirebaseFirestore = FirebaseFirestore.getInstance()
     var updating : Boolean = false
+
+    private var mHasDelivery : String = ""
+    lateinit var sharedHasDelivery : SharedPreferences
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -49,6 +51,9 @@ class SoldProductDetailsActivity : BaseActivity() {
 
         sharedPhoto = getSharedPreferences(Constants.EXTRA_USER_PHOTO, MODE_PRIVATE)
         mPhoto = sharedPhoto.getString(Constants.EXTRA_USER_PHOTO, "").toString()
+
+        sharedHasDelivery = getSharedPreferences(Constants.HAS_DELIVERY, MODE_PRIVATE)
+        mHasDelivery = sharedHasDelivery.getString(Constants.HAS_DELIVERY,"").toString()
 
         if (intent.hasExtra(Constants.EXTRA_SOLD_PRODUCT_DETAILS)) {
             productDetails =
@@ -75,6 +80,11 @@ class SoldProductDetailsActivity : BaseActivity() {
             btnUpdateInProcess.setBackgroundColor(Color.parseColor("#5BBD00"))
             btnUpdateInProcess.text = Constants.DELIVER_ORDER
         }
+        else if (productDetails.status == 4) {
+            btnUpdateInProcess.setTextColor(Color.parseColor("#FFFFFF"))
+            btnUpdateInProcess.setBackgroundColor(Color.parseColor("#9E08FA"))
+            btnUpdateInProcess.text = Constants.SENDING_PRODDUCT
+        }
         else if (productDetails.status == 2) {
             btnUpdateInProcess.visibility = View.GONE
         }
@@ -84,17 +94,41 @@ class SoldProductDetailsActivity : BaseActivity() {
             showProgressDialog(resources.getString(R.string.updating))
             updating = true
 
-            if (productDetails.status == 0){
-                FirestoreClass().updateStatusOrder(this, productDetails.order_id, 1, productDetails.id,position)
-                sendNotification(productDetails.user_id,productDetails.order_id,1,productDetails)
-                updating = false
+            if(mHasDelivery == "no"){
+                when (productDetails.status) {
+                    0 -> {
+                        FirestoreClass().updateStatusOrder(this, productDetails.order_id, 1, productDetails.id,position)
+                        sendNotification(productDetails.user_id,productDetails.order_id,1,productDetails)
+                        updating = false
 
+                    }
+                    1 -> {
+                        FirestoreClass().updateStatusOrder(this, productDetails.order_id, 4, productDetails.id,position)
+                        sendNotification(productDetails.user_id,productDetails.order_id,4,productDetails)
+                        updating = false
+                    }
+                    4 -> {
+                        FirestoreClass().updateStatusOrder(this, productDetails.order_id, 3, productDetails.id,position)
+                        sendNotification(productDetails.user_id,productDetails.order_id,3,productDetails)
+                        updating = false
+                    }
+                }
             }
-            else if (productDetails.status == 1){
-                FirestoreClass().updateStatusOrder(this, productDetails.order_id, 2, productDetails.id,position)
-                sendNotification(productDetails.user_id,productDetails.order_id,2,productDetails)
-                updating = false
+
+            else{
+                if(productDetails.status == 0){
+                    FirestoreClass().updateStatusOrder(this, productDetails.order_id, 1, productDetails.id,position)
+                    sendNotification(productDetails.user_id,productDetails.order_id,1,productDetails)
+                    updating = false
+
+                }
+                else if (productDetails.status == 1){
+                    FirestoreClass().updateStatusOrder(this, productDetails.order_id, 2, productDetails.id,position)
+                    sendNotification(productDetails.user_id,productDetails.order_id,2,productDetails)
+                    updating = false
+                }
             }
+
            //sendNotification(productDetails.user_id,productDetails.order_date.toString())
         }
 
@@ -102,13 +136,23 @@ class SoldProductDetailsActivity : BaseActivity() {
 
     private fun sendNotification(id: String, numOrder: String , status : Int , item : SoldProduct) {
 
-        if (status == 1){
-            FirestoreClass().createNotificationUpdateStatusProvider(this,id, numOrder, Constants.PROCESSING,
-                    item.image,item.title)
-        }
-        else{
-            FirestoreClass().createNotificationUpdateStatusProvider(this,id, numOrder, Constants.IN_ROUTE,
-                    item.image,item.title)
+        when (status) {
+            1 -> {
+                FirestoreClass().createNotificationUpdateStatusProvider(this,id, numOrder, Constants.PROCESSING,
+                        item.image,item.title)
+            }
+            2 -> {
+                FirestoreClass().createNotificationUpdateStatusProvider(this,id, numOrder, Constants.IN_ROUTE,
+                        item.image,item.title)
+            }
+            3 -> {
+                FirestoreClass().createNotificationUpdateStatusProvider(this,id, numOrder, Constants.COMPLETED,
+                        item.image,item.title)
+            }
+            4 -> {
+                FirestoreClass().createNotificationUpdateStatusProvider(this,id, numOrder, Constants.SENDING,
+                        item.image,item.title)
+            }
         }
 
     }
@@ -173,9 +217,11 @@ class SoldProductDetailsActivity : BaseActivity() {
                 tv_sold_product_status.text = resources.getString(R.string.order_status_finish)
                 tv_sold_product_status.setTextColor(Color.parseColor("#5BBD00"))
             }
-
+            4 -> {
+                tv_sold_product_status.text = resources.getString(R.string.order_sending)
+                tv_sold_product_status.setTextColor(Color.parseColor("#9E08FA"))
+            }
         }
-
         GlideLoader(this@SoldProductDetailsActivity).loadProductPicture(
                 productDetails.image,
                 iv_product_item_image
@@ -222,7 +268,6 @@ class SoldProductDetailsActivity : BaseActivity() {
                     if (e != null) {
                         return@addSnapshotListener
                     }
-
         }
     }
 

@@ -107,6 +107,8 @@ object Constants {
     const val USERS_REALTIME : String = "Usuarios"
     const val DRIVER_OUR : String = "Aukdeliver"
     const val SENDING_STORE : String = "Producto enviado por el mismo negocio!"
+    const val SENDING : String = "Enviando"
+    const val SENDING_PRODDUCT : String = "Enviando producto"
 
 
     /**

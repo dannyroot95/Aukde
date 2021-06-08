@@ -210,7 +210,7 @@ class FirestoreClass {
                         })
                     }
                 }
-                .addOnFailureListener { e ->
+                .addOnFailureListener { _ ->
                     // Hide the progress dialog if there is any error. And print the error in log.
                 }
 
@@ -488,7 +488,6 @@ class FirestoreClass {
                     e
                 )
             }
-
     }
 
     /**

@@ -186,6 +186,7 @@
     <string name="order_status_in_process">Procesando</string>
     <string name="order_status_in_route">En ruta</string>
     <string name="order_status_finish">Entregado</string>
+    <string name="order_sending">Enviando</string>
 
     <string name="title_sold_products">Pedidos</string>
     <string name="no_products_sold_out_yet">¡Sin pedidos!</string>
