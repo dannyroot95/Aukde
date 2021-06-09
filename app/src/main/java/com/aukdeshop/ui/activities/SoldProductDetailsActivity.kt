@@ -80,21 +80,28 @@ class SoldProductDetailsActivity : BaseActivity() {
             btnUpdateInProcess.setBackgroundColor(Color.parseColor("#5BBD00"))
             btnUpdateInProcess.text = Constants.DELIVER_ORDER
         }
-        else if (productDetails.status == 4) {
-            btnUpdateInProcess.setTextColor(Color.parseColor("#FFFFFF"))
-            btnUpdateInProcess.setBackgroundColor(Color.parseColor("#9E08FA"))
-            btnUpdateInProcess.text = Constants.SENDING_PRODDUCT
-        }
+
         else if (productDetails.status == 2) {
             btnUpdateInProcess.visibility = View.GONE
         }
+
+        else if (productDetails.status == 3) {
+            btnUpdateInProcess.visibility = View.GONE
+        }
+
+        else if (productDetails.status == 4) {
+            btnUpdateInProcess.setTextColor(Color.parseColor("#FFFFFF"))
+            btnUpdateInProcess.setBackgroundColor(Color.parseColor("#9E08FA"))
+            btnUpdateInProcess.text = Constants.COMPLETED_ORDER
+        }
+
 
         btnUpdateInProcess.setOnClickListener {
 
             showProgressDialog(resources.getString(R.string.updating))
             updating = true
 
-            if(mHasDelivery == "no"){
+            if(mHasDelivery == "si"){
                 when (productDetails.status) {
                     0 -> {
                         FirestoreClass().updateStatusOrder(this, productDetails.order_id, 1, productDetails.id,position)
@@ -145,14 +152,16 @@ class SoldProductDetailsActivity : BaseActivity() {
                 FirestoreClass().createNotificationUpdateStatusProvider(this,id, numOrder, Constants.IN_ROUTE,
                         item.image,item.title)
             }
-            3 -> {
-                FirestoreClass().createNotificationUpdateStatusProvider(this,id, numOrder, Constants.COMPLETED,
-                        item.image,item.title)
-            }
             4 -> {
                 FirestoreClass().createNotificationUpdateStatusProvider(this,id, numOrder, Constants.SENDING,
                         item.image,item.title)
             }
+
+            3 -> {
+                FirestoreClass().createNotificationUpdateStatusProvider(this,id, numOrder, Constants.COMPLETED,
+                        item.image,item.title)
+            }
+
         }
 
     }

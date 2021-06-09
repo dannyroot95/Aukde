@@ -84,6 +84,10 @@ open class SoldProductsListAdapter(
                     holder.itemView.tv_item_status.text = Constants.PROCESSING
                     holder.itemView.tv_item_status.setTextColor(Color.parseColor("#F1C40F"))
                 }
+                2 -> {
+                    holder.itemView.tv_item_status.text = Constants.IN_ROUTE
+                    holder.itemView.tv_item_status.setTextColor(Color.parseColor("#F1C40F"))
+                }
                 4 -> {
                     holder.itemView.tv_item_status.text = Constants.SENDING_PRODDUCT
                     holder.itemView.tv_item_status.setTextColor(Color.parseColor("#9E08FA"))

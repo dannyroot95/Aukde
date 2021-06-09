@@ -108,7 +108,9 @@ object Constants {
     const val DRIVER_OUR : String = "Aukdeliver"
     const val SENDING_STORE : String = "Producto enviado por el mismo negocio!"
     const val SENDING : String = "Enviando"
+    const val SEND_PRODDUCT : String = "Enviar producto"
     const val SENDING_PRODDUCT : String = "Enviando producto"
+    const val COMPLETED_ORDER: String = "Completar pedido"
 
 
     /**
