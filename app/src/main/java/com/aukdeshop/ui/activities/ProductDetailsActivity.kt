@@ -106,7 +106,9 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
 
         // Show the progress dialog
         showProgressDialog(resources.getString(R.string.please_wait))
-        FirestoreClass().addCartItemsForLocation(mProviderId)
+        if (mProductDetails.delivery == "no"){
+            FirestoreClass().addCartItemsForLocation(mProviderId)
+        }
         FirestoreClass().addCartItems(this@ProductDetailsActivity, addToCart)
     }
 

@@ -86,6 +86,10 @@ open class MyOrdersListAdapter(
                     holder.itemView.tv_item_status.text = Constants.IN_ROUTE
                     holder.itemView.tv_item_status.setTextColor(Color.parseColor("#154360"))
                 }
+                4 -> {
+                    holder.itemView.tv_item_status.text = Constants.SENDING
+                    holder.itemView.tv_item_status.setTextColor(Color.parseColor("#154360"))
+                }
                 /*3 -> {
                     holder.itemView.tv_item_status.text = Constants.DELIVERED
                     holder.itemView.tv_item_status.setTextColor(Color.parseColor("#4A235A"))

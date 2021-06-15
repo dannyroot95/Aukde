@@ -202,6 +202,12 @@ open class CartItemsListAdapter(
                         holder.itemView.tv_cart_status.setTextColor(Color.parseColor("#154360"))
                     }
 
+                    4 -> {
+                        holder.itemView.tv_cart_status.visibility = View.VISIBLE
+                        holder.itemView.tv_cart_status.text = Constants.SENDING
+                        holder.itemView.tv_cart_status.setTextColor(Color.parseColor("#154360"))
+                    }
+
                     else -> {
                         holder.itemView.tv_cart_status.visibility = View.VISIBLE
                         holder.itemView.tv_cart_status.text = Constants.COMPLETED

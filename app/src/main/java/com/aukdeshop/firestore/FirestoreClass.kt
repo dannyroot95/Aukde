@@ -1,5 +1,6 @@
 package com.aukdeshop.firestore
 
+import android.R.attr
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
@@ -40,6 +41,7 @@ import kotlin.collections.HashMap
 /**
  * A custom class where we will add the operation performed for the FireStore database.
  */
+@Suppress("NAME_SHADOWING")
 class FirestoreClass {
 
     // Access a Cloud Firestore instance.
@@ -158,6 +160,7 @@ class FirestoreClass {
                                     //Toast.makeText(this, "NO se pudo ENVIAR la notificación!", Toast.LENGTH_LONG).show()
                                 }
                             }
+
                             override fun onFailure(call: Call<FCMResponse?>, t: Throwable) {
                                 Log.d("Error", "Error encontrado" + t.message)
                             }
@@ -170,8 +173,8 @@ class FirestoreClass {
 
     }
 
-    fun createNotificationUpdateStatusProvider(activity : SoldProductDetailsActivity, tokenIDUser: String, numOrder: String,
-                                               status: String, mPhoto: String,title :String){
+    fun createNotificationUpdateStatusProvider(activity: SoldProductDetailsActivity, tokenIDUser: String, numOrder: String,
+                                               status: String, mPhoto: String, title: String){
         mFireStore.collection(Constants.TOKEN)
                 // The document id to get the Fields of user.
                 .document(tokenIDUser)
@@ -441,9 +444,9 @@ class FirestoreClass {
      * A function to make an entry of the user's product in the cloud firestore database.
      */
 
-    fun searchSKUAndUpload(activity: AddProductActivity, productInfo: Product , sku : String){
+    fun searchSKUAndUpload(activity: AddProductActivity, productInfo: Product, sku: String){
 
-        mFireStore.collection(Constants.PRODUCTS).whereEqualTo(Constants.SKU,sku).get().addOnCompleteListener { documents ->
+        mFireStore.collection(Constants.PRODUCTS).whereEqualTo(Constants.SKU, sku).get().addOnCompleteListener { documents ->
 
             if (documents.isSuccessful){
                 if (!documents.result.isEmpty){
@@ -457,15 +460,15 @@ class FirestoreClass {
             }
             else{
                 activity.hideProgressDialog()
-                Toast.makeText(activity,"ERROR!",Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "ERROR!", Toast.LENGTH_SHORT).show()
             }
 
         }.addOnCanceledListener {
             activity.hideProgressDialog()
-            Toast.makeText(activity,"ERROR!",Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "ERROR!", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener{
             activity.hideProgressDialog()
-            Toast.makeText(activity,"ERROR!",Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "ERROR!", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -483,9 +486,9 @@ class FirestoreClass {
             .addOnFailureListener { e ->
                 activity.hideProgressDialog()
                 Log.e(
-                    activity.javaClass.simpleName,
-                    "Error while uploading the product details.",
-                    e
+                        activity.javaClass.simpleName,
+                        "Error while uploading the product details.",
+                        e
                 )
             }
     }
@@ -1197,7 +1200,7 @@ class FirestoreClass {
             }
     }
 
-    fun updateStatusOrder(activity: SoldProductDetailsActivity, orderId: String, status: Int, id : String , position : Int){
+    fun updateStatusOrder(activity: SoldProductDetailsActivity, orderId: String, status: Int, id: String, position: Int){
         //activity.showProgressDialog()
         mFireStore.collection(Constants.ORDERS)
                 .whereEqualTo("title", orderId)
@@ -1233,8 +1236,8 @@ class FirestoreClass {
                         map2["title"] = order.items[position].title
                         map2["user_id"] = order.items[position].user_id
 
-                        mFireStore.collection(Constants.ORDERS).document(key).update("items",FieldValue.arrayRemove(map) ,
-                                "items",FieldValue.arrayUnion(map2))
+                        mFireStore.collection(Constants.ORDERS).document(key).update("items", FieldValue.arrayRemove(map),
+                                "items", FieldValue.arrayUnion(map2))
 
                         val map3: MutableMap<String, Any> = java.util.HashMap()
                         map3["status"] = status
@@ -1242,21 +1245,37 @@ class FirestoreClass {
 
                         mFireStore.collection(Constants.ORDERS).document(key).get().addOnSuccessListener { document  ->
                             if (document.exists()){
+                                val order = document.toObject(Order::class.java)!!
                                 val verifyStatus = document.data?.get("status").toString().toInt()
-                                if (status > verifyStatus){
-                                    mFireStore.collection(Constants.ORDERS).document(key).update(map3)
+
+                                if (status == 1 || status == 3 || status == 4){
+                                    var ctx = 0
+                                    for (i in 0 until order.items.size) {
+                                        if (order.items[i].delivery == "si"){
+                                            ctx++
+                                            if (ctx == order.items.size){
+                                                mFireStore.collection(Constants.ORDERS).document(key).update(map3)
+                                            }
+                                        }
+                                    }
                                 }
+                                else {
+                                    if (status > verifyStatus || verifyStatus == 4) {
+                                        mFireStore.collection(Constants.ORDERS).document(key).update(map3)
+                                    }
+                                }
+
                             }
                         }.addOnFailureListener{
                             activity.hideProgressDialog()
-                            Toast.makeText(activity,"Error",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show()
                         }
 
                     }
 
                 }.addOnFailureListener{ e ->
                     activity.hideProgressDialog()
-                    Toast.makeText(activity,"Error",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show()
                     Log.e(
                             activity.javaClass.simpleName,
                             "Error while getting the list of sold products.",

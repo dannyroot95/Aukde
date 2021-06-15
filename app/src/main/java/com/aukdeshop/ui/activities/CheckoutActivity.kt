@@ -122,11 +122,12 @@ class CheckoutActivity : BaseActivity() {
         }
 
         btn_place_order.setOnClickListener {
-            if (!hasDelivery){
+            if (hasDelivery){
+                customDialog(resources.getString(R.string.please_wait))
                 getClosestStore()
             }
             else{
-                customDialog(resources.getString(R.string.please_wait))
+                showProgressDialog(resources.getString(R.string.please_wait))
                 placeAnOrder()
             }
         }
@@ -343,7 +344,7 @@ class CheckoutActivity : BaseActivity() {
                     mNotificationProvider.sendNotification(fcmBody).enqueue(object : Callback<FCMResponse> {
                         override fun onResponse(call: Call<FCMResponse>, response: Response<FCMResponse>) {
                             if (response.body() != null) {
-                                if (response.body()!!.success === 1) {
+                                if (response.body()!!.success == 1) {
                                     val bookingStatus = ClientBooking(
                                             "",
                                             FirestoreClass().getCurrentUserID(),
@@ -422,7 +423,6 @@ class CheckoutActivity : BaseActivity() {
                 0,
                 mIdDriverFound
         )
-
         sendNotificationStore()
         FirestoreClass().placeOrder(this@CheckoutActivity, mOrderDetails)
     }
@@ -458,11 +458,13 @@ class CheckoutActivity : BaseActivity() {
     }
 
     private fun checkingDelivery(){
-        for (i in 0 until mProductsList.size) {
-            if (mProductsList[i].delivery == "si"){
+        for (i in 0 until  mCartItemsList.size) {
+            if (mCartItemsList[i].delivery == "no"){
                 hasDelivery = true
+                break
             }
         }
+
     }
 
 }

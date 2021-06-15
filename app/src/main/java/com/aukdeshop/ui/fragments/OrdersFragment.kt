@@ -63,8 +63,10 @@ class OrdersFragment : BaseFragment() {
             }
         }
         else {
-            rv_my_order_items.visibility = View.GONE
-            tv_no_orders_found.visibility = View.VISIBLE
+            if (rv_my_order_items != null){
+                rv_my_order_items.visibility = View.GONE
+                tv_no_orders_found.visibility = View.VISIBLE
+            }
         }
     }
 }

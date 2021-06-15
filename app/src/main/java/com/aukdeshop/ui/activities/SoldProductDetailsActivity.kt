@@ -70,29 +70,49 @@ class SoldProductDetailsActivity : BaseActivity() {
         setupUI(productDetails)
         // END
 
-        if (productDetails.status == 0){
-            btnUpdateInProcess.setTextColor(Color.parseColor("#FFFFFF"))
-            btnUpdateInProcess.setBackgroundColor(Color.parseColor("#F1C40F"))
-            btnUpdateInProcess.text = Constants.PROCESSING_ORDER
-        }
-        else if (productDetails.status == 1) {
-            btnUpdateInProcess.setTextColor(Color.parseColor("#FFFFFF"))
-            btnUpdateInProcess.setBackgroundColor(Color.parseColor("#5BBD00"))
-            btnUpdateInProcess.text = Constants.DELIVER_ORDER
+        if (mHasDelivery == "no"){
+            when (productDetails.status) {
+                0 -> {
+                    btnUpdateInProcess.setTextColor(Color.parseColor("#FFFFFF"))
+                    btnUpdateInProcess.setBackgroundColor(Color.parseColor("#F1C40F"))
+                    btnUpdateInProcess.text = Constants.PROCESSING_ORDER
+                }
+                1 -> {
+                    btnUpdateInProcess.setTextColor(Color.parseColor("#FFFFFF"))
+                    btnUpdateInProcess.setBackgroundColor(Color.parseColor("#5BBD00"))
+                    btnUpdateInProcess.text = Constants.DELIVER_ORDER
+                }
+                2 -> {
+                    btnUpdateInProcess.visibility = View.GONE
+                }
+                3 -> {
+                    btnUpdateInProcess.visibility = View.GONE
+                }
+            }
         }
 
-        else if (productDetails.status == 2) {
-            btnUpdateInProcess.visibility = View.GONE
-        }
+        else {
+            when (productDetails.status) {
+                0 -> {
+                    btnUpdateInProcess.setTextColor(Color.parseColor("#FFFFFF"))
+                    btnUpdateInProcess.setBackgroundColor(Color.parseColor("#F1C40F"))
+                    btnUpdateInProcess.text = Constants.PROCESSING_ORDER
+                }
+                1 -> {
+                    btnUpdateInProcess.setTextColor(Color.parseColor("#FFFFFF"))
+                    btnUpdateInProcess.setBackgroundColor(Color.parseColor("#154360"))
+                    btnUpdateInProcess.text = Constants.SEND_PRODDUCT
+                }
+                4 -> {
+                    btnUpdateInProcess.setTextColor(Color.parseColor("#FFFFFF"))
+                    btnUpdateInProcess.setBackgroundColor(Color.parseColor("#5BBD00"))
+                    btnUpdateInProcess.text = Constants.COMPLETED_ORDER
+                }
+                3 -> {
+                    btnUpdateInProcess.visibility = View.GONE
+                }
+            }
 
-        else if (productDetails.status == 3) {
-            btnUpdateInProcess.visibility = View.GONE
-        }
-
-        else if (productDetails.status == 4) {
-            btnUpdateInProcess.setTextColor(Color.parseColor("#FFFFFF"))
-            btnUpdateInProcess.setBackgroundColor(Color.parseColor("#9E08FA"))
-            btnUpdateInProcess.text = Constants.COMPLETED_ORDER
         }
 
 
@@ -197,9 +217,6 @@ class SoldProductDetailsActivity : BaseActivity() {
 
         //Toast.makeText(this , "Usuario : "+productDetails.user_id + "Pedido : "+productDetails.order_id,Toast.LENGTH_LONG).show()
         //REALIZAR LA CONSULTA EN FUNCION AL NUMERO DE PEDIDO
-        linear_sold_product.setOnClickListener{
-            Toast.makeText(this, "click", Toast.LENGTH_LONG).show()
-        }
 
         tv_sold_product_details_id.text = productDetails.order_id
 
@@ -213,24 +230,54 @@ class SoldProductDetailsActivity : BaseActivity() {
         calendar.timeInMillis = productDetails.order_date
         tv_sold_product_details_date.text = formatter.format(calendar.time)
 
-        when (productDetails.status) {
-            0 -> {
-                tv_sold_product_status.text = resources.getString(R.string.order_status_pending)
-                tv_sold_product_status.setTextColor(Color.parseColor("#FC0000"))
-            }
-            1 -> {
-                tv_sold_product_status.text = resources.getString(R.string.order_status_in_process)
-                tv_sold_product_status.setTextColor(Color.parseColor("#F1C40F"))
-            }
-            2 -> {
-                tv_sold_product_status.text = resources.getString(R.string.order_status_finish)
-                tv_sold_product_status.setTextColor(Color.parseColor("#5BBD00"))
-            }
-            4 -> {
-                tv_sold_product_status.text = resources.getString(R.string.order_sending)
-                tv_sold_product_status.setTextColor(Color.parseColor("#9E08FA"))
+        if (mHasDelivery == "no") {
+            when (productDetails.status) {
+                0 -> {
+                    tv_sold_product_status.text = resources.getString(R.string.order_status_pending)
+                    tv_sold_product_status.setTextColor(Color.parseColor("#FC0000"))
+                }
+                1 -> {
+                    tv_sold_product_status.text = resources.getString(R.string.order_status_in_process)
+                    tv_sold_product_status.setTextColor(Color.parseColor("#F1C40F"))
+                }
+                2 -> {
+                    tv_sold_product_status.text = resources.getString(R.string.order_status_finish)
+                    tv_sold_product_status.setTextColor(Color.parseColor("#5BBD00"))
+                }
+
+                3 -> {
+                    tv_sold_product_status.text = resources.getString(R.string.order_status_finish)
+                    tv_sold_product_status.setTextColor(Color.parseColor("#5BBD00"))
+                }
+
             }
         }
+        else {
+            when (productDetails.status) {
+                0 -> {
+                    tv_sold_product_status.text = resources.getString(R.string.order_status_pending)
+                    tv_sold_product_status.setTextColor(Color.parseColor("#FC0000"))
+                }
+                1 -> {
+                    tv_sold_product_status.text = resources.getString(R.string.order_status_in_process)
+                    tv_sold_product_status.setTextColor(Color.parseColor("#F1C40F"))
+                }
+
+                4 -> {
+                    tv_sold_product_status.text = resources.getString(R.string.order_sending)
+                    tv_sold_product_status.setTextColor(Color.parseColor("#154360"))
+                }
+
+                3 -> {
+                    tv_sold_product_status.text = resources.getString(R.string.order_status_finish)
+                    tv_sold_product_status.setTextColor(Color.parseColor("#5BBD00"))
+                }
+
+            }
+        }
+
+
+
         GlideLoader(this@SoldProductDetailsActivity).loadProductPicture(
                 productDetails.image,
                 iv_product_item_image

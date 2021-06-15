@@ -35,7 +35,7 @@
             android:paddingTop="@dimen/item_address_type_paddingTopBottom"
             android:paddingEnd="@dimen/item_address_type_paddingStartEnd"
             android:paddingBottom="@dimen/item_address_type_paddingTopBottom"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorThemeGreenLight"
             android:textSize="@dimen/address_details_textSize"
             android:textStyle="bold"
             tools:text="Deslize" />

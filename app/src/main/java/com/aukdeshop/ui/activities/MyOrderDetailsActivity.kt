@@ -147,6 +147,15 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
                 stepView.state.selectedStepNumberColor(colorWhite).commit()
                 map_container.visibility = View.VISIBLE
             }
+           4 -> {
+                tv_order_status.text = resources.getString(R.string.order_sending)
+                tv_order_status.setTextColor(Color.parseColor("#154360"))
+                val color = Color.parseColor("#154360")
+                stepView.go(2, true)
+                stepView.state.selectedCircleColor(color).commit()
+                stepView.state.selectedTextColor(color).commit()
+                stepView.state.selectedStepNumberColor(colorWhite).commit()
+            }
             3 -> {
                 tv_order_status.text = resources.getString(R.string.order_status_finish)
                 tv_order_status.setTextColor(Color.parseColor("#5BBD00"))
