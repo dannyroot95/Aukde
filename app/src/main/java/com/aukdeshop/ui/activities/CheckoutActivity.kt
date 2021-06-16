@@ -468,7 +468,6 @@ class CheckoutActivity : BaseActivity() {
                 break
             }
         }
-
     }
 
     @SuppressLint("SetTextI18n")
