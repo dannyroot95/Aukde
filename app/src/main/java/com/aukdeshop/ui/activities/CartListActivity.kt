@@ -25,6 +25,7 @@ class CartListActivity : BaseActivity() {
     // A global variable for the cart list items.
     private lateinit var mCartListItems: ArrayList<Cart>
     private var typeMoney : String = ""
+    private var shipping : Double? = null
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -32,6 +33,7 @@ class CartListActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
         typeMoney = resources.getString(R.string.type_money)
+        shipping = 0.0
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_cart_list)
@@ -148,16 +150,27 @@ class CartListActivity : BaseActivity() {
 
                     subTotal += (price * quantity)
                 }
+                //////////////////////////////
+                if (item.delivery == "si"){
+                    tv_shipping_charge.text = typeMoney+shipping.toString()
+                }
+                else{
+                    tv_shipping_charge.text = typeMoney+(shipping!!+5).toString()
+                }
+
             }
 
             tv_sub_total.text = typeMoney+"$subTotal"
             // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
-            tv_shipping_charge.text = typeMoney+"10.0"
+
+            //tv_shipping_charge.text = typeMoney+"10.0"
+            setupShipping()
+
 
             if (subTotal > 0) {
                 ll_checkout.visibility = View.VISIBLE
 
-                val total = subTotal + 10
+                val total = subTotal + shipping!!
                 tv_total_amount.text = typeMoney+"$total"
             } else {
                 ll_checkout.visibility = View.GONE
@@ -195,4 +208,29 @@ class CartListActivity : BaseActivity() {
 
         getCartItemsList()
     }
+
+    @SuppressLint("SetTextI18n")
+    private fun setupShipping(){
+
+        var noDelivery = 0
+        var hasDelivery = 0
+
+        for(item in 0 until mCartListItems.size){
+            if (mCartListItems[item].delivery == "no"){
+                hasDelivery++
+                if(hasDelivery == 1){
+                    shipping = 5.0
+                }
+                else{
+                    shipping = shipping!! + 0.5
+                }
+            }
+            else if (mCartListItems[item].delivery == "si"){
+                noDelivery++
+                shipping = shipping!! + 0.0
+            }
+        }
+        tv_shipping_charge.text = typeMoney+shipping
+    }
+
 }

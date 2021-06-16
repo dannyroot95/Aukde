@@ -23,6 +23,7 @@ import com.firebase.geofire.GeoLocation
 import com.firebase.geofire.GeoQueryEventListener
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_cart_list.*
 import kotlinx.android.synthetic.main.activity_checkout.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -50,6 +51,8 @@ class CheckoutActivity : BaseActivity() {
 
     // A global variable for the Total Amount.
     private var mTotalAmount: Double = 0.0
+
+    private var shipping : Double? = null
 
     // A global variable for Order details.
     private lateinit var mOrderDetails: Order
@@ -97,6 +100,7 @@ class CheckoutActivity : BaseActivity() {
         progressDialogDriverFound = ProgressDialog(this, R.style.ThemeOverlayCustom)
         progressDialogDriverAccept= ProgressDialog(this, R.style.ThemeOverlayCustom)
         typeMoney = resources.getString(R.string.type_money)
+        shipping = 0.0
         sharedPhoto = getSharedPreferences(Constants.EXTRA_USER_PHOTO, MODE_PRIVATE)
         mPhoto = sharedPhoto.getString(Constants.EXTRA_USER_PHOTO, "").toString()
 
@@ -123,15 +127,12 @@ class CheckoutActivity : BaseActivity() {
 
         btn_place_order.setOnClickListener {
             if (hasDelivery){
-                Toast.makeText(this,"true",Toast.LENGTH_LONG).show()
-
-                //customDialog(resources.getString(R.string.please_wait))
-                //getClosestStore()
+                customDialog(resources.getString(R.string.please_wait))
+                getClosestStore()
             }
             else{
-                Toast.makeText(this,"false",Toast.LENGTH_LONG).show()
-                //showProgressDialog(resources.getString(R.string.please_wait))
-                //placeAnOrder()
+                showProgressDialog(resources.getString(R.string.please_wait))
+                placeAnOrder()
             }
         }
 
@@ -232,13 +233,13 @@ class CheckoutActivity : BaseActivity() {
         }
 
         tv_checkout_sub_total.text = typeMoney+"$mSubTotal"
-        // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
-        tv_checkout_shipping_charge.text = typeMoney+"10.0"
+        // Here we have kept Shipping Charge is fixed as S/5 but in your case it may cary. Also, it depends on the location and total amount.
+        setupShipping()
 
         if (mSubTotal > 0) {
             ll_checkout_place_order.visibility = View.VISIBLE
 
-            mTotalAmount = mSubTotal + 10.0
+            mTotalAmount = mSubTotal + shipping!!
             tv_checkout_total_amount.text = typeMoney+"$mTotalAmount"
         } else {
             ll_checkout_place_order.visibility = View.GONE
@@ -469,5 +470,29 @@ class CheckoutActivity : BaseActivity() {
         }
 
     }
+
+    @SuppressLint("SetTextI18n")
+    private fun setupShipping(){
+
+        var noDelivery = 0
+        var hasDelivery = 0
+
+        for(item in 0 until mCartItemsList.size){
+            if (mCartItemsList[item].delivery == "no"){
+                hasDelivery++
+                shipping = if(hasDelivery == 1){
+                    5.0
+                } else{
+                    shipping!! + 0.5
+                }
+            }
+            else if (mCartItemsList[item].delivery == "si"){
+                noDelivery++
+                shipping = shipping!! + 0.0
+            }
+        }
+        tv_checkout_shipping_charge.text = typeMoney+shipping
+    }
+
 
 }
