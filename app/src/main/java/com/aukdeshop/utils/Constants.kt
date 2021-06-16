@@ -11,6 +11,8 @@ import android.webkit.MimeTypeMap
  */
 object Constants {
 
+
+
     // Firebase Constants
     // This is used for the collection name for USERS.
     const val LOCATION_REQUEST_CODE = 1
@@ -111,6 +113,7 @@ object Constants {
     const val SEND_PRODDUCT : String = "Enviar producto"
     const val SENDING_PRODDUCT : String = "Enviando producto"
     const val COMPLETED_ORDER: String = "Completar pedido"
+    const val FREE_SHIPPING = "Envío gratuito"
 
 
     /**

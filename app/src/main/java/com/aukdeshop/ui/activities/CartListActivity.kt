@@ -214,6 +214,7 @@ class CartListActivity : BaseActivity() {
 
         var noDelivery = 0
         var hasDelivery = 0
+        shipping = 0.0
 
         for(item in 0 until mCartListItems.size){
             if (mCartListItems[item].delivery == "no"){
@@ -230,7 +231,14 @@ class CartListActivity : BaseActivity() {
                 shipping = shipping!! + 0.0
             }
         }
-        tv_shipping_charge.text = typeMoney+shipping
+
+        if(shipping == 0.0){
+            tv_shipping_charge.text = Constants.FREE_SHIPPING
+        }
+        else{
+            tv_shipping_charge.text = typeMoney+shipping
+        }
+
     }
 
 }

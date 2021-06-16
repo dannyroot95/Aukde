@@ -474,6 +474,8 @@ class CheckoutActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setupShipping(){
 
+        shipping = 0.0
+
         var noDelivery = 0
         var hasDelivery = 0
 
@@ -491,7 +493,14 @@ class CheckoutActivity : BaseActivity() {
                 shipping = shipping!! + 0.0
             }
         }
-        tv_checkout_shipping_charge.text = typeMoney+shipping
+
+        if (shipping == 0.0){
+            tv_checkout_shipping_charge.text = Constants.FREE_SHIPPING
+        }
+        else {
+            tv_checkout_shipping_charge.text = typeMoney+shipping
+        }
+
     }
 
 
