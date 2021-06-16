@@ -108,8 +108,12 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         showProgressDialog(resources.getString(R.string.please_wait))
         if (mProductDetails.delivery == "no"){
             FirestoreClass().addCartItemsForLocation(mProviderId)
+            FirestoreClass().addCartItems(this@ProductDetailsActivity, addToCart)
         }
-        FirestoreClass().addCartItems(this@ProductDetailsActivity, addToCart)
+        else{
+            FirestoreClass().addCartItems(this@ProductDetailsActivity, addToCart)
+        }
+
     }
 
     /**
@@ -190,6 +194,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
                 FirestoreClass().checkIfItemExistInCart(this@ProductDetailsActivity, mProductId)
             }
         }
+
     }
 
     /**

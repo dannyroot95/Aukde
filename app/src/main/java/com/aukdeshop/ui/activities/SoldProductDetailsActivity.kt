@@ -124,18 +124,18 @@ class SoldProductDetailsActivity : BaseActivity() {
             if(mHasDelivery == "si"){
                 when (productDetails.status) {
                     0 -> {
-                        FirestoreClass().updateStatusOrder(this, productDetails.order_id, 1, productDetails.id,position)
+                        FirestoreClass().updateStatusOrder(this, productDetails.order_id, 1, productDetails.id,position,mHasDelivery)
                         sendNotification(productDetails.user_id,productDetails.order_id,1,productDetails)
                         updating = false
 
                     }
                     1 -> {
-                        FirestoreClass().updateStatusOrder(this, productDetails.order_id, 4, productDetails.id,position)
+                        FirestoreClass().updateStatusOrder(this, productDetails.order_id, 4, productDetails.id,position,mHasDelivery)
                         sendNotification(productDetails.user_id,productDetails.order_id,4,productDetails)
                         updating = false
                     }
                     4 -> {
-                        FirestoreClass().updateStatusOrder(this, productDetails.order_id, 3, productDetails.id,position)
+                        FirestoreClass().updateStatusOrder(this, productDetails.order_id, 3, productDetails.id,position,mHasDelivery)
                         sendNotification(productDetails.user_id,productDetails.order_id,3,productDetails)
                         updating = false
                     }
@@ -143,16 +143,18 @@ class SoldProductDetailsActivity : BaseActivity() {
             }
 
             else{
-                if(productDetails.status == 0){
-                    FirestoreClass().updateStatusOrder(this, productDetails.order_id, 1, productDetails.id,position)
-                    sendNotification(productDetails.user_id,productDetails.order_id,1,productDetails)
-                    updating = false
+                when (productDetails.status){
+                    0 -> {
+                        FirestoreClass().updateStatusOrder(this, productDetails.order_id, 1, productDetails.id,position,mHasDelivery)
+                        sendNotification(productDetails.user_id,productDetails.order_id,1,productDetails)
+                        updating = false
 
-                }
-                else if (productDetails.status == 1){
-                    FirestoreClass().updateStatusOrder(this, productDetails.order_id, 2, productDetails.id,position)
-                    sendNotification(productDetails.user_id,productDetails.order_id,2,productDetails)
-                    updating = false
+                    }
+                    1 -> {
+                        FirestoreClass().updateStatusOrder(this, productDetails.order_id, 2, productDetails.id,position,mHasDelivery)
+                        sendNotification(productDetails.user_id,productDetails.order_id,2,productDetails)
+                        updating = false
+                    }
                 }
             }
 

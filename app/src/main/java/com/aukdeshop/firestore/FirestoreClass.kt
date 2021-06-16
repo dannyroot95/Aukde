@@ -212,6 +212,12 @@ class FirestoreClass {
                             }
                         })
                     }
+                    else{
+                        Log.d("Error", "Error encontrado")
+                        activity.hideProgressDialog()
+                        activity.finish()
+                        Toast.makeText(activity, "No se pudo notificar al usuario!", Toast.LENGTH_LONG).show()
+                    }
                 }
                 .addOnFailureListener { _ ->
                     // Hide the progress dialog if there is any error. And print the error in log.
@@ -743,7 +749,6 @@ class FirestoreClass {
                     latLong.add(getData.l[1])
                     val location = Store(getData.g, latLong)
                     mDatabase.child(Constants.CART).child(FirestoreClass().getCurrentUserID()).child(providerID).setValue(location)
-
                 }
             }
 
@@ -1200,7 +1205,8 @@ class FirestoreClass {
             }
     }
 
-    fun updateStatusOrder(activity: SoldProductDetailsActivity, orderId: String, status: Int, id: String, position: Int){
+    fun updateStatusOrder(activity: SoldProductDetailsActivity, orderId: String, status: Int,
+                          id: String, position: Int , hasDelivery : String){
         //activity.showProgressDialog()
         mFireStore.collection(Constants.ORDERS)
                 .whereEqualTo("title", orderId)
@@ -1247,8 +1253,8 @@ class FirestoreClass {
                             if (document.exists()){
                                 val order = document.toObject(Order::class.java)!!
                                 val verifyStatus = document.data?.get("status").toString().toInt()
-
-                                if (status == 1 || status == 3 || status == 4){
+                                //verficar aqui el algoritmo
+                                if (hasDelivery == "si" && status == 1 || status == 3 || status == 4){
                                     var ctx = 0
                                     for (i in 0 until order.items.size) {
                                         if (order.items[i].delivery == "si"){

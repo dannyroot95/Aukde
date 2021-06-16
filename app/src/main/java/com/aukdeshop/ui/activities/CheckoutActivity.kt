@@ -123,12 +123,15 @@ class CheckoutActivity : BaseActivity() {
 
         btn_place_order.setOnClickListener {
             if (hasDelivery){
-                customDialog(resources.getString(R.string.please_wait))
-                getClosestStore()
+                Toast.makeText(this,"true",Toast.LENGTH_LONG).show()
+
+                //customDialog(resources.getString(R.string.please_wait))
+                //getClosestStore()
             }
             else{
-                showProgressDialog(resources.getString(R.string.please_wait))
-                placeAnOrder()
+                Toast.makeText(this,"false",Toast.LENGTH_LONG).show()
+                //showProgressDialog(resources.getString(R.string.please_wait))
+                //placeAnOrder()
             }
         }
 
