@@ -34,6 +34,17 @@
 
     </LinearLayout>
 
+    <com.aukdeshop.utils.MSPTextViewBold
+        android:id="@+id/tv_product_details_sku"
+        android:layout_width="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginEnd="10dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/product_details_price_textSize"
+        tools:text="Sku"
+        android:layout_marginStart="10dp"
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -129,6 +140,16 @@
                     tools:text="5" />
             </LinearLayout>
 
+            <com.aukdeshop.utils.MSPTextView
+                android:id="@+id/tv_product_details_delivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-10dp"
+                android:layout_marginStart="@dimen/product_details_label_margin"
+                android:layout_marginEnd="@dimen/product_details_label_margin"                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/product_details_description_textSize_small"
+                tools:text="No tiene delivery" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
@@ -154,11 +175,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/item_value_text_color"
-                        android:textSize="@dimen/product_details_label_textSize"
+                        android:textSize="@dimen/product_details_title_textSize_gigant"
                         tools:text="$100" />
                 </LinearLayout>
 
-                <com.aukdeshop.utils.MSPButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_add_to_cart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -167,39 +188,52 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@drawable/button_background"
-                    android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/monserrat"
+                    android:theme="@style/ColorButtonMaterial"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:paddingTop="@dimen/btn_padding"
+                    android:drawableEnd="@drawable/ic_plus"
+                    android:includeFontPadding="false"
                     android:paddingBottom="@dimen/btn_padding"
                     android:text="@string/btn_lbl_add_to_cart"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/item_value_text_color"
                     android:textSize="@dimen/btn_textSize"
                     android:visibility="gone"
+                    app:cornerRadius="15sp"
+                    app:strokeColor="@color/colorThemeGreenMid"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ll_product_details_quantity"
-                    tools:visibility="visible" />
+                    tools:visibility="visible"
+                    tools:ignore="UnusedAttribute" />
 
             </LinearLayout>
 
 
-            <com.aukdeshop.utils.MSPButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_go_to_cart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
+                android:textAllCaps="false"
+                android:drawableStart="@drawable/ic_shopping"
+                android:includeFontPadding="false"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/button_background"
-                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
+                android:fontFamily="@font/monserrat"
                 android:paddingTop="@dimen/btn_padding"
                 android:paddingBottom="@dimen/btn_padding"
                 android:text="@string/btn_lbl_go_to_cart"
-                android:textColor="@android:color/white"
+                app:cornerRadius="15sp"
+                app:strokeColor="@color/colorThemeGreenMid"
+                android:theme="@style/ColorButtonMaterial"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:textColor="@color/item_value_text_color"
                 android:textSize="@dimen/btn_textSize"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"

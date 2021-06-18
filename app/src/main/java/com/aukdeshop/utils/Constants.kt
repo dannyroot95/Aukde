@@ -114,6 +114,8 @@ object Constants {
     const val SENDING_PRODDUCT : String = "Enviando producto"
     const val COMPLETED_ORDER: String = "Completar pedido"
     const val FREE_SHIPPING = "Envío gratuito"
+    const val INCLUDE_SHIPPING = "Incluye envío"
+    const val NO_INCLUDE_SHIPPING = "No Incluye envío"
 
 
     /**

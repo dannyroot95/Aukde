@@ -60,18 +60,25 @@
                 <ImageView
                     android:id="@+id/dialog_recently"
                     android:layout_width="120dp"
+                    android:clickable="true"
+                    android:foreground="@drawable/click_category"
+                    tools:ignore="ContentDescription,UnusedAttribute"
+                    android:focusable="true"
                     android:layout_marginEnd="2dp"
                     android:src="@drawable/recently"
                     android:layout_height="120dp"
-                    tools:ignore="ContentDescription" />
+                    />
 
                 <ImageView
                     android:id="@+id/dialog_food"
                     android:layout_width="120dp"
                     android:layout_marginStart="2dp"
+                    android:clickable="true"
+                    android:foreground="@drawable/click_category"
+                    tools:ignore="ContentDescription,UnusedAttribute"
+                    android:focusable="true"
                     android:src="@drawable/comida"
-                    android:layout_height="120dp"
-                    tools:ignore="ContentDescription" />
+                    android:layout_height="120dp"/>
 
             </LinearLayout>
 
@@ -89,7 +96,10 @@
                     android:src="@drawable/cocina"
                     android:layout_marginEnd="2dp"
                     android:layout_height="120dp"
-                    tools:ignore="ContentDescription" />
+                    android:clickable="true"
+                    android:foreground="@drawable/click_category"
+                    tools:ignore="ContentDescription,UnusedAttribute"
+                    android:focusable="true"/>
 
                 <ImageView
                     android:id="@+id/dialog_supermarket"
@@ -97,7 +107,10 @@
                     android:layout_marginStart="2dp"
                     android:src="@drawable/supermercado"
                     android:layout_height="120dp"
-                    tools:ignore="ContentDescription" />
+                    android:clickable="true"
+                    android:foreground="@drawable/click_category"
+                    tools:ignore="ContentDescription,UnusedAttribute"
+                    android:focusable="true"/>
 
             </LinearLayout>
 
@@ -115,7 +128,10 @@
                     android:layout_marginEnd="2dp"
                     android:src="@drawable/electrodomestico"
                     android:layout_height="120dp"
-                    tools:ignore="ContentDescription" />
+                    android:clickable="true"
+                    android:foreground="@drawable/click_category"
+                    tools:ignore="ContentDescription,UnusedAttribute"
+                    android:focusable="true" />
 
                 <ImageView
                     android:id="@+id/dialog_shoes"
@@ -123,7 +139,10 @@
                     android:layout_marginStart="2dp"
                     android:src="@drawable/calzado"
                     android:layout_height="120dp"
-                    tools:ignore="ContentDescription" />
+                    android:clickable="true"
+                    android:foreground="@drawable/click_category"
+                    tools:ignore="ContentDescription,UnusedAttribute"
+                    android:focusable="true" />
 
             </LinearLayout>
 

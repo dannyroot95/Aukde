@@ -2,6 +2,7 @@ package com.aukdeshop.ui.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -151,9 +152,18 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         )
 
         tv_product_details_title.text = product.title
+        tv_product_details_sku.text = "Sku : "+product.sku
         tv_product_details_price.text = typeMoney+product.price
         tv_product_details_description.text = product.description
         tv_product_details_stock_quantity.text = product.stock_quantity
+        if (product.delivery == "si"){
+            tv_product_details_delivery.text = Constants.INCLUDE_SHIPPING
+            tv_product_details_delivery.setTextColor(Color.parseColor("#5BBD00"))
+        }
+        else {
+            tv_product_details_delivery.text =  Constants.NO_INCLUDE_SHIPPING
+            tv_product_details_delivery.setTextColor(Color.parseColor("#A60000"))
+        }
         mProviderId = product.provider_id
 
 

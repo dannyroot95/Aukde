@@ -23,4 +23,11 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="ColorButtonMaterial" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorThemeGreenLight</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorThemeGreenLight</item>
+    </style>
+
 </resources>
