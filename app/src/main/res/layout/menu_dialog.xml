@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,61 +23,113 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="5dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="UselessLeaf">
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="25dp"
             android:layout_height="wrap_content">
 
             <com.aukdeshop.utils.MSPTextViewBold
-                android:id="@+id/dialog_name_item"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:text="Nombre Producto"
-                android:textColor="#000"
+                android:text="Categorías"
                 android:textAlignment="center"
-                android:textStyle="bold"
-                android:textSize="25sp"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="24dp"
+                android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"/>
 
-            <ImageView
-                android:id="@+id/dialog_image_item"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/icon_drawable_store"
-                android:layout_height="120dp"/>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                tools:ignore="UselessParent">
+
+                <ImageView
+                    android:id="@+id/dialog_recently"
+                    android:layout_width="120dp"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/recently"
+                    android:layout_height="120dp"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/dialog_food"
+                    android:layout_width="120dp"
+                    android:layout_marginStart="2dp"
+                    android:src="@drawable/comida"
+                    android:layout_height="120dp"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_height="wrap_content">
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                tools:ignore="UselessParent">
 
-                <Button
-                    android:layout_width="200dp"
-                    android:layout_weight="1"
-                    android:textColor="#000"
-                    app:strokeColor="#239B56"
-                    android:textSize="14sp"
-                    android:text="Recibir pedido"
-                    android:id="@+id/btn_receive_item"
-                    app:cornerRadius="20sp"
-                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:id="@+id/dialog_home_and_cuisine"
+                    android:layout_width="120dp"
+                    android:src="@drawable/cocina"
+                    android:layout_marginEnd="2dp"
+                    android:layout_height="120dp"
+                    tools:ignore="ContentDescription" />
 
+                <ImageView
+                    android:id="@+id/dialog_supermarket"
+                    android:layout_width="120dp"
+                    android:layout_marginStart="2dp"
+                    android:src="@drawable/supermercado"
+                    android:layout_height="120dp"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                tools:ignore="UselessParent">
+
+                <ImageView
+                    android:id="@+id/dialog_electric"
+                    android:layout_width="120dp"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/electrodomestico"
+                    android:layout_height="120dp"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/dialog_shoes"
+                    android:layout_width="120dp"
+                    android:layout_marginStart="2dp"
+                    android:src="@drawable/calzado"
+                    android:layout_height="120dp"
+                    tools:ignore="ContentDescription" />
 
             </LinearLayout>
 
 
         </LinearLayout>
+        </ScrollView>
 
     </androidx.cardview.widget.CardView>
 

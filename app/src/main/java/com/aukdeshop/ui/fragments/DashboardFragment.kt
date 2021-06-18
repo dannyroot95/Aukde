@@ -44,17 +44,19 @@ class DashboardFragment : BaseFragment() {
     ): View? {
         //(activity as AppCompatActivity).supportActionBar?.hide()
         val view  = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val btnRecently = view.findViewById(R.id.btnRecently) as CardView
-        val btnFood = view.findViewById(R.id.btnFood) as CardView
-        val btnCuisine = view.findViewById(R.id.btnCuisine) as CardView
-        val btnElectro = view.findViewById(R.id.btnElectro) as CardView
-        val btnSuperMarket = view.findViewById(R.id.btnSuperMarket) as CardView
         val buttonCategory = view.findViewById(R.id.float_button_menu) as FloatingActionButton
         val listTypeProduct = resources.getStringArray(R.array.type_product)
         val search = view.findViewById(R.id.search_product) as SearchView
         val dialog = Dialog(view.context)
         dialog.setContentView(R.layout.menu_dialog)
         dialog.window?.setBackgroundDrawable(ColorDrawable(0))
+
+        val btnRecently = dialog.findViewById(R.id.dialog_recently) as ImageView
+        val btnFood = dialog.findViewById(R.id.dialog_food) as ImageView
+        val btnCuisine = dialog.findViewById(R.id.dialog_home_and_cuisine) as ImageView
+        val btnElectro = dialog.findViewById(R.id.dialog_electric) as ImageView
+        val btnSuperMarket = dialog.findViewById(R.id.dialog_supermarket) as ImageView
+
         val closeDialog = dialog.findViewById(R.id.closeDialog) as ImageView
 
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -78,21 +80,26 @@ class DashboardFragment : BaseFragment() {
 
         btnRecently.setOnClickListener{
             getDashboardItemsList()
+            dialog.dismiss()
         }
 
         btnFood.setOnClickListener{
             getDashboardTypeProductItemsList(listTypeProduct[0])
+            dialog.dismiss()
         }
         btnCuisine.setOnClickListener{
             getDashboardTypeProductItemsList(listTypeProduct[1])
+            dialog.dismiss()
         }
 
         btnSuperMarket.setOnClickListener{
             getDashboardTypeProductItemsList(listTypeProduct[2])
+            dialog.dismiss()
         }
 
         btnElectro.setOnClickListener{
             getDashboardTypeProductItemsList(listTypeProduct[3])
+            dialog.dismiss()
         }
 
         return view

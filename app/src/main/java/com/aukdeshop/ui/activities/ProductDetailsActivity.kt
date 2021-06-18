@@ -54,7 +54,6 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
                 intent.getStringExtra(Constants.EXTRA_PRODUCT_OWNER_ID)!!
         }
 
-        setupActionBar()
 
         if (FirestoreClass().getCurrentUserID() == productOwnerId) {
             btn_add_to_cart.visibility = View.GONE
@@ -119,18 +118,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
     /**
      * A function for actionBar Setup.
      */
-    private fun setupActionBar() {
 
-        setSupportActionBar(toolbar_product_details_activity)
-
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_white_color_back_24dp)
-        }
-
-        toolbar_product_details_activity.setNavigationOnClickListener { onBackPressed() }
-    }
 
     /**
      * A function to call the firestore class function that will get the product details from cloud firestore based on the product id.
