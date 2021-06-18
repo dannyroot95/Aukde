@@ -1,10 +1,13 @@
 package com.aukdeshop.ui.fragments
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.ImageView
+import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aukdeshop.R
@@ -15,56 +18,80 @@ import com.aukdeshop.ui.activities.ProductDetailsActivity
 import com.aukdeshop.ui.activities.SettingsActivity
 import com.aukdeshop.ui.adapters.DashboardItemsListAdapter
 import com.aukdeshop.utils.Constants
-import com.aukdeshop.utils.MSPTextView
+import com.github.clans.fab.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.fragment_dashboard.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class DashboardFragment : BaseFragment() {
+
+    lateinit var itemList: ArrayList<Product>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // If we want to use the option menu in fragment we need to add it.
         setHasOptionsMenu(true)
+
     }
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         //(activity as AppCompatActivity).supportActionBar?.hide()
         val view  = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val textFilter = view.findViewById(R.id.textFilter) as MSPTextView
         val btnRecently = view.findViewById(R.id.btnRecently) as CardView
         val btnFood = view.findViewById(R.id.btnFood) as CardView
         val btnCuisine = view.findViewById(R.id.btnCuisine) as CardView
         val btnElectro = view.findViewById(R.id.btnElectro) as CardView
         val btnSuperMarket = view.findViewById(R.id.btnSuperMarket) as CardView
-
+        val buttonCategory = view.findViewById(R.id.float_button_menu) as FloatingActionButton
         val listTypeProduct = resources.getStringArray(R.array.type_product)
+        val search = view.findViewById(R.id.search_product) as SearchView
+        val dialog = Dialog(view.context)
+        dialog.setContentView(R.layout.menu_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(0))
+        val closeDialog = dialog.findViewById(R.id.closeDialog) as ImageView
+
+        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(text: String): Boolean {
+                searching(text)
+                return true
+            }
+        })
+
+
+        buttonCategory.setOnClickListener {
+            dialog.show()
+            closeDialog.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
 
         btnRecently.setOnClickListener{
-            textFilter.text = "Mas recientes"
             getDashboardItemsList()
         }
 
         btnFood.setOnClickListener{
-            textFilter.text = "Comidas y Bebidas"
             getDashboardTypeProductItemsList(listTypeProduct[0])
         }
         btnCuisine.setOnClickListener{
-            textFilter.text = "Hogar y Cocina"
             getDashboardTypeProductItemsList(listTypeProduct[1])
         }
 
         btnSuperMarket.setOnClickListener{
-            textFilter.text = "SuperMercado"
             getDashboardTypeProductItemsList(listTypeProduct[2])
         }
 
         btnElectro.setOnClickListener{
-            textFilter.text = "Electrodomésticos"
             getDashboardTypeProductItemsList(listTypeProduct[3])
         }
 
@@ -96,7 +123,6 @@ class DashboardFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        textFilter.text = "Mas recientes"
         getDashboardItemsList()
     }
 
@@ -135,9 +161,11 @@ class DashboardFragment : BaseFragment() {
 
             val adapter = DashboardItemsListAdapter(requireActivity(), dashboardItemsList)
             rv_dashboard_items.adapter = adapter
+            itemList = dashboardItemsList
+
 
             adapter.setOnClickListener(object :
-                    DashboardItemsListAdapter.OnClickListener {
+                DashboardItemsListAdapter.OnClickListener {
                 override fun onClick(position: Int, product: Product) {
 
                     val intent = Intent(context, ProductDetailsActivity::class.java)
@@ -152,9 +180,19 @@ class DashboardFragment : BaseFragment() {
             tv_no_dashboard_items_found.visibility = View.VISIBLE
         }
 
-
-
     }
 
+    fun searching(text: String){
+        val list : ArrayList<Product> = ArrayList<Product>()
+
+        for (newProduct in itemList){
+            if (newProduct.title.toLowerCase(Locale.getDefault()).contains(text.toLowerCase(Locale.getDefault()))) {
+                list.add(newProduct)
+            }
+            else{}
+        }
+        val adapterX = DashboardItemsListAdapter(requireContext(), list)
+        rv_dashboard_items.adapter = adapterX
+    }
 
 }

@@ -59,9 +59,11 @@ open class DashboardItemsListAdapter(
                 holder.itemView.iv_dashboard_item_image
             )
             holder.itemView.tv_dashboard_item_title.text = model.title
+            holder.itemView.tv_dashboard_item_store.text = model.name_store
+            holder.itemView.tv_dashboard_item_category.text = model.type_product
             holder.itemView.tv_dashboard_item_price.text = context.resources.getString(R.string.type_money)+model.price
 
-            holder.itemView.setOnClickListener {
+            holder.itemView.card_item.setOnClickListener {
                 if (onClickListener != null) {
                     onClickListener!!.onClick(position, model)
                 }

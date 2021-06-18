@@ -83,12 +83,13 @@
 
     <dimen name="item_dashboard_margin">5dp</dimen>
     <dimen name="item_dashboard_padding">1dp</dimen>
-    <dimen name="item_dashboard_image_height">150dp</dimen>
+    <dimen name="item_dashboard_image_height">180dp</dimen>
     <dimen name="item_dashboard_image_margin">10dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="dashboard_item_paddingStartEnd">10dp</dimen>
     <dimen name="dashboard_item_paddingTopBottom">5dp</dimen>
-    <dimen name="dashboard_item_textSize">12sp</dimen>
+    <dimen name="dashboard_item_textSize">14sp</dimen>
+    <dimen name="dashboard_item_textSize2">12sp</dimen>
     <dimen name="dashboard_item_price_marginTop">2dp</dimen>
 
     <dimen name="delete_icon_padding">5dp</dimen>
