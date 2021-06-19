@@ -144,7 +144,6 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         mProductDetails = product
 
         // Populate the product details in the UI.
-        iv_product_detail_image.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         GlideLoader(this@ProductDetailsActivity).loadProductPicture(
                 product.image,

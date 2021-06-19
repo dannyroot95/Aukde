@@ -4,8 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="6dp">
+    android:padding="7dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -24,15 +30,11 @@
             android:orientation="vertical"
             android:layout_height="wrap_content">
 
-            <com.mikhaellopez.circularimageview.CircularImageView
+            <ImageView
                 android:id="@+id/iv_dashboard_item_image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_dashboard_image_height"
-                android:contentDescription="@string/content_description"
-                app:civ_shadow="true"
-                app:civ_shadow_radius="10dp"
-                app:civ_shadow_color="#CACACA"
-                android:src="@drawable/img_splash_background" />
+                android:contentDescription="@string/content_description"/>
 
 
             <LinearLayout
@@ -107,5 +109,5 @@
 
     </androidx.cardview.widget.CardView>
 
-
+    </LinearLayout>
 </LinearLayout>

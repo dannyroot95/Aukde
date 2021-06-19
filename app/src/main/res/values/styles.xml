@@ -28,6 +28,22 @@
         <item name="colorPrimary">@color/colorThemeGreenLight</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/colorThemeGreenLight</item>
+        <item name="android:drawableLeft">@drawable/ic_plus</item>
+    </style>
+
+    <style name="OutlinedButton" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorThemeGreenLight</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorThemeGreenLight</item>
+    </style>
+
+    <style name="ColorButtonMaterialStore" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorThemeGreenLight</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorThemeGreenLight</item>
+        <item name="android:drawableRight">@drawable/ic_shopping</item>
     </style>
 
 </resources>
