@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="10dp"
         android:layout_height="wrap_content">
 
@@ -23,6 +23,7 @@
             android:layout_weight="1"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/product_details_title_textSize_gigant"
+            android:textAllCaps="true"
             tools:text="Product Title"
             tools:ignore="MissingConstraints" />
 
@@ -37,6 +38,7 @@
     <com.aukdeshop.utils.MSPTextViewBold
         android:id="@+id/tv_product_details_sku"
         android:layout_width="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_gravity="right"
         android:layout_marginEnd="10dp"
         android:layout_height="wrap_content"
@@ -54,13 +56,11 @@
         android:layout_marginBottom="-100dp"
         android:layout_height="wrap_content">
 
-        <com.mikhaellopez.circularimageview.CircularImageView
+        <ImageView
             android:id="@+id/iv_product_detail_image"
-            android:layout_width="250dp"
-            app:civ_shadow="true"
-            app:civ_shadow_radius="10dp"
-            app:civ_shadow_color="#CACACA"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/product_detail_image_height"
+            android:scaleType="fitXY"
             android:contentDescription="@string/content_description"
             tools:ignore="MissingConstraints" />
 
@@ -83,7 +83,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="100dp"
                 android:layout_height="wrap_content">
 
                 <com.aukdeshop.utils.MSPTextViewBold
@@ -187,6 +187,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="16dp"
+                    app:icon="@drawable/ic_plus"
                     android:layout_marginBottom="20dp"
                     android:gravity="center"
                     android:textAllCaps="false"
@@ -194,12 +195,11 @@
                     android:theme="@style/ColorButtonMaterial"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:paddingTop="@dimen/btn_padding"
-                    android:drawableEnd="@drawable/ic_plus"
                     android:includeFontPadding="false"
                     android:paddingBottom="@dimen/btn_padding"
                     android:text="@string/btn_lbl_add_to_cart"
                     android:textColor="@color/item_value_text_color"
-                    android:textSize="@dimen/btn_textSize"
+                    android:textSize="@dimen/btn_textSize_mid"
                     android:visibility="gone"
                     app:cornerRadius="15sp"
                     app:strokeColor="@color/colorThemeGreenMid"
@@ -209,37 +209,33 @@
                     tools:visibility="visible"
                     tools:ignore="UnusedAttribute" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_go_to_cart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="20dp"
+                    android:textAllCaps="false"
+                    android:includeFontPadding="false"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/monserrat"
+                    android:paddingTop="@dimen/btn_padding"
+                    android:paddingBottom="@dimen/btn_padding"
+                    app:icon="@drawable/ic_shopping"
+                    android:text="@string/btn_lbl_go_to_cart"
+                    app:cornerRadius="15sp"
+                    app:strokeColor="@color/colorThemeGreenMid"
+                    android:theme="@style/ColorButtonMaterialStore"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:textColor="@color/item_value_text_color"
+                    android:textSize="@dimen/btn_textSize_mid"
+                    android:visibility="gone"/>
+
             </LinearLayout>
 
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_go_to_cart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="16dp"
-                android:textAllCaps="false"
-                android:drawableStart="@drawable/ic_shopping"
-                android:includeFontPadding="false"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:fontFamily="@font/monserrat"
-                android:paddingTop="@dimen/btn_padding"
-                android:paddingBottom="@dimen/btn_padding"
-                android:text="@string/btn_lbl_go_to_cart"
-                app:cornerRadius="15sp"
-                app:strokeColor="@color/colorThemeGreenMid"
-                android:theme="@style/ColorButtonMaterial"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:textColor="@color/item_value_text_color"
-                android:textSize="@dimen/btn_textSize"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_add_to_cart"
-                tools:visibility="visible" />
         </LinearLayout>
 
     </ScrollView>

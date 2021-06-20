@@ -29,12 +29,17 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_settings)
 
-        setupActionBar()
-
-
         tv_edit.setOnClickListener(this@SettingsActivity)
         btn_logout.setOnClickListener(this@SettingsActivity)
         ll_address.setOnClickListener(this@SettingsActivity)
+        tv_settings_wishlist.text = "Lista de deseos"
+        tv_edit.text = "Editar perfil"
+        tv_my_address.text = "Mis direcciones"
+        tv_order.text = "122"
+        tv_my_orders.text = "Mis pedidos"
+        tv_sales.text = "S/1200"
+        tv_my_sales.text = "Mis ventas"
+
     }
 
     override fun onResume() {
@@ -83,22 +88,6 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
     }
 
     /**
-     * A function for actionBar Setup.
-     */
-    private fun setupActionBar() {
-
-        setSupportActionBar(toolbar_settings_activity)
-
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_white_color_back_24dp)
-        }
-
-        toolbar_settings_activity.setNavigationOnClickListener { onBackPressed() }
-    }
-
-    /**
      * A function to get the user details from firestore.
      */
     private fun getUserDetails() {
@@ -127,5 +116,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         tv_gender.text = user.gender
         tv_email.text = user.email
         tv_mobile_number.text = "${user.mobile}"
+        tv_name_store.text = user.name_store
+        tv_category_store.text = user.type_product
     }
 }

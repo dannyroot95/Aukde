@@ -116,7 +116,7 @@
     <string name="lbl_product_description">Descripción del producto</string>
     <string name="lbl_product_details_stock_quantity">Stock</string>
 
-    <string name="btn_lbl_add_to_cart">Agregar al carrito</string>
+    <string name="btn_lbl_add_to_cart">Añadir al carrito</string>
     <string name="success_message_item_added_to_cart">Producto agregado!.</string>
     <string name="btn_lbl_go_to_cart">Ir al carrito</string>
 

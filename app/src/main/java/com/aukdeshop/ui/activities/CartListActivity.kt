@@ -13,6 +13,7 @@ import com.aukdeshop.models.Product
 import com.aukdeshop.ui.adapters.CartItemsListAdapter
 import com.aukdeshop.utils.Constants
 import kotlinx.android.synthetic.main.activity_cart_list.*
+import kotlinx.android.synthetic.main.activity_settings.*
 
 /**
  * Cart list activity of the application.

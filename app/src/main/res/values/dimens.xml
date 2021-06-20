@@ -58,6 +58,7 @@
     <dimen name="settings_edit_label_textSize">14sp</dimen>
     <dimen name="settings_name_marginTop">30dp</dimen>
     <dimen name="settings_name_textSize">22sp</dimen>
+    <dimen name="settings_name_textSize_small">14sp</dimen>
     <dimen name="settings_info_marginTop">3dp</dimen>
     <dimen name="settings_info_textSize">18sp</dimen>
     <dimen name="settings_address_margin">16dp</dimen>
