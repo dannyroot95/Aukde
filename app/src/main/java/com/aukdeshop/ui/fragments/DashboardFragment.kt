@@ -50,6 +50,7 @@ class DashboardFragment : BaseFragment() {
         val dialog = Dialog(view.context)
         dialog.setContentView(R.layout.menu_dialog)
         dialog.window?.setBackgroundDrawable(ColorDrawable(0))
+        dialog.window!!.attributes.windowAnimations = R.style.DialogScale
 
         val btnRecently = dialog.findViewById(R.id.dialog_recently) as ImageView
         val btnFood = dialog.findViewById(R.id.dialog_food) as ImageView

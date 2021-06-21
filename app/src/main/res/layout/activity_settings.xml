@@ -89,14 +89,24 @@
                 android:textSize="@dimen/settings_info_textSize"
                 tools:text="Nombre Partner" />
 
-            <com.aukdeshop.utils.MSPTextView
-                android:id="@+id/tv_gender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
+            <ImageView
+                android:id="@+id/img_male"
+                android:layout_width="24dp"
                 android:layout_marginTop="@dimen/settings_info_marginTop"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/settings_info_textSize"
-                tools:text="Male" />
+                android:visibility="gone"
+                android:src="@drawable/ic_sex_male"
+                android:layout_height="24dp"
+                tools:ignore="ContentDescription"/>
+
+            <ImageView
+                android:id="@+id/img_female"
+                android:layout_width="24dp"
+                android:layout_marginTop="@dimen/settings_info_marginTop"
+                android:visibility="gone"
+                android:src="@drawable/ic_sex_female"
+                android:layout_height="24dp"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 
@@ -402,16 +412,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
+                android:clickable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:layout_height="wrap_content"
-                tools:ignore="UnusedAttribute,UseCompoundDrawables,UselessParent">
+                tools:ignore="UnusedAttribute,UseCompoundDrawables,UselessParent"
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_gravity="bottom"
                     android:layout_marginEnd="3dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="22dp"
                     android:layout_marginStart="20dp"
                     android:src="@drawable/ic_settings_support"
                     android:contentDescription="@string/content_description"
