@@ -116,13 +116,12 @@ class DashboardFragment : BaseFragment() {
         when (item.itemId) {
 
             R.id.action_settings -> {
-
                 startActivity(Intent(activity, SettingsActivity::class.java))
                 return true
             }
 
             R.id.action_cart -> {
-                startActivity(Intent(activity, CartListActivity::class.java))
+                //startActivity(Intent(activity, CartListActivity::class.java))
                 return true
             }
         }

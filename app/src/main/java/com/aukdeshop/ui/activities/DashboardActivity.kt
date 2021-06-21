@@ -1,9 +1,8 @@
 package com.aukdeshop.ui.activities
 
-import android.annotation.SuppressLint
-import android.graphics.Color
+
+import android.content.Intent
 import android.os.Bundle
-import android.text.Html
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -11,11 +10,15 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.aukdeshop.R
+import com.aukdeshop.firestore.FirestoreClass
+import com.github.clans.fab.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_dashboard.*
 
 /**
  *  Dashboard Screen of the app.
  */
 class DashboardActivity : BaseActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +31,7 @@ class DashboardActivity : BaseActivity() {
             )
         )
 
-
+        val cart : FloatingActionButton = findViewById(R.id.float_button_cart)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
@@ -45,12 +48,25 @@ class DashboardActivity : BaseActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         navView.setupWithNavController(navController)
+        cart()
+        cart.setOnClickListener {
+            startActivity(Intent(this, CartListActivity::class.java))
+        }
+
+    }
+
+    private fun cart(){
+        FirestoreClass().countProductsInCart(this@DashboardActivity)
     }
 
     override fun onBackPressed() {
         doubleBackToExit()
     }
 
+    override fun onResume() {
+        super.onResume()
+        cart()
+    }
 
 
 }

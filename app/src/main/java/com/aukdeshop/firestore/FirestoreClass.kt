@@ -1,11 +1,13 @@
 package com.aukdeshop.firestore
 
 import android.R.attr
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.aukdeshop.R
@@ -25,11 +27,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.android.synthetic.main.activity_dashboard.*
+import kotlinx.android.synthetic.main.activity_settings.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -344,6 +349,50 @@ class FirestoreClass {
                         e
                 )
             }
+    }
+
+
+    fun countProductsInCart(activity : DashboardActivity){
+        mFireStore.collection(Constants.CART_ITEMS).whereEqualTo(Constants.USER_ID,FirestoreClass().getCurrentUserID())
+                .get().addOnSuccessListener { document ->
+                    if (document != null){
+                        var counter = 0
+                        for (Query : QueryDocumentSnapshot in document){
+                            val id : String = Query.data[Constants.USER_ID].toString()
+                            if (id == FirestoreClass().getCurrentUserID()){
+                                counter++
+                            }
+                        }
+                        activity.countCart.text = counter.toString()
+                    }
+                    else{
+                        activity.countCart.text = "0"
+                    }
+                }
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    fun getSalesAndOrders(activity : SettingsActivity, user : String){
+        mFireStore.collection(Constants.SOLD_PRODUCTS).whereEqualTo(Constants.PROVIDER_ID,user).get()
+                .addOnSuccessListener {  document ->
+                    var ctx = 0
+                    var totalSale = 0.0
+                    if (document != null){
+                        for (Query : QueryDocumentSnapshot in document){
+                            val found : String = Query.data[Constants.PROVIDER_ID].toString()
+                            val sale : Int = Query.data[Constants.PRICE].toString().toInt()
+                            totalSale += sale
+                            if (found == user){
+                                ctx++
+                            }
+                        }
+                        activity.progress_sales.visibility = View.GONE
+                        activity.progress_orders.visibility = View.GONE
+                        activity.tv_order.text = ctx.toString()
+                        activity.tv_sales.text = "S/$totalSale"
+                    }
+                }
     }
 
 

@@ -197,6 +197,11 @@
                 android:textSize="@dimen/settings_info_textSize"
                 tools:text="S/1200"/>
 
+            <ProgressBar
+                android:id="@+id/progress_sales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
             <TextView
                 android:id="@+id/tv_my_sales"
                 android:layout_width="wrap_content"
@@ -236,6 +241,11 @@
                 android:layout_marginBottom="5dp"
                 android:textSize="@dimen/settings_info_textSize"
                 tools:text="122"/>
+
+            <ProgressBar
+                android:id="@+id/progress_orders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/tv_my_orders"

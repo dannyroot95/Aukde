@@ -2,23 +2,17 @@ package com.aukdeshop.ui.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.Partner
-import com.aukdeshop.models.User
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.GlideLoader
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.android.synthetic.main.activity_settings.*
 
 /**
@@ -28,8 +22,6 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
 
     // A variable for user details which will be initialized later on.
     private lateinit var mUserDetails: Partner
-    private var mFirestore : FirebaseFirestore = FirebaseFirestore.getInstance()
-
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -138,23 +130,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         tv_name_store.text = user.name_store
         tv_category_store.text = user.type_product
 
-        mFirestore.collection("sold_products").whereEqualTo("provider_id",user.id).get()
-                .addOnSuccessListener {  document ->
-                    var ctx = 0
-                    var totalSale = 0.0
-                    if (document != null){
-                        for (Query : QueryDocumentSnapshot in document){
-                            val found : String = Query.data["provider_id"].toString()
-                            val sale : Int = Query.data["price"].toString().toInt()
-                            totalSale += sale
-                            if (found == user.id){
-                                ctx++
-                            }
-                        }
-                        tv_order.text = ctx.toString()
-                        tv_sales.text = "S/$totalSale"
-                    }
-        }
+        FirestoreClass().getSalesAndOrders(this,user.id)
 
     }
 }

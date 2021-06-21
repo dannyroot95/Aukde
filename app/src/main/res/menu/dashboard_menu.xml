@@ -5,13 +5,13 @@
 
     <item
         android:id="@+id/action_cart"
-        android:icon="@drawable/ic_vector_cart"
+        android:icon="@drawable/ic_wishlist_white"
         android:title="@string/action_settings"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_settings"
-        android:icon="@drawable/ic_vector_settings"
+        android:icon="@drawable/ic_user_white"
         android:title="@string/action_settings"
         app:showAsAction="ifRoom" />
 
