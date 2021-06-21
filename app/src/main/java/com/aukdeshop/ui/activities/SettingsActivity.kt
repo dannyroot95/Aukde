@@ -1,8 +1,13 @@
 package com.aukdeshop.ui.activities
 
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
@@ -23,22 +28,26 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_settings)
-
-        tv_edit.setOnClickListener(this@SettingsActivity)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorWhite)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         btn_logout.setOnClickListener(this@SettingsActivity)
         ll_address.setOnClickListener(this@SettingsActivity)
         tv_settings_wishlist.text = "Lista de deseos"
-        tv_edit.text = "Editar perfil"
+        tv_edit_profile.text = "Editar perfil"
         tv_my_address.text = "Mis direcciones"
         tv_order.text = "122"
         tv_my_orders.text = "Mis pedidos"
         tv_sales.text = "S/1200"
         tv_my_sales.text = "Mis ventas"
+        tv_settings_share_app.text = "Compartir"
+        tv_settings_support.text = "Soporte"
+        tv_settings_logout.text = "Salir"
 
     }
 

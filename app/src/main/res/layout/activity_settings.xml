@@ -248,30 +248,31 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:ignore="ScrollViewCount">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_height="wrap_content">
 
 
     <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
+            android:clickable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginTop="15dp"
             android:layout_height="wrap_content"
-            tools:ignore="UselessParent">
+            tools:ignore="UnusedAttribute,UseCompoundDrawables,UselessParent"
+            android:focusable="true">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_gravity="bottom"
+                android:layout_marginStart="20dp"
                 android:layout_marginEnd="3dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:src="@drawable/ic_settings_wishlist"
                 android:contentDescription="@string/content_description"
                 android:layout_height="24dp"/>
@@ -284,37 +285,39 @@
             android:textStyle="bold"
             android:fontFamily="@font/monserrat"
             android:textAllCaps="false"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:textSize="@dimen/settings_info_textSize"
             tools:text="Lista de deseos" />
 
     </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/tv_edit"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginTop="15dp"
                 android:layout_height="wrap_content"
-                tools:ignore="UseCompoundDrawables,UselessParent">
+                tools:ignore="UnusedAttribute,UseCompoundDrawables,UselessParent"
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_gravity="bottom"
                     android:layout_marginEnd="3dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:src="@drawable/ic_settings_edit"
                     android:contentDescription="@string/content_description"
                     android:layout_height="24dp"/>
 
                 <TextView
+                    android:id="@+id/tv_edit_profile"
                     android:layout_width="wrap_content"
-                    android:id="@+id/tv_edit"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:fontFamily="@font/monserrat"
@@ -331,14 +334,17 @@
                 android:clickable="true"
                 android:orientation="horizontal"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginTop="15dp"
                 android:layout_height="wrap_content"
-                tools:ignore="UselessParent">
+                tools:ignore="UnusedAttribute,UselessParent"
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_gravity="bottom"
                     android:layout_marginEnd="3dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="20dp"
                     android:src="@drawable/ic_settings_address"
                     android:contentDescription="@string/content_description"
                     android:layout_height="24dp"/>
@@ -348,8 +354,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:fontFamily="@font/monserrat"
                     android:textAllCaps="false"
                     android:textColor="@color/colorSecondaryText"
@@ -358,27 +364,119 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:layout_height="wrap_content"
+                tools:ignore="UnusedAttribute,UseCompoundDrawables,UselessParent"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_settings_share"
+                    android:contentDescription="@string/content_description"
+                    android:layout_height="24dp"/>
+
+                <TextView
+                    android:id="@+id/tv_settings_share_app"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/monserrat"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="@dimen/settings_info_textSize"
+                    tools:text="Compartir" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:layout_height="wrap_content"
+                tools:ignore="UnusedAttribute,UseCompoundDrawables,UselessParent">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_settings_support"
+                    android:contentDescription="@string/content_description"
+                    android:layout_height="24dp"/>
+
+                <TextView
+                    android:id="@+id/tv_settings_support"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/monserrat"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="@dimen/settings_info_textSize"
+                    tools:text="Soporte" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/darker_gray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:id="@+id/btn_logout"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                tools:ignore="UnusedAttribute,UseCompoundDrawables,UselessParent"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_settings_logout"
+                    android:contentDescription="@string/content_description"
+                    android:layout_height="24dp"/>
+
+                <TextView
+                    android:id="@+id/tv_settings_logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/monserrat"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="@dimen/settings_info_textSize"
+                    tools:text="Salir" />
+
+            </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
-
-
-    <com.aukdeshop.utils.MSPButton
-        android:id="@+id/btn_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ll_address"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/settings_button_marginStartEnd"
-        android:layout_marginTop="@dimen/settings_button_marginTopBottom"
-        android:layout_marginEnd="@dimen/settings_button_marginStartEnd"
-        android:layout_marginBottom="@dimen/settings_button_marginTopBottom"
-        android:background="@drawable/button_background"
-        android:foreground="?attr/selectableItemBackground"
-        android:gravity="center"
-        android:paddingTop="@dimen/btn_padding"
-        android:paddingBottom="@dimen/btn_padding"
-        android:text="@string/btn_lbl_logout"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/btn_textSize" />
 
 </LinearLayout>
