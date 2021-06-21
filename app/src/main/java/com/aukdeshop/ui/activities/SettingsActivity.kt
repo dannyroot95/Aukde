@@ -144,7 +144,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
                     var totalSale = 0.0
                     if (document != null){
                         for (Query : QueryDocumentSnapshot in document){
-                            val found : String = Query.data["user_id"].toString()
+                            val found : String = Query.data["provider_id"].toString()
                             val sale : Int = Query.data["price"].toString().toInt()
                             totalSale += sale
                             if (found == user.id){
