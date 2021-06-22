@@ -41,6 +41,7 @@
 
     </LinearLayout>
 
+    <!--
         <org.imaginativeworld.whynotimagecarousel.ImageCarousel
             android:id="@+id/carousel"
             android:layout_width="match_parent"
@@ -49,7 +50,6 @@
             app:showCaption="false"
             app:autoWidthFixing="true"
             android:background="@drawable/aukde_partner"
-            app:imagePlaceholder="@drawable/aukde_partner"
             app:showBottomShadow="false"
             app:showTopShadow="false"
             app:imageScaleType="centerCrop"
@@ -57,7 +57,7 @@
             android:theme="@style/Theme.MaterialComponents.DayNight"
             app:autoPlayDelay="4500"
             app:showNavigationButtons="false"/>
-
+-->
 
     <ScrollView
         android:id="@+id/sc_dashboard"

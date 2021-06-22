@@ -54,7 +54,7 @@ class DashboardFragment : BaseFragment() {
     ): View? {
         //(activity as AppCompatActivity).supportActionBar?.hide()
         val view  = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        carousel = view.findViewById(R.id.carousel)
+        //carousel = view.findViewById(R.id.carousel)
         val buttonCategory = view.findViewById(R.id.float_button_menu) as FloatingActionButton
         val listTypeProduct = resources.getStringArray(R.array.type_product)
         val search = view.findViewById(R.id.search_product) as SearchView
@@ -115,7 +115,7 @@ class DashboardFragment : BaseFragment() {
             dialog.dismiss()
         }
         sliderLists?.clear()
-        usingFirebaseDatabase()
+        //usingFirebaseDatabase()
         return view
     }
 
