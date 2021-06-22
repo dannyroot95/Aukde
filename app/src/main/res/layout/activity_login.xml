@@ -124,7 +124,6 @@
         app:strokeColor="@color/colorThemeGreenMid"
         android:textAllCaps="false"
         android:fontFamily="@font/monserrat"
-        android:theme="@style/ColorButtonMaterial"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:paddingBottom="@dimen/btn_padding"
         android:text="@string/btn_lbl_login"

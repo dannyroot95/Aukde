@@ -11,6 +11,8 @@
     <color name="colorSecondaryText">#989898</color>
 
     <color name="colorWhite">#FFFFFF</color>
+    <color name="semiWhite">#f8f8f8</color>
+    <color name="primaryPink">#FFA9C6</color>
 
     <color name="colorSnackBarSuccess">#FF7EA9</color>
     <color name="colorSnackBarError">#F72400</color>

@@ -17,7 +17,6 @@
         android:focusableInTouchMode="true"
         android:layout_height="wrap_content">
 
-
         <androidx.appcompat.widget.SearchView
             android:layout_width="0dp"
             android:background="@drawable/background_searchview"
@@ -41,24 +40,6 @@
 
     </LinearLayout>
 
-    <!--
-        <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-            android:id="@+id/carousel"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            app:autoPlay="true"
-            app:showCaption="false"
-            app:autoWidthFixing="true"
-            android:background="@drawable/aukde_partner"
-            app:showBottomShadow="false"
-            app:showTopShadow="false"
-            app:imageScaleType="centerCrop"
-            app:carouselBackground="#00000000"
-            android:theme="@style/Theme.MaterialComponents.DayNight"
-            app:autoPlayDelay="4500"
-            app:showNavigationButtons="false"/>
--->
-
     <ScrollView
         android:id="@+id/sc_dashboard"
         android:layout_width="match_parent"
@@ -70,6 +51,22 @@
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_height="wrap_content">
+
+            <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                android:id="@+id/carousel"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:autoPlay="true"
+                app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+                app:showCaption="false"
+                app:autoWidthFixing="true"
+                app:imagePlaceholder="@drawable/aukde_partner"
+                app:showBottomShadow="false"
+                app:showTopShadow="false"
+                app:imageScaleType="centerCrop"
+                app:carouselBackground="#00000000"
+                app:autoPlayDelay="4500"
+                app:showNavigationButtons="false"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_dashboard_items"

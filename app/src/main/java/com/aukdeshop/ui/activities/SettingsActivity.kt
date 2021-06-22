@@ -31,7 +31,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_settings)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorWhite)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.semiWhite)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         btn_logout.setOnClickListener(this@SettingsActivity)
         ll_address.setOnClickListener(this@SettingsActivity)

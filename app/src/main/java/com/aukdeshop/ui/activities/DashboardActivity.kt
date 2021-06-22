@@ -30,6 +30,7 @@ class DashboardActivity : BaseActivity() {
                 R.drawable.app_toolbar_background
             )
         )
+        window.statusBarColor = ContextCompat.getColor(this, R.color.primaryPink)
 
         val cart : FloatingActionButton = findViewById(R.id.float_button_cart)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)

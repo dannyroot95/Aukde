@@ -3,9 +3,11 @@ package com.aukdeshop.ui.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
@@ -36,9 +38,12 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
         super.onCreate(savedInstanceState)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.semiWhite)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         // This is used to align the xml view to this class
         typeMoney = resources.getString(R.string.type_money)
         setContentView(R.layout.activity_product_details)

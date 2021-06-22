@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
+import android.view.ViewTreeObserver.OnScrollChangedListener
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -36,7 +37,7 @@ class DashboardFragment : BaseFragment() {
     lateinit var itemList: ArrayList<Product>
     val list = mutableListOf<CarouselItem>()
     var sliderLists: ArrayList<Slider>? = null
-    lateinit var carousel: ImageCarousel
+    lateinit var carousel : ImageCarousel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,10 +53,9 @@ class DashboardFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //(activity as AppCompatActivity).supportActionBar?.hide()
         val view  = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        //carousel = view.findViewById(R.id.carousel)
         val buttonCategory = view.findViewById(R.id.float_button_menu) as FloatingActionButton
+        carousel = view.findViewById(R.id.carousel)
         val listTypeProduct = resources.getStringArray(R.array.type_product)
         val search = view.findViewById(R.id.search_product) as SearchView
         val dialog = Dialog(view.context)
@@ -114,8 +114,9 @@ class DashboardFragment : BaseFragment() {
             getDashboardTypeProductItemsList(listTypeProduct[3])
             dialog.dismiss()
         }
-        sliderLists?.clear()
-        //usingFirebaseDatabase()
+        list.clear()
+        sliderLists!!.clear()
+        usingFirebaseDatabase()
         return view
     }
 
@@ -143,9 +144,16 @@ class DashboardFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        sliderLists?.clear()
+        list.clear()
+        sliderLists!!.clear()
         getDashboardItemsList()
         usingFirebaseDatabase()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        list.clear()
+        sliderLists!!.clear()
     }
 
     /**
@@ -185,6 +193,17 @@ class DashboardFragment : BaseFragment() {
             rv_dashboard_items.adapter = adapter
             itemList = dashboardItemsList
 
+            /*
+            sc_dashboard.viewTreeObserver.addOnScrollChangedListener(OnScrollChangedListener {
+                if (sc_dashboard != null) {
+                    if (sc_dashboard.height == 1222 && sc_dashboard.scrollY == 0) {
+                        carousel.visibility = View.VISIBLE
+                        Toast.makeText(context,sc_dashboard.height.toString() +" - "+ sc_dashboard.scrollY.toString(),Toast.LENGTH_SHORT).show()
+                    } else {
+                        carousel.visibility = View.GONE
+                    }
+                }
+            })*/
 
             adapter.setOnClickListener(object :
                 DashboardItemsListAdapter.OnClickListener {
@@ -234,20 +253,21 @@ class DashboardFragment : BaseFragment() {
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        sliderLists?.clear()
+                        list.clear()
+                        sliderLists!!.clear()
                         for (snapshot in dataSnapshot.children) {
                             val model = snapshot.getValue(Slider::class.java)!!
                             sliderLists?.add(model)
                         }
                         usingFirebaseImages(sliderLists!!)
-                    }
-                    else {
+                    } else {
                     }
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
                     Toast.makeText(
-                        context, "No hay publicidad", Toast.LENGTH_SHORT).show()
+                        context, "No hay publicidad", Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
     }
@@ -262,3 +282,4 @@ class DashboardFragment : BaseFragment() {
     }
 
 }
+

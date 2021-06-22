@@ -10,50 +10,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content">
-
-        <com.aukdeshop.utils.MSPTextViewBold
-            android:id="@+id/tv_product_details_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/product_details_title_textSize_gigant"
-            android:textAllCaps="true"
-            tools:text="Product Title"
-            tools:ignore="MissingConstraints" />
-
-        <ImageView
-            android:layout_width="40dp"
-            android:src="@drawable/wishlist"
-            android:layout_marginEnd="20dp"
-            android:layout_height="40dp"/>
-
-    </LinearLayout>
-
-    <com.aukdeshop.utils.MSPTextViewBold
-        android:id="@+id/tv_product_details_sku"
-        android:layout_width="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_gravity="right"
-        android:layout_marginEnd="10dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/product_details_price_textSize"
-        tools:text="Sku"
-        android:layout_marginStart="10dp"
-        tools:ignore="MissingConstraints" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:orientation="vertical"
         android:gravity="center"
         android:elevation="6dp"
-        android:layout_marginBottom="-100dp"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -76,25 +35,51 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:background="@drawable/shape_detail_product"
             android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="15dp"
                 android:layout_height="wrap_content">
 
                 <com.aukdeshop.utils.MSPTextViewBold
-                    android:id="@+id/tv_product_details_label"
+                    android:id="@+id/tv_product_details_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/product_details_label_margin"
-                    android:text="@string/lbl_product_description"
                     android:textColor="@color/item_value_text_color"
-                    android:textSize="@dimen/product_details_label_textSize" />
+                    android:textSize="@dimen/product_details_title_textSize_gigant"
+                    android:textAllCaps="true"
+                    android:layout_margin="@dimen/product_details_label_margin"
+                    tools:text="Product Title"/>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <com.aukdeshop.utils.MSPTextViewBold
+                        android:id="@+id/tv_product_details_label"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/product_details_label_margin"
+                        android:text="@string/lbl_product_description"
+                        android:textColor="@color/item_value_text_color"
+                        android:textSize="@dimen/product_details_label_textSize" />
+
+                    <com.aukdeshop.utils.MSPTextViewBold
+                        android:id="@+id/tv_product_details_sku"
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/item_value_text_color"
+                        android:textSize="@dimen/product_details_price_textSize"
+                        android:layout_margin="@dimen/product_details_label_margin"
+                        tools:text="Sku"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -107,6 +92,7 @@
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/product_details_description_textSize"
                 tools:text="This is product details description." />
+
 
             <LinearLayout
                 android:id="@+id/ll_product_details_quantity"
@@ -192,7 +178,6 @@
                     android:gravity="center"
                     android:textAllCaps="false"
                     android:fontFamily="@font/monserrat"
-                    android:theme="@style/ColorButtonMaterial"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:paddingTop="@dimen/btn_padding"
                     android:includeFontPadding="false"
@@ -206,8 +191,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ll_product_details_quantity"
-                    tools:visibility="visible"
-                    tools:ignore="UnusedAttribute" />
+                    tools:visibility="visible"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_go_to_cart"
@@ -224,11 +208,9 @@
                     android:fontFamily="@font/monserrat"
                     android:paddingTop="@dimen/btn_padding"
                     android:paddingBottom="@dimen/btn_padding"
-                    app:icon="@drawable/ic_shopping"
                     android:text="@string/btn_lbl_go_to_cart"
                     app:cornerRadius="15sp"
-                    app:strokeColor="@color/colorThemeGreenMid"
-                    android:theme="@style/ColorButtonMaterialStore"
+                    app:icon="@drawable/ic_shopping"                    app:strokeColor="@color/colorThemeGreenMid"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:textColor="@color/item_value_text_color"
                     android:textSize="@dimen/btn_textSize_mid"
