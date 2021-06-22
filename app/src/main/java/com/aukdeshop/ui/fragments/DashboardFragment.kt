@@ -7,20 +7,26 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aukdeshop.R
 import com.aukdeshop.firestore.FirestoreClass
 import com.aukdeshop.models.Product
-import com.aukdeshop.ui.activities.CartListActivity
+import com.aukdeshop.models.Slider
 import com.aukdeshop.ui.activities.ProductDetailsActivity
 import com.aukdeshop.ui.activities.SettingsActivity
 import com.aukdeshop.ui.adapters.DashboardItemsListAdapter
 import com.aukdeshop.utils.Constants
 import com.github.clans.fab.FloatingActionButton
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.fragment_dashboard.*
+import org.imaginativeworld.whynotimagecarousel.CarouselItem
+import org.imaginativeworld.whynotimagecarousel.ImageCarousel
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -28,11 +34,15 @@ import kotlin.collections.ArrayList
 class DashboardFragment : BaseFragment() {
 
     lateinit var itemList: ArrayList<Product>
+    val list = mutableListOf<CarouselItem>()
+    var sliderLists: ArrayList<Slider>? = null
+    lateinit var carousel: ImageCarousel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // If we want to use the option menu in fragment we need to add it.
         setHasOptionsMenu(true)
+        sliderLists = ArrayList()
 
     }
 
@@ -44,6 +54,7 @@ class DashboardFragment : BaseFragment() {
     ): View? {
         //(activity as AppCompatActivity).supportActionBar?.hide()
         val view  = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        carousel = view.findViewById(R.id.carousel)
         val buttonCategory = view.findViewById(R.id.float_button_menu) as FloatingActionButton
         val listTypeProduct = resources.getStringArray(R.array.type_product)
         val search = view.findViewById(R.id.search_product) as SearchView
@@ -60,6 +71,8 @@ class DashboardFragment : BaseFragment() {
 
         val closeDialog = dialog.findViewById(R.id.closeDialog) as ImageView
 
+        sliderLists = ArrayList()
+
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
@@ -70,7 +83,6 @@ class DashboardFragment : BaseFragment() {
                 return true
             }
         })
-
 
         buttonCategory.setOnClickListener {
             dialog.show()
@@ -102,7 +114,8 @@ class DashboardFragment : BaseFragment() {
             getDashboardTypeProductItemsList(listTypeProduct[3])
             dialog.dismiss()
         }
-
+        sliderLists?.clear()
+        usingFirebaseDatabase()
         return view
     }
 
@@ -130,7 +143,9 @@ class DashboardFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        sliderLists?.clear()
         getDashboardItemsList()
+        usingFirebaseDatabase()
     }
 
     /**
@@ -211,6 +226,39 @@ class DashboardFragment : BaseFragment() {
             }
         })
 
+    }
+
+    private fun usingFirebaseDatabase() {
+
+        FirebaseDatabase.getInstance().reference.child("Slider")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        sliderLists?.clear()
+                        for (snapshot in dataSnapshot.children) {
+                            val model = snapshot.getValue(Slider::class.java)!!
+                            sliderLists?.add(model)
+                        }
+                        usingFirebaseImages(sliderLists!!)
+                    }
+                    else {
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Toast.makeText(
+                        context, "No hay publicidad", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+
+    private fun usingFirebaseImages(sliderLists: List<Slider>) {
+        for (i in sliderLists.indices) {
+            val downloadImageUrl = sliderLists[i].url
+            val textDatabase=sliderLists[i].titulo
+            list.add(CarouselItem(downloadImageUrl, textDatabase))
+            carousel.addData(list)
+        }
     }
 
 }

@@ -17,20 +17,11 @@
             app:navGraph="@navigation/mobile_navigation"
             tools:ignore="FragmentTagUsage,NestedWeights" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:layout_width="match_parent"
-        android:layout_gravity="bottom|center"
-        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:layout_height="wrap_content">
-
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_view"
@@ -59,9 +50,12 @@
 
                 <TextView
                     android:id="@+id/countCart"
+                    android:background="@drawable/circle_shape"
                     android:layout_width="wrap_content"
                     android:textStyle="bold"
-                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="#fff"
                     android:textSize="10dp"
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="10dp"
@@ -71,10 +65,5 @@
             </RelativeLayout>
 
         </LinearLayout>
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 
 </LinearLayout>

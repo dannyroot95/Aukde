@@ -13,34 +13,54 @@
         android:orientation="horizontal"
         android:focusable="true"
         android:layout_marginTop="7dp"
-        android:layout_marginEnd="5dp"
         android:layout_marginBottom="7dp"
         android:focusableInTouchMode="true"
         android:layout_height="wrap_content">
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/float_button_menu"
-            android:layout_width="20dp"
-            app:fab_colorNormal="@android:color/transparent"
-            app:fab_colorPressed="@android:color/darker_gray"
-            app:fab_shadowRadius="0dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_list_black"/>
 
         <androidx.appcompat.widget.SearchView
             android:layout_width="0dp"
             android:background="@drawable/background_searchview"
             android:id="@+id/search_product"
             android:layout_weight="1"
+            android:layout_marginStart="5dp"
             app:queryBackground="@android:color/transparent"
             app:queryHint="Buscar producto..."
             app:iconifiedByDefault="false"
             android:inputType="textCapSentences"
             android:layout_height="match_parent"/>
 
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/float_button_menu"
+            android:layout_width="15dp"
+            app:fab_colorNormal="@android:color/transparent"
+            app:fab_colorPressed="@android:color/darker_gray"
+            app:fab_shadowRadius="0dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_list_black"/>
+
     </LinearLayout>
 
+        <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+            android:id="@+id/carousel"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:autoPlay="true"
+            app:showCaption="false"
+            app:autoWidthFixing="true"
+            android:background="@drawable/aukde_partner"
+            app:imagePlaceholder="@drawable/aukde_partner"
+            app:showBottomShadow="false"
+            app:showTopShadow="false"
+            app:imageScaleType="centerCrop"
+            app:carouselBackground="#00000000"
+            android:theme="@style/Theme.MaterialComponents.DayNight"
+            app:autoPlayDelay="4500"
+            app:showNavigationButtons="false"/>
+
+
     <ScrollView
+        android:id="@+id/sc_dashboard"
         android:layout_width="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
