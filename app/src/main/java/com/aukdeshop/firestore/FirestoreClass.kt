@@ -273,13 +273,23 @@ class FirestoreClass {
                                 Context.MODE_PRIVATE
                         )
 
-
                 val sharedHasDelivery =
                         activity.getSharedPreferences(
                                 Constants.HAS_DELIVERY,
                                 Context.MODE_PRIVATE
                         )
 
+                val sharedPackage =
+                        activity.getSharedPreferences(
+                                Constants.PACKAGE,
+                                Context.MODE_PRIVATE
+                        )
+
+                val sharedDatePackage =
+                        activity.getSharedPreferences(
+                                Constants.DATE_ACTIVE_PACKAGE,
+                                Context.MODE_PRIVATE
+                        )
 
                 // Create an instance of the editor which is help us to edit the SharedPreference.
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
@@ -288,6 +298,8 @@ class FirestoreClass {
                 val editorSku: SharedPreferences.Editor = sharedSku.edit()
                 val editorNameStore: SharedPreferences.Editor = sharedNameStore.edit()
                 val editorHasDelivery: SharedPreferences.Editor = sharedHasDelivery.edit()
+                val editorPackage: SharedPreferences.Editor = sharedPackage.edit()
+                val editorDateActivePackage: SharedPreferences.Editor = sharedDatePackage.edit()
 
                 editor.putString(
                         Constants.LOGGED_IN_USERNAME,
@@ -319,6 +331,16 @@ class FirestoreClass {
                         Constants.HAS_DELIVERY,
                         user.delivery)
                 editorHasDelivery.apply()
+
+                editorPackage.putString(
+                        Constants.PACKAGE,
+                        user.type_package)
+                editorPackage.apply()
+
+                editorDateActivePackage.putLong(
+                        Constants.DATE_ACTIVE_PACKAGE,
+                        user.timestamp)
+                editorDateActivePackage.apply()
 
                 when (activity) {
                     is LoginActivity -> {

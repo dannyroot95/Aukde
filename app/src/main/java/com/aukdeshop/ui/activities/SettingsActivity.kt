@@ -2,6 +2,7 @@ package com.aukdeshop.ui.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -129,6 +130,20 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         tv_mobile_number.text = "${user.mobile}"
         tv_name_store.text = user.name_store
         tv_category_store.text = user.type_product
+        tv_code_client.text = "#"+user.code_client
+        tv_type_package.text = user.type_package
+
+        when (user.type_package) {
+            Constants.TRIAL -> {
+                tv_type_package.setTextColor(Color.parseColor("#21618C"))
+            }
+            Constants.BASIC -> {
+                tv_type_package.setTextColor(Color.parseColor("#A569BD"))
+            }
+            else -> {
+                tv_type_package.setTextColor(Color.parseColor("#F39C12"))
+            }
+        }
 
         FirestoreClass().getSalesAndOrders(this,user.id)
 

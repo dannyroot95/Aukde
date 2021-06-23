@@ -344,7 +344,8 @@ class RegisterProvider : BaseActivity() , OnMapReadyCallback{
                     mDelivery,
                     et_store.text.toString().trim { it <= ' ' },
                     et_address.text.toString().trim { it <= ' ' },
-                    mTypeUser, "", latitudeX, longitudeX,0,""
+                    mTypeUser, "", latitudeX, longitudeX,
+                    0,"","","",0
             )
 
             // Pass the required values in the constructor.

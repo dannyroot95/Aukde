@@ -23,5 +23,8 @@ data class Partner (
     val latitude : Double = 0.0,
     val longitude : Double = 0.0,
     val profileCompleted: Int = 0,
-    val sku : String = ""
+    val sku : String = "",
+    val code_client : String = "",
+    val type_package : String = "",
+    val timestamp : Long = 0L
 ): Parcelable
