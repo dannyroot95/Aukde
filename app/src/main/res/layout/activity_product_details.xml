@@ -216,6 +216,23 @@
                     android:textSize="@dimen/btn_textSize_mid"
                     android:visibility="gone"/>
 
+                <com.aukdeshop.utils.MSPTextViewBold
+                    android:id="@+id/tv_product_no_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="16dp"
+                    android:paddingTop="@dimen/btn_padding"
+                    android:paddingBottom="@dimen/btn_padding"
+                    android:layout_marginBottom="20dp"
+                    android:layout_margin="@dimen/product_details_label_margin"
+                    android:text="@string/no_stock"
+                    android:visibility="gone"
+                    android:textColor="#FC0000"
+                    android:textSize="@dimen/product_details_label_textSize" />
+
             </LinearLayout>
 
         </LinearLayout>

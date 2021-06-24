@@ -34,6 +34,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_dashboard.*
+import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -779,6 +780,24 @@ class FirestoreClass {
 
                 Log.e(activity.javaClass.simpleName, "Error while getting the product details.", e)
             }
+    }
+
+    fun getStatusPackageProvider(activity : ProductDetailsActivity , id : String){
+
+        mFireStore.collection(Constants.USERS).document(id)
+                .get().addOnSuccessListener { document ->
+
+                    if (document != null) {
+
+                        val typePackage : String = document.data!!["type_package"].toString()
+                        if (typePackage == Constants.SUSPEND){
+                            activity.btn_add_to_cart.visibility = View.GONE
+                            activity.tv_product_no_add.visibility = View.VISIBLE
+                        }
+                    }
+
+                }
+
     }
 
     /**

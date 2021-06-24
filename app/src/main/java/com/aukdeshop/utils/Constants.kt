@@ -23,6 +23,7 @@ object Constants {
     const val CART: String = "cart"
     const val STORE: String = "store"
     const val PACKAGE: String = "package"
+    const val SUSPEND : String = "Suspend"
     const val TRIAL : String = "Trial"
     const val BASIC : String = "Básico"
     const val PREMIUM : String = "Premium"

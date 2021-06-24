@@ -16,6 +16,8 @@ import com.aukdeshop.models.Product
 import com.aukdeshop.utils.Constants
 import com.aukdeshop.utils.GlideLoader
 import com.google.firebase.database.*
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.item_cart_layout.view.*
 import java.util.*
@@ -146,6 +148,8 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
     @SuppressLint("SetTextI18n")
     fun productDetailsSuccess(product: Product) {
 
+        var mFirestore : FirebaseFirestore = FirebaseFirestore.getInstance()
+
         mProductDetails = product
 
         // Populate the product details in the UI.
@@ -170,6 +174,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         }
         mProviderId = product.provider_id
 
+        FirestoreClass().getStatusPackageProvider(this,product.provider_id)
 
         if(product.stock_quantity.toInt() == 0){
 
