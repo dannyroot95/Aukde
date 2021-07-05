@@ -220,6 +220,8 @@
     <string name="msg_token_fmt">token</string>
     <string name="default_notification_channel_id">99</string>
     <string name="location_order">Ubicacion de tu pedido</string>
+    <string name="empty_wishlist">Lista de deseos vacía!</string>
+    <string name="select_sex">Seleccione su sexo</string>
 
 
 </resources>

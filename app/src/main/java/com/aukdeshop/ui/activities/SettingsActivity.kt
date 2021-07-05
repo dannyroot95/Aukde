@@ -37,6 +37,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         btn_logout.setOnClickListener(this@SettingsActivity)
         ll_address.setOnClickListener(this@SettingsActivity)
         tv_edit.setOnClickListener(this@SettingsActivity)
+        btn_wishlist.setOnClickListener(this@SettingsActivity)
         tv_settings_wishlist.text = "Lista de deseos"
         tv_edit_profile.text = "Editar perfil"
         tv_my_address.text = "Mis direcciones"
@@ -57,6 +58,11 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id) {
+
+                R.id.btn_wishlist ->{
+                    val intent = Intent(this@SettingsActivity, WishListListActivity::class.java)
+                    startActivity(intent)
+                }
 
                 R.id.tv_edit -> {
                     val intent = Intent(this@SettingsActivity, UserProfileActivity::class.java)

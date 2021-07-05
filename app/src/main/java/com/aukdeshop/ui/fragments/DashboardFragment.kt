@@ -17,6 +17,7 @@ import com.aukdeshop.models.Product
 import com.aukdeshop.models.Slider
 import com.aukdeshop.ui.activities.ProductDetailsActivity
 import com.aukdeshop.ui.activities.SettingsActivity
+import com.aukdeshop.ui.activities.WishListListActivity
 import com.aukdeshop.ui.adapters.DashboardItemsListAdapter
 import com.aukdeshop.utils.Constants
 import com.github.clans.fab.FloatingActionButton
@@ -134,8 +135,8 @@ class DashboardFragment : BaseFragment() {
                 return true
             }
 
-            R.id.action_cart -> {
-                //startActivity(Intent(activity, CartListActivity::class.java))
+            R.id.action_wishlist -> {
+                startActivity(Intent(activity, WishListListActivity::class.java))
                 return true
             }
         }

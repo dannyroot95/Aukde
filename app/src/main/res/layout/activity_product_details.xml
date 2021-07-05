@@ -44,15 +44,55 @@
                 android:layout_marginTop="15dp"
                 android:layout_height="wrap_content">
 
-                <com.aukdeshop.utils.MSPTextViewBold
-                    android:id="@+id/tv_product_details_title"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/item_value_text_color"
-                    android:textSize="@dimen/product_details_title_textSize_gigant"
-                    android:textAllCaps="true"
-                    android:layout_margin="@dimen/product_details_label_margin"
-                    tools:text="Product Title"/>
+                    android:orientation="horizontal">
+
+                    <com.aukdeshop.utils.MSPTextViewBold
+                        android:id="@+id/tv_product_details_title"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/item_value_text_color"
+                        android:textSize="@dimen/product_details_title_textSize_gigant"
+                        android:textAllCaps="true"
+                        android:layout_margin="@dimen/product_details_label_margin"
+                        tools:text="Product Title"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        app:cardCornerRadius="8dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_product_detail_image"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        >
+
+                        <ImageView
+                            android:id="@+id/btn_add_favorite"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/heart_white"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:visibility="gone"
+                            tools:visibility="visible"
+                            tools:ignore="ContentDescription,RtlSymmetry,UnusedAttribute" />
+
+                        <ImageView
+                            android:id="@+id/btn_delete_favorite"
+                            android:layout_width="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/heart_red"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:visibility="gone"
+                            tools:visibility="visible"
+                            tools:ignore="ContentDescription,UnusedAttribute" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

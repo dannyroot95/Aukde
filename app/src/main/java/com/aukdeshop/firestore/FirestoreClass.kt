@@ -1378,7 +1378,202 @@ class FirestoreClass {
                             e
                     )
                 }
+    }
+
+    fun getAllWishList(activity: WishListListActivity){
+        mFireStore.collection(Constants.PRODUCTS)
+            .get()
+            .addOnSuccessListener { document->
+                // Here we get the list of boards in the form of documents.
+                Log.e("Products List", document.documents.toString())
+
+                // Here we have created a new instance for Products ArrayList.
+                val productsList: ArrayList<WishList> = ArrayList()
+
+                // A for loop as per the list of documents to convert them into Products ArrayList.
+                for (i in document.documents) {
+
+                    val product = i.toObject(WishList::class.java)
+                    product!!.key = i.id
+                    productsList.add(product)
+                    when(activity){
+                        is WishListListActivity ->{
+                            activity.successFavoriteListFromFireStore(productsList)
+                        }
+                    }
+                }
+
+
+            }
+            .addOnFailureListener { e->
+                // Hide the progress dialog if there is any error based on the base class instance.
+                when (activity) {
+                    is WishListListActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
+
+                Log.e("Get Product List", "Error while getting all product list.", e)
+            }
+    }
+
+    fun getWishList(activity: WishListListActivity) {
+        mFireStore.collection(Constants.FAVORITE_ITEMS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get()
+            .addOnSuccessListener { document ->
+                // Here we get the list of cart items in the form of documents.
+                Log.e(activity.javaClass.simpleName, document.documents.toString())
+                // Here we have created a new instance for Favorite Items ArrayList.
+                val list: ArrayList<WishList> = ArrayList()
+                for(i in document.documents){
+                    val favoriteItem = i.toObject(WishList::class.java)!!
+                    favoriteItem.key = i.id
+                    list.add(favoriteItem)
+                }
+                when (activity) {
+                    is WishListListActivity -> {
+                        activity.successFavoriteItemsList(list)
+                    }
+                }
+
+            }
+            .addOnFailureListener { e->
+                // Hide the progress dialog if there is an error based on the activity instance.
+                when (activity) {
+                    is WishListListActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
+
+                Log.e(activity.javaClass.simpleName, "Error while getting the favorite list items.", e)
+            }
 
     }
+
+    fun removeItemFromWishListAdapter(context: Context, favorite_id: String){
+        mFireStore.collection(Constants.FAVORITE_ITEMS)
+            .document(favorite_id)
+            .delete()
+            .addOnSuccessListener {
+                when(context){
+                    is WishListListActivity ->{
+                        context.itemRemovedSuccessFavorite()
+                    }
+                }
+            }
+            .addOnFailureListener { e->
+                when(context){
+                    is ProductDetailsActivity ->{
+                        context.hideProgressDialog()
+                    }
+                }
+                Log.e(
+                    context.javaClass.simpleName,
+                    "Error while removing the item from the favorite list.",
+                    e
+                )
+            }
+    }
+
+
+    fun removeItemFromWishList(activity: Context, title_from_activity : String){
+        mFireStore.collection(Constants.FAVORITE_ITEMS).whereEqualTo(Constants.USER_ID,FirestoreClass().getCurrentUserID()).get()
+            .addOnSuccessListener { document->
+                if(document !=null){
+                    for(Query:QueryDocumentSnapshot in document){
+                        val title :String = Query.data["title"].toString()
+                        val key:String = Query.id
+                        if(title == title_from_activity){
+                            mFireStore.collection(Constants.FAVORITE_ITEMS).document(key).delete()
+                                .addOnSuccessListener {
+                                    when(activity){
+                                        is ProductDetailsActivity ->{
+                                            activity.itemRemovedFavoriteSuccess()
+                                        }
+                                    }
+
+                                }
+                                .addOnFailureListener { e->
+                                    when(activity){
+                                        is ProductDetailsActivity ->{
+                                            activity.hideProgressDialog()
+                                        }
+                                    }
+                                    Log.e(
+                                        activity.javaClass.simpleName,
+                                        "Error while removing the item from the favorite list.",
+                                        e
+                                    )
+
+                                }
+                        }
+                    }
+                }
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    fun checkIfItemExistInWishList(activity: ProductDetailsActivity, productId: String){
+        mFireStore.collection(Constants.FAVORITE_ITEMS)
+            .whereEqualTo(Constants.USER_ID,getCurrentUserID())
+            .whereEqualTo(Constants.PRODUCT_ID,productId)
+            .get()
+            .addOnSuccessListener { document->
+                Log.e(activity.javaClass.simpleName, document.documents.toString())
+                if(document.documents.size > 0){
+                    activity.productExistsInFavorite()
+                } else{
+                    activity.hideProgressDialog()
+                }
+            }
+            .addOnFailureListener { e->
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while checking the existing cart favorite.",
+                    e
+                )
+            }
+    }
+
+    fun getWishListDetails(activity: ProductDetailsActivity, productId: String){
+        mFireStore.collection(Constants.PRODUCTS)
+            .document(productId)
+            .get()
+            .addOnSuccessListener { document->
+                // Here we get the favorite details in the form of document.
+                Log.e(activity.javaClass.simpleName, document.toString())
+                val product= document.toObject(WishList::class.java)!!
+                activity.favoriteDetailsSuccess(product)
+
+            }
+            .addOnFailureListener { e->
+                Log.e(activity.javaClass.simpleName, "Error while getting the favorite details.", e)
+            }
+    }
+
+    fun addWishListItems(activity: ProductDetailsActivity, addToFavorite: WishList){
+        mFireStore.collection(Constants.FAVORITE_ITEMS)
+            .document()
+            // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
+            .set(addToFavorite, SetOptions.merge())
+            .addOnSuccessListener {
+                activity.addToFavoriteSuccess()
+            }
+            .addOnFailureListener { e->
+                //activity.hideProgressDialog()
+
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while creating the document for cart item.",
+                    e
+                )
+
+            }
+
+    }
+
 
 }

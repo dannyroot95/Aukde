@@ -1,6 +1,7 @@
 package com.aukdeshop.ui.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
@@ -40,6 +41,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
         super.onCreate(savedInstanceState)
@@ -56,7 +58,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         // If the profile is incomplete then user is from login screen and wants to complete the profile.
         if (mUserDetails.profileCompleted == 0) {
             // Update the title of the screen to complete profile.
-            tv_title.text = resources.getString(R.string.title_complete_profile)
+            tv_title_user_profile.text = "COMPLETE SUS DATOS"
 
             // Here, the some of the edittext components are disabled because it is added at a time of Registration.
             et_first_name.isEnabled = false
@@ -74,11 +76,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
         } else {
 
-            // Call the setup action bar function.
-            setupActionBar()
-
             // Update the title of the screen to edit profile.
-            tv_title.text = resources.getString(R.string.title_edit_profile)
+            tv_title_user_profile.text = resources.getString(R.string.title_edit_profile)
 
             // Load the image using the GlideLoader class with the use of Glide Library.
             GlideLoader(this@UserProfileActivity).loadUserPicture(mUserDetails.image, iv_user_photo)
@@ -227,22 +226,6 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             // A log is printed when user close or cancel the image selection.
             Log.e("Request Cancelled", "Image selection cancelled")
         }
-    }
-
-    /**
-     * A function for actionBar Setup.
-     */
-    private fun setupActionBar() {
-
-        setSupportActionBar(toolbar_user_profile_activity)
-
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_white_color_back_24dp)
-        }
-
-        toolbar_user_profile_activity.setNavigationOnClickListener { onBackPressed() }
     }
 
     /**

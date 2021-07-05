@@ -14,6 +14,8 @@ import com.aukdeshop.models.Partner
 import com.aukdeshop.utils.Constants
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.android.synthetic.main.activity_login.*
 
 /**
@@ -22,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 @Suppress("DEPRECATION")
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
+    var mFirestore = FirebaseFirestore.getInstance()
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -108,19 +111,36 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             val password = et_password.text.toString().trim { it <= ' ' }
 
             // Log-In using FirebaseAuth
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val firebaseUser: FirebaseUser = task.result!!.user!!
-                        FirestoreClass().getUserDetails(this@LoginActivity)
-                        FirestoreClass().createToken(firebaseUser.uid)
+            mFirestore.collection(Constants.USERS).whereEqualTo("email",email).get().addOnSuccessListener { document ->
+                if (document !=null){
+                    for (Query : QueryDocumentSnapshot in document){
+                        if (Query.exists()){
+                            val typeUser = Query.data["type_user"].toString()
+                            if (typeUser == "provider"){
+                                FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            val firebaseUser: FirebaseUser = task.result!!.user!!
+                                            FirestoreClass().getUserDetails(this@LoginActivity)
+                                            FirestoreClass().createToken(firebaseUser.uid)
 
-                    } else {
-                        // Hide the progress dialog
-                        hideProgressDialog()
-                        showErrorSnackBar("No se pudo iniciar sesión, revise sus datos", true)
+                                        } else {
+                                            // Hide the progress dialog
+                                            hideProgressDialog()
+                                            showErrorSnackBar("No se pudo iniciar sesión, revise sus datos", true)
+                                        }
+                                    }
+                            }
+                            else {
+                                hideProgressDialog()
+                                showErrorSnackBar("Usuario no permitido", true)
+                            }
+
+                        }
+
                     }
                 }
+            }
         }
     }
 
