@@ -46,8 +46,6 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
     var mapViewBundle: Bundle? = null
     private var mMarker: Marker? = null
     lateinit var mDriverLatLng: LatLng
-    private val mCameraListener: GoogleMap.OnCameraIdleListener? = null
-    private var mIsFirstTime = true
     private lateinit var mListener : ValueEventListener
     private lateinit var mGeofireProvider: GeofireDriverProvider
 
@@ -232,7 +230,12 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
         tv_my_order_details_mobile_number.text = orderDetails.address.mobileNumber
 
         tv_order_details_sub_total.text = orderDetails.sub_total_amount
-        tv_order_details_shipping_charge.text = orderDetails.shipping_charge
+        if (orderDetails.shipping_charge == "0.0"){
+            tv_order_details_shipping_charge.text = Constants.FREE_SHIPPING
+        }
+        else{
+            tv_order_details_shipping_charge.text = orderDetails.shipping_charge
+        }
         tv_order_details_total_amount.text = orderDetails.total_amount
         getDriverLocation()
     }

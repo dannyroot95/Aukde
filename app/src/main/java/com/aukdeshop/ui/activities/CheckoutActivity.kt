@@ -5,6 +5,8 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -81,11 +83,35 @@ class CheckoutActivity : BaseActivity() {
     private lateinit var progressDialogDriverFound : ProgressDialog
     private lateinit var progressDialogDriverAccept : ProgressDialog
 
+    private val mDriversNotAccept = ArrayList<String>()
+
+    private var mTimeLimit = 0
+    private val mHandler = Handler()
+    private var mIsFinishSearch = false
+    private var mIsLookingFor = false
+
     var photo_default = "https://firebasestorage.googleapis.com/v0/b" +
             "/gestor-de-pedidos-aukdefood.appspot.com/o" +
             "/fotoDefault.jpg?alt=media&token=f74486bf-432e-4af6-b114-baa523e1f801"
 
     var hasDelivery = false
+
+    var mRunnable: Runnable = object : Runnable {
+        override fun run() {
+            if (mTimeLimit < 15) {
+                mTimeLimit++
+                mHandler.postDelayed(this, 1000)
+            } else {
+                if (mIdDriverFound != null) {
+                    if (mIdDriverFound != "") {
+                        mClientBookingProvider.updateStatus(FirestoreClass().getCurrentUserID(), "cancel")
+                        restartRequest()
+                    }
+                }
+                mHandler.removeCallbacks(this)
+            }
+        }
+    }
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -96,8 +122,8 @@ class CheckoutActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_checkout)
-        progressDialog = ProgressDialog(this, R.style.ThemeOverlayCustom)
-        progressDialogDriverFound = ProgressDialog(this, R.style.ThemeOverlayCustom)
+        progressDialog = ProgressDialog(this,R.style.ThemeOverlayCustom)
+        progressDialogDriverFound = ProgressDialog(this,R.style.ThemeOverlayCustom)
         progressDialogDriverAccept= ProgressDialog(this, R.style.ThemeOverlayCustom)
         typeMoney = resources.getString(R.string.type_money)
         shipping = 0.0
@@ -246,7 +272,6 @@ class CheckoutActivity : BaseActivity() {
         }
 
         checkingDelivery()
-
     }
 
 
@@ -292,44 +317,102 @@ class CheckoutActivity : BaseActivity() {
             })
     }
 
-    private fun getClosestDriver(){
-        mGeofireDriverDriver.getActiveDrivers(mStoreFoundLatLng, mRadiusDriver)
-                .addGeoQueryEventListener(object : GeoQueryEventListener {
-                    override fun onKeyEntered(keyDriver: String, locationDriver: GeoLocation) {
-                        if (!mDriverFound) {
-                            progressDialog.setMessage(Constants.DRIVER_FOUND + "\n" + Constants.PLEASE_WAIT)
-                            mDriverFound = true
-                            mIdDriverFound = keyDriver
-                            mDriverFoundLatLng = LatLng(locationDriver.latitude, locationDriver.longitude)
-                            sendNotificationDriver()
-                        }
-                    }
+    private fun getClosestDriver() {
+        mGeofireDriverDriver.getActiveDrivers(mStoreFoundLatLng, mRadiusDriver).addGeoQueryEventListener(object : GeoQueryEventListener {
+            override fun onKeyEntered(key: String, location: GeoLocation) {
+                // INGRESA CUANDO ENCUENTRA UN CONDUCTOR EN UN RADIO DE BUSQUEDA
+                if (!mDriverFound && !isDriverCancel(key) && !mIsFinishSearch) {
 
-                    override fun onKeyExited(keyDriver: String) {
-                    }
-
-                    override fun onKeyMoved(keyDriver: String, locationDriver: GeoLocation) {
-                    }
-
-                    override fun onGeoQueryReady() {
-                        // INGRESA CUANDO TERMINA LA BUSQUEDA DEL DRIVER EN UN RADIO DE 0.1 KM
-                        if (!mDriverFound) {
-                            mRadiusDriver += 0.1f
-                            // NO ENCONTRO NINGUN CONDUCTOR
-                            if (mRadiusDriver > 5) {
-                                progressDialog.dismiss()
-                                Toast.makeText(this@CheckoutActivity, Constants.NO_CLOSEST_DRIVER, Toast.LENGTH_SHORT).show()
-                                finish()
-                                return
-                            } else {
-                                getClosestDriver()
+                    // ESTA BUSCANDO UN CONDUCTOR QUE AUN NO RECHAZADO LA SOLICTUD
+                    mIsLookingFor = true
+                    mClientBookingProvider.getClientBookingByDriver(key).addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            var isDriverNotification = false
+                            if (!mIsFinishSearch) {
+                                for (d in snapshot.children) {
+                                    if (d.exists()) {
+                                        if (d.hasChild("status")) {
+                                            val status = d.child("status").value.toString()
+                                            if (status == "create" || status == "accept") {
+                                                isDriverNotification = true
+                                                break
+                                            }
+                                        } else {
+                                            Log.d("STATUS", "No existe el estado child")
+                                        }
+                                    } else {
+                                        Log.d("STATUS", "No existe el Estado EXIST")
+                                    }
+                                }
+                                if (!isDriverNotification) {
+                                    mDriverFound = true
+                                    mIdDriverFound = key
+                                    mTimeLimit = 0
+                                    mHandler.postDelayed(mRunnable, 1000)
+                                    mDriverFoundLatLng = LatLng(location.latitude, location.longitude)
+                                    customDialog("CONDUCTOR ENCONTRADO!\nESPERANDO RESPUESTA")
+                                    //setText("CONDUCTOR ENCONTRADO\nESPERANDO RESPUESTA")
+                                    sendNotificationDriver()
+                                    Log.d("DRIVER", "ID: $mIdDriverFound")
+                                } else {
+                                    mIsLookingFor = false
+                                    getClosestDriver()
+                                }
                             }
                         }
-                    }
 
-                    override fun onGeoQueryError(error: DatabaseError) {
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+                }
+            }
+
+            override fun onKeyExited(key: String) {}
+            override fun onKeyMoved(key: String, location: GeoLocation) {}
+            override fun onGeoQueryReady() {
+                // INGRESA CUANDO TERMINA LA BUSQUEDA DEL CONDUCTOR EN UN RADIO DE 0.1 KM
+                if (!mDriverFound && !mIsLookingFor) {
+                    mRadiusDriver += 0.1f
+
+                    // NO ENCONTRO NINGUN CONDUCTOR
+                    if (mRadiusDriver > 5) {
+
+                        // TERMINAR TOTALMENTE LA BUSQUEDA YA QUE NO SE ENCONTRO NINGUN CONDCUTOR
+                        if (mListener != null) {
+                            mClientBookingProvider.getStatus(FirestoreClass().getCurrentUserID()).removeEventListener(mListener!!)
+                        }
+                        //.setText("NO SE ENCONTRO UN CONDUCTOR")
+                        mIsFinishSearch = true
+                        mClientBookingProvider.delete(FirestoreClass().getCurrentUserID()).addOnSuccessListener {
+                            Toast.makeText(this@CheckoutActivity, "NO SE ENCONTRO UN CONDUCTOR", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this@CheckoutActivity, CartListActivity::class.java))
+                            finish()
+                        }
+                        // eliminar nodo ClientBooking de su ID
+                        return
+                    } else {
+                        Log.d("REQUEST", "ENTRO GET CLOSETS")
+                        getClosestDriver()
                     }
-                })
+                }
+            }
+
+            override fun onGeoQueryError(error: DatabaseError) {}
+        })
+    }
+
+    private fun restartRequest() {
+        if (mHandler != null) {
+            mHandler.removeCallbacks(mRunnable)
+        }
+        mTimeLimit = 0
+        mIsLookingFor = false
+        mDriversNotAccept.add(mIdDriverFound)
+        mDriverFound = false
+        mIdDriverFound = ""
+        mRadius = 0.1
+        mIsFinishSearch = false
+        //.setText("BUSCANDO CONDUCTOR")
+        getClosestDriver()
     }
 
     private fun sendNotificationDriver() {
@@ -350,10 +433,10 @@ class CheckoutActivity : BaseActivity() {
                             if (response.body() != null) {
                                 if (response.body()!!.success == 1) {
                                     val bookingStatus = ClientBooking(
-                                            "",
-                                            FirestoreClass().getCurrentUserID(),
-                                            mIdDriverFound,
-                                            "create"
+                                        "",
+                                        FirestoreClass().getCurrentUserID(),
+                                        mIdDriverFound,
+                                        "create"
                                     )
                                     mClientBookingProvider.create(bookingStatus).addOnSuccessListener {
                                         checkStatusClientBooking()
@@ -384,6 +467,20 @@ class CheckoutActivity : BaseActivity() {
         }
     }
 
+    /**
+     * RETORNAR SI EL ID DEL CODNDUCTOR ENCONTRADO YA CANCELO EL VIAJE
+     * @param idDriver
+     * @return
+     */
+    private fun isDriverCancel(idDriver: String): Boolean {
+        for (id in mDriversNotAccept) {
+            if (id == idDriver) {
+                return true
+            }
+        }
+        return false
+    }
+
     private fun checkStatusClientBooking() {
         mListener = mClientBookingProvider.getStatus(FirestoreClass().getCurrentUserID()).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -392,9 +489,12 @@ class CheckoutActivity : BaseActivity() {
                     if (status == "accept") {
                         placeAnOrder()
                     } else if (status == "cancel") {
-                        progressDialog.dismiss()
-                        Toast.makeText(this@CheckoutActivity, Constants.FAILED_ORDER, Toast.LENGTH_SHORT).show()
-                        finish()
+                        if (mIsLookingFor) {
+                            restartRequest()
+                        }
+                        customDialog("EL CONDUCTOR NO ACEPTÓ EL PEDIDO!\nBUSCANDO SIGUIENTE...")
+                        /*progressDialog.dismiss()
+                           finish()*/
                     }
                 }
             }
@@ -414,18 +514,18 @@ class CheckoutActivity : BaseActivity() {
         }
 
         mOrderDetails = Order(
-                FirestoreClass().getCurrentUserID(),
-                mCartItemsList,
-                mAddressDetails!!,
-                "#${System.currentTimeMillis()}",
-                mCartItemsList[0].image,
-                mSubTotal.toString(),
-                "10.0", // The Shipping Charge is fixed as $10 for now in our case.
-                mTotalAmount.toString(),
-                System.currentTimeMillis(),
-                "",
-                0,
-                mIdDriverFound
+            FirestoreClass().getCurrentUserID(),
+            mCartItemsList,
+            mAddressDetails!!,
+            "#${System.currentTimeMillis()}",
+            mCartItemsList[0].image,
+            mSubTotal.toString(),
+            shipping.toString(), // The Shipping Charge is fixed as $10 for now in our case.
+            mTotalAmount.toString(),
+            System.currentTimeMillis(),
+            "",
+            0,
+            mIdDriverFound
         )
         sendNotificationStore()
         FirestoreClass().placeOrder(this@CheckoutActivity, mOrderDetails)
@@ -448,11 +548,11 @@ class CheckoutActivity : BaseActivity() {
         FirestoreClass().deleteCartRealtime(FirestoreClass().getCurrentUserID()).addOnSuccessListener {
             ClientBookingProvider().delete(FirestoreClass().getCurrentUserID()).addOnSuccessListener {
                 Toast.makeText(
-                        this@CheckoutActivity,
-                        Constants.SUCCESS_ORDER,
-                        Toast.LENGTH_SHORT
+                    this@CheckoutActivity,
+                    Constants.SUCCESS_ORDER,
+                    Toast.LENGTH_SHORT
                 )
-                        .show()
+                    .show()
                 val intent = Intent(this@CheckoutActivity, DashboardActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)

@@ -4,6 +4,7 @@ import com.aukdeshop.models.ClientBooking
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
 import java.util.*
 
 class ClientBookingProvider {
@@ -34,6 +35,10 @@ class ClientBookingProvider {
     //CONSULTA PARA OBTENER EL ID DEL CLIENTE
     fun getStatus(idClientBooking: String): DatabaseReference {
         return mDatabase.child(idClientBooking).child("status")
+    }
+
+    fun getClientBookingByDriver(idDriver: String?): Query {
+        return mDatabase.orderByChild("idDriver").equalTo(idDriver)
     }
 
     //CONSULTA PARA OBTENER EL ID DEL ESTADO DEL CLIENTE

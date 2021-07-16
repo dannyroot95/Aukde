@@ -3,6 +3,7 @@ package com.aukdeshop.ui.activities
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.LocationManager
@@ -52,6 +53,8 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
     lateinit var mLocationRequest: LocationRequest
     lateinit var mFusedLocation: FusedLocationProviderClient
     private var mIsFirstTime = true
+    private var name : String = ""
+    private lateinit var sharedProfile: SharedPreferences
     private var mLocationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             for (location in locationResult.locations) {
@@ -97,6 +100,10 @@ class AddEditAddressActivity : BaseActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_add_edit_address)
 
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this)
+        sharedProfile = getSharedPreferences(Constants.MYSHOPPAL_PREFERENCES,MODE_PRIVATE)
+        name = sharedProfile.getString(Constants.LOGGED_IN_USERNAME,"")!!
+        et_full_name.setText(name)
+        et_full_name.isEnabled = false
 
         geocoder = Geocoder(this)
         if (intent.hasExtra(Constants.EXTRA_ADDRESS_DETAILS)) {

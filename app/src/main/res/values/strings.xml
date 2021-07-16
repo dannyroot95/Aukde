@@ -171,7 +171,7 @@
     <string name="checkout_lbl_selected_address">Dirección seleccionada</string>
     <string name="checkout_lbl_items_receipt">Recibo del producto</string>
     <string name="lbl_payment_mode">Modo de pago</string>
-    <string name="lbl_cash_on_delivery">Contra reembolso</string>
+    <string name="lbl_cash_on_delivery">Contra entrega</string>
     <string name="btn_lbl_place_order">REALIZAR PEDIDO</string>
 
     <string name="no_orders_placed_yet">¡Aún no se realizaron compras!</string>

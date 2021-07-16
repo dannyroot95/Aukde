@@ -76,7 +76,7 @@ class DashboardActivity : BaseActivity() {
         /*if (difference_in_days == 29L && mPackage == Constants.TRIAL){
             logout()
         }*/
-
+        supportActionBar!!.title = "Aukde"
     }
 
     private fun cart(){
@@ -90,6 +90,7 @@ class DashboardActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         cart()
+        supportActionBar!!.title = "Aukde"
     }
 
     private fun logout(){

@@ -44,7 +44,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         tv_my_orders.text = "Mis pedidos"
         tv_my_sales.text = "Mis ventas"
         tv_settings_share_app.text = "Compartir"
-        tv_settings_support.text = "Soporte"
+        tv_settings_support.text = "Atención al cliente"
         tv_settings_logout.text = "Salir"
 
     }
