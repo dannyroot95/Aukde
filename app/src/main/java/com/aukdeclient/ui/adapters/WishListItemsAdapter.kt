@@ -1,4 +1,4 @@
-package com.aukdeclient.ui.adapters
+package com.aukdeshop.ui.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.aukdeclient.R
-import com.aukdeclient.firestore.FirestoreClass
-import com.aukdeclient.models.WishList
-import com.aukdeclient.ui.activities.ProductDetailsActivity
-import com.aukdeclient.ui.activities.WishListListActivity
-import com.aukdeclient.utils.Constants
-import com.aukdeclient.utils.GlideLoader
+import com.aukdeshop.R
+import com.aukdeshop.firestore.FirestoreClass
+import com.aukdeshop.models.WishList
+import com.aukdeshop.ui.activities.ProductDetailsActivity
+import com.aukdeshop.ui.activities.WishListListActivity
+import com.aukdeshop.utils.Constants
+import com.aukdeshop.utils.GlideLoader
 import kotlinx.android.synthetic.main.item_wishlist_layout.view.*
 
 class WishListItemsAdapter(

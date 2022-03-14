@@ -1,4 +1,5 @@
-package com.aukdeclient.models
+package com.aukdeshop.models
+
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

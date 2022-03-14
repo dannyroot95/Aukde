@@ -231,6 +231,7 @@
             android:clickable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             android:layout_height="wrap_content"
+            android:id="@+id/btn_wishlist"
             tools:ignore="UnusedAttribute,UseCompoundDrawables,UselessParent"
             android:focusable="true">
 

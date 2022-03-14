@@ -1,14 +1,14 @@
-package com.aukdeclient.ui.activities
+package com.aukdeshop.ui.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.aukdeclient.R
-import com.aukdeclient.firestore.FirestoreClass
-import com.aukdeclient.models.WishList
-import com.aukdeclient.ui.adapters.WishListItemsAdapter
+import com.aukdeshop.R
+import com.aukdeshop.firestore.FirestoreClass
+import com.aukdeshop.models.WishList
+import com.aukdeshop.ui.adapters.WishListItemsAdapter
 import kotlinx.android.synthetic.main.activity_wish_list_list.*
 
 class WishListListActivity : BaseActivity() {
@@ -60,9 +60,6 @@ class WishListListActivity : BaseActivity() {
 
             val favoriteListAdapter= WishListItemsAdapter(this@WishListListActivity, mFavoriteListItems, true)
             rv_favorite_items_list.adapter=favoriteListAdapter
-
-
-
         }
         else{
             rv_favorite_items_list.visibility = View.GONE

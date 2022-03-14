@@ -37,6 +37,10 @@ class ClientBookingProvider {
         return mDatabase.child(idClientBooking).child("status")
     }
 
+    fun getClientBookingByDriver(idDriver: String?): Query {
+        return mDatabase.orderByChild("idDriver").equalTo(idDriver)
+    }
+
     //CONSULTA PARA OBTENER EL ID DEL ESTADO DEL CLIENTE
     fun getClientBooking(idClientBooking: String): DatabaseReference {
         return mDatabase.child(idClientBooking)

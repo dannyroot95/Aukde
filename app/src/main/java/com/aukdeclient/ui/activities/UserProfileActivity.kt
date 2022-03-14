@@ -1,9 +1,8 @@
-package com.aukdeclient.ui.activities
+package com.aukdeshop.ui.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -15,96 +14,71 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.aukdeclient.R
-import com.aukdeclient.firestore.FirestoreClass
-import com.aukdeclient.models.User
-import com.aukdeclient.utils.Constants
-import com.aukdeclient.utils.GlideLoader
-import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
-import com.google.gson.Gson
+import com.aukdeshop.R
+import com.aukdeshop.firestore.FirestoreClass
+import com.aukdeshop.models.Partner
+import com.aukdeshop.models.User
+import com.aukdeshop.utils.Constants
+import com.aukdeshop.utils.GlideLoader
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import java.io.IOException
-
 
 /**
  * A user profile screen.
  */
-
-/* 'https://api.apis.net.pe/v1/dni?numero=  */
-// verificar DNI
-
 class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
     // Instance of User data model class. We will initialize it later on.
-    private lateinit var mUserDetails: User
+    private lateinit var mUserDetails: Partner
+
+    lateinit var sharedTypeProduct : SharedPreferences
 
     // Add a global variable for URI of a selected image from phone storage.
     private var mSelectedImageFileUri: Uri? = null
 
     private var mUserProfileImageURL: String = ""
 
-    private lateinit var sharedProfile: SharedPreferences
-    private lateinit var editorProfile: SharedPreferences.Editor
-    private lateinit var sharedPreferences : SharedPreferences
-
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
-    @SuppressLint("SetTextI18n", "CommitPrefEdits")
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_user_profile)
 
-        sharedPreferences = getSharedPreferences(Constants.MYSHOPPAL_PREFERENCES,MODE_PRIVATE)
-        sharedProfile = getSharedPreferences(Constants.CLIENT,MODE_PRIVATE)
-        editorProfile = sharedProfile.edit()
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        sharedTypeProduct = getSharedPreferences(Constants.EXTRA_USER_TYPE_PRODUCT, MODE_PRIVATE)
 
-        val sharedPreferences = getSharedPreferences("DATA", MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPreferences.getString("key", null)
-        val type = object : TypeToken<User>() {}.type
-        mUserDetails = gson.fromJson(json, type)
-
-            if (intent.hasExtra(Constants.EXTRA_USER_DETAILS)) {
-                // Get the user details from intent as a ParcelableExtra.
-                mUserDetails = intent.getParcelableExtra(Constants.EXTRA_USER_DETAILS)!!
-            }
-
+        if (intent.hasExtra(Constants.EXTRA_USER_DETAILS)) {
+            // Get the user details from intent as a ParcelableExtra.
+            mUserDetails = intent.getParcelableExtra(Constants.EXTRA_USER_DETAILS)!!
+        }
 
         // If the profile is incomplete then user is from login screen and wants to complete the profile.
         if (mUserDetails.profileCompleted == 0) {
-
-
             // Update the title of the screen to complete profile.
             tv_title_user_profile.text = "COMPLETE SUS DATOS"
 
-            if (mUserDetails.image != ""){
-                GlideLoader(this@UserProfileActivity).loadUserPicture(mUserDetails.image, iv_user_photo)
-            }
             // Here, the some of the edittext components are disabled because it is added at a time of Registration.
             et_first_name.isEnabled = false
             et_first_name.setText(mUserDetails.firstName)
 
-            et_last_name.isEnabled = mUserDetails.lastName == ""
+            et_last_name.isEnabled = false
             et_last_name.setText(mUserDetails.lastName)
 
             et_email.isEnabled = false
             et_email.setText(mUserDetails.email)
 
-            editor.putString(
-                    Constants.LOGGED_IN_USERNAME,
-                    "${et_first_name.text} ${et_last_name.text}"
-            )
-            editor.apply()
+            val editorTypeProduct: SharedPreferences.Editor = sharedTypeProduct.edit()
+            editorTypeProduct.putString(Constants.EXTRA_USER_TYPE_PRODUCT, mUserDetails.type_product)
+            editorTypeProduct.apply()
 
         } else {
 
-            tv_title_user_profile.text = "EDITAR PERFIL"
-            // Call the setup action bar function.
+            // Update the title of the screen to edit profile.
+            tv_title_user_profile.text = resources.getString(R.string.title_edit_profile)
+
             // Load the image using the GlideLoader class with the use of Glide Library.
             GlideLoader(this@UserProfileActivity).loadUserPicture(mUserDetails.image, iv_user_photo)
 
@@ -123,14 +97,6 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             } else {
                 rb_female.isChecked = true
             }
-            et_dni_number.setText(mUserDetails.dni)
-            et_dni_number.isEnabled = false
-
-            editor.putString(
-                    Constants.LOGGED_IN_USERNAME,
-                    "${et_first_name.text} ${et_last_name.text}"
-            )
-            editor.apply()
 
         }
 
@@ -277,11 +243,6 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_mobile_number), true)
                 false
             }
-            TextUtils.isEmpty(et_dni_number.text.toString().trim { it <= ' ' }) -> {
-                showErrorSnackBar(resources.getString(R.string.err_msg_dni), true)
-                false
-            }
-
             else -> {
                 true
             }
@@ -309,7 +270,6 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
         // Here we get the text from editText and trim the space
         val mobileNumber = et_mobile_number.text.toString().trim { it <= ' ' }
-
         val gender = if (rb_male.isChecked) {
             Constants.MALE
         } else {
@@ -327,14 +287,6 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         if (gender.isNotEmpty() && gender != mUserDetails.gender) {
             userHashMap[Constants.GENDER] = gender
         }
-
-        val dni = et_dni_number.text.toString().trim { it <= ' ' }
-        val codeClient = (0..999).random()
-        if (dni.isNotEmpty() && dni != mUserDetails.dni){
-            userHashMap[Constants.DNI] = dni
-            userHashMap[Constants.CODE_CLIENT] = codeClient.toString()+dni
-        }
-
 
         // Here if user is about to complete the profile then update the field or else no need.
         // 0: User profile is incomplete.
@@ -364,8 +316,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             Toast.LENGTH_SHORT
         ).show()
 
-        editorProfile.putInt(Constants.CLIENT,1)
-        editorProfile.apply()
+
         // Redirect to the Main Screen after profile completion.
         startActivity(Intent(this@UserProfileActivity, DashboardActivity::class.java))
         finish()
@@ -382,7 +333,4 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
         updateUserProfileDetails()
     }
-
-
-
 }
