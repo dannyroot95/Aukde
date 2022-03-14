@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_cart"
+        android:id="@+id/action_wishlist"
         android:icon="@drawable/ic_wishlist_white"
         android:title="@string/action_settings"
         app:showAsAction="always" />

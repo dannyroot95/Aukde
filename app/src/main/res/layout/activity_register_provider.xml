@@ -15,7 +15,7 @@
             android:orientation="vertical"
             android:layout_height="wrap_content">
 
-            <com.aukdeshop.utils.MSPTextViewBold
+            <com.aukdeclient.utils.MSPTextViewBold
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/toolbar_title_text_size" />
 
-            <com.aukdeshop.utils.MSPTextView
+            <com.aukdeclient.utils.MSPTextView
                 android:layout_width="match_parent"
                 android:textAlignment="center"
                 android:text="¿Soy?"
@@ -136,7 +136,7 @@
                 android:hint="@string/hint_first_name"
                 android:textColorHint="@color/colorSecondaryText">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
                 android:hint="@string/hint_last_name"
                 android:textColorHint="@color/colorSecondaryText">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
                 android:hint="@string/hint_dni"
                 android:textColorHint="@color/colorSecondaryText">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_dni"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -200,7 +200,7 @@
                 android:hint="@string/hint_phone_number"
                 android:textColorHint="@color/colorSecondaryText">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -222,7 +222,7 @@
                 android:hint="@string/et_hint_email_id"
                 android:textColorHint="@color/colorSecondaryText">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -243,7 +243,7 @@
                 android:hint="@string/et_hint_store"
                 android:textColorHint="@color/colorSecondaryText">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_store"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -264,7 +264,7 @@
                 android:hint="@string/hint_address"
                 android:textColorHint="@color/colorSecondaryText">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -297,7 +297,7 @@
                 android:hint="@string/hint_ruc"
                 android:textColorHint="@color/colorSecondaryText">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_ruc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -309,7 +309,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <com.aukdeshop.utils.MSPTextView
+            <com.aukdeclient.utils.MSPTextView
                 android:id="@+id/textView_type_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -326,7 +326,7 @@
                 android:layout_marginTop="11dp"
                 android:layout_marginEnd="16dp"/>
 
-                <com.aukdeshop.utils.MSPTextView
+                <com.aukdeclient.utils.MSPTextView
                     android:id="@+id/tv_delivery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -374,7 +374,7 @@
                 android:hint="@string/et_hint_password"
                 android:textColorHint="@color/colorSecondaryText">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -395,7 +395,7 @@
                 android:hint="@string/et_hint_confirm_password"
                 android:textColorHint="@color/colorSecondaryText">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_confirm_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -419,7 +419,7 @@
                     android:layout_height="wrap_content"
                     tools:checked="false" />
 
-                <com.aukdeshop.utils.MSPTextView
+                <com.aukdeclient.utils.MSPTextView
                     android:id="@+id/tv_terms_condition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -429,7 +429,7 @@
                     android:textSize="@dimen/txt_terms_and_condition_textSize" />
             </LinearLayout>
 
-            <com.aukdeshop.utils.MSPButton
+            <com.aukdeclient.utils.MSPButton
                 android:id="@+id/btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -454,7 +454,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.aukdeshop.utils.MSPTextView
+                <com.aukdeclient.utils.MSPTextView
                     android:id="@+id/tv_already_have_an_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -463,7 +463,7 @@
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/lbl_text_view_textSize" />
 
-                <com.aukdeshop.utils.MSPTextViewBold
+                <com.aukdeclient.utils.MSPTextViewBold
                     android:id="@+id/tv_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -508,7 +508,6 @@
         android:src="@drawable/icon_my_location"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_gravity="center"
-        />
+        android:layout_gravity="center"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

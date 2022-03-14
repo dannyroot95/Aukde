@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical">
+
+            <com.aukdeclient.utils.MSPTextViewBold
+                android:id="@+id/dialog_name_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/monserrat"
+                android:textAlignment="center"
+                android:text="Aviso importante!"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/dialog_image_item"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="5dp"
+                android:contentDescription="TODO"
+                android:src="@drawable/ic_warning" />
+
+            <com.aukdeclient.utils.MSPTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/monserrat"
+                android:text="Horario de Atención al Cliente y envíos por categoría:\n
+\n
+* Comidas y Bebidas\n
+ - Lun a Sab / De  8:00  a 21:00 horas.\n
+Entregas a domicilio o delivery de 18 min. a 38 minutos en promedio.\n
+\n
+Advertencia:\n
+Todas las entregas a domicilio pueden variar según el envío del restaurante o delivery.\n
+\n
+Nota: Horario disponible para la categoría Comida y Bebidas sólo para la ciudad de Puerto Maldonado.  Próximamente nuevas ciudades y horarios.\n
+\n
+\n
+* SuperMercado\n
+- Lun a Sab / De 00:00 a 23:59 horas. Compras disponibles durante todo el día 24/7.
+Horario de entrega a domicilio de 8:00 a 18:00 horas
+y 2 horas después de realizada la compra dentro del horario de entrega.\n
+ - Domingos / De 00:00 a 23:59 horas. Compras disponibles durante 24/7.\n
+Todas las compras realizadas a partir del sábado después de las 18:00 horas en adelante, durante el día Domingo hasta el lunes de la siguiente semana. Las entregas a domicilio de estas compras se realizarán el día Lunes a partir de las 9:00 a 18:00 horas.\n
+\n
+Advertencia:\n
+Para recibir sus pedidos el mismo día en la categoría SuperMercado, la última compra y/o pedido es hasta las 16:00 horas de Lun a Sab.\n
+\n
+Nota: Horario disponible para la categoría SuperMercado sólo para la ciudad de Puerto Maldonado. Próximamente nuevas ciudades y horarios.\n
+\n
+* Hogar y Cocina\n
+- Lun a Dom / De 00:00 a 23:59 horas. Compras disponibles durante todo el día 24/7.\n
+- Entregas a domicilio y/o envíos a partir de las 8:30 hasta 21:00 horas.\n
+Promedio de entrega entre 2 horas después de realizada la compra y como máximo 24 horas, dentro del horario de entrega.\n
+\n
+Advertencia:\n
+Para recibir sus pedidos el mismo día en la categoría Hogar y Cocina, la última compra y/o pedido debe realizarse hasta las 20:30 horas de Lun a Dom.\n
+\n
+Nota: Horario disponible para todas las categorías sólo para las ciudades de Puerto Maldonado, Mazuko, Iberia, Iñapari, Mavila y Laberinto. Próximamente nuevas ciudades y horarios.\n
+\n
+\n
+* Electrónicos, Electrodomésticos y Calzados.\n
+- Lun a Dom / De 00:00 a 23:59 horas. Compras disponibles durante todo el día 24/7.\n
+- Entregas a domicilio y/o envíos a las principales ciudades de Madre de Dios - Puerto Maldonado, Iberia, Iñapari, Mazuko, Santa Rosa, Laberinto, Alerta, Mavila, etc.\n
+\n
+Observación:\n
+• Promedio de entrega para la ciudad de Puerto Maldonado es de entre 2 horas después de realizada la compra y 24 horas.\n
+• Promedio de entrega para otras ciudades del departamento de Madre de Dios, después de realizada la compra es entre 24 y 48 horas.\n
+\n
+Nota: Todos los envíos a domicilio de esta categoría tienen un costo adicional por envío, que varía según producto, ubicación y transporte.\n
+El Horario disponible para todos los envíos según categorías, estándisponibles sólo para la ciudad de Puerto Maldonado. Próximamente nuevas ciudades y horarios.\n"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/dialog_btn_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="50dp"
+                android:textColor="@color/colorPrimary"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/monserrat"
+                android:text="OK"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

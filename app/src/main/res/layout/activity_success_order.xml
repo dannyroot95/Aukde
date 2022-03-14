@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:padding="30dp"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.SuccessOrderActivity">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/success_client"
+        tools:ignore="ContentDescription" />
+
+    <com.aukdeclient.utils.MSPTextViewBold
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:text="@string/title_order_success"
+        android:layout_height="wrap_content"/>
+
+    <com.aukdeclient.utils.MSPTextView
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:layout_marginTop="5dp"
+        android:text="@string/text_success_order"
+        android:layout_height="wrap_content"/>
+
+    <com.aukdeclient.utils.MSPTextViewBold
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:layout_marginTop="15dp"
+        android:textSize="13sp"
+        android:text="@string/thanks_purchase"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_success_order_continue_shopping"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/monserrat"
+            android:textStyle="bold"
+            android:text="@string/continue_shopping"
+            android:layout_height="wrap_content"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/btn_success_order_show_orders"
+            android:layout_width="wrap_content"
+            android:text="@string/show_orders"
+            android:fontFamily="@font/monserrat"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            tools:ignore="ButtonStyle" />
+
+    </LinearLayout>
+
+</LinearLayout>

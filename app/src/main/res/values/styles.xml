@@ -29,4 +29,9 @@
         <item name="android:windowExitAnimation">@anim/scale_out</item>
     </style>
 
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+    </style>
+
+
 </resources>

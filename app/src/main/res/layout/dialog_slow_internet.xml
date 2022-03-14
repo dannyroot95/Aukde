@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="12dp"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="#FF1F00"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:src="@drawable/ic_wifi_off"
+                    android:layout_height="80dp"/>
+
+                <com.aukdeclient.utils.MSPTextViewBold
+                    android:layout_width="wrap_content"
+                    android:text="ERROR DE CONEXION!"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <com.aukdeclient.utils.MSPTextView
+                android:layout_width="wrap_content"
+                android:text="Por favor siga las siguientes soluciones:"
+                android:layout_marginTop="12dp"
+                android:textSize="16sp"
+                android:layout_marginLeft="16dp"
+                android:layout_gravity="left"
+                android:layout_height="wrap_content"/>
+
+            <com.aukdeclient.utils.MSPTextViewBold
+                android:layout_width="wrap_content"
+                android:text="-Inténtelo nuevamente"
+                android:layout_marginTop="12dp"
+                android:textSize="16sp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="16dp"
+                android:layout_height="wrap_content"/>
+
+            <com.aukdeclient.utils.MSPTextViewBold
+                android:layout_width="wrap_content"
+                android:text="-Reinicie su Módem"
+                android:layout_marginTop="12dp"
+                android:textSize="16sp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="16dp"
+                android:layout_height="wrap_content"/>
+
+            <com.aukdeclient.utils.MSPTextViewBold
+                android:layout_width="wrap_content"
+                android:text="-Verifique su conexión a internet"
+                android:layout_marginTop="12dp"
+                android:textSize="16sp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="16dp"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:id="@+id/closeDialog"
+                android:text="OK"
+                app:cornerRadius="6dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="#FF1F00"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="#FF1F00"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

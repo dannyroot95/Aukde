@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/item_list_marginTop"
     android:background="@color/colorWhite"
     android:orientation="vertical"
-    android:padding="@dimen/item_list_padding">
+    android:padding="@dimen/item_list_padding"
+    tools:targetApi="m">
 
     <LinearLayout
         android:id="@+id/ll_item_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rv_item_image_background"
         android:padding="@dimen/item_image_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,6 +23,7 @@
         <ImageView
             android:id="@+id/iv_item_image"
             android:layout_width="@dimen/item_image_width"
+            android:src="@drawable/ordericon"
             android:layout_height="@dimen/item_image_height"
             android:contentDescription="@string/content_description"
             android:scaleType="fitXY" />
@@ -40,7 +42,7 @@
         app:layout_constraintStart_toEndOf="@id/ll_item_image"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.aukdeshop.utils.MSPTextViewBold
+        <com.aukdeclient.utils.MSPTextViewBold
             android:id="@+id/tv_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +50,7 @@
             android:textSize="@dimen/rv_item_name_textSize"
             tools:text="Name" />
 
-        <com.aukdeshop.utils.MSPTextView
+        <com.aukdeclient.utils.MSPTextView
             android:id="@+id/tv_item_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,7 +60,7 @@
             android:textStyle="bold"
             tools:text="$100.00" />
 
-        <com.aukdeshop.utils.MSPTextView
+        <com.aukdeclient.utils.MSPTextView
             android:id="@+id/tv_item_date_and_hour"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,7 +70,7 @@
             android:textStyle="bold"
             tools:text="" />
 
-        <com.aukdeshop.utils.MSPTextViewBold
+        <com.aukdeclient.utils.MSPTextViewBold
             android:id="@+id/tv_item_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

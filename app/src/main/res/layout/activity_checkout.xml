@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.aukdeshop.utils.MSPTextView
+            <com.aukdeclient.utils.MSPTextView
                 android:id="@+id/tv_product_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_product_items" />
 
-            <com.aukdeshop.utils.MSPTextView
+            <com.aukdeclient.utils.MSPTextView
                 android:id="@+id/tv_selected_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                 android:paddingEnd="@dimen/checkout_content_paddingStartEnd"
                 android:paddingBottom="@dimen/checkout_content_paddingTopBottom">
 
-                <com.aukdeshop.utils.MSPTextView
+                <com.aukdeclient.utils.MSPTextView
                     android:id="@+id/tv_checkout_address_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
                     android:textStyle="bold"
                     tools:text="Home" />
 
-                <com.aukdeshop.utils.MSPTextViewBold
+                <com.aukdeclient.utils.MSPTextViewBold
                     android:id="@+id/tv_checkout_full_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
                     android:textSize="@dimen/item_address_name_textSize"
                     tools:text="Denis Panjuta" />
 
-                <com.aukdeshop.utils.MSPTextView
+                <com.aukdeclient.utils.MSPTextView
                     android:id="@+id/tv_checkout_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
                     android:textSize="@dimen/address_details_textSize"
                     tools:text="XYZ" />
 
-                <com.aukdeshop.utils.MSPTextView
+                <com.aukdeclient.utils.MSPTextView
                     android:id="@+id/tv_checkout_additional_note"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                     android:textSize="@dimen/address_details_textSize"
                     tools:text="XYZ" />
 
-                <com.aukdeshop.utils.MSPTextView
+                <com.aukdeclient.utils.MSPTextView
                     android:id="@+id/tv_checkout_other_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                     android:textSize="@dimen/address_details_textSize"
                     tools:text="XYZ" />
 
-                <com.aukdeshop.utils.MSPTextView
+                <com.aukdeclient.utils.MSPTextViewBold
                     android:id="@+id/tv_checkout_mobile_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                     tools:text="+64 123456789" />
             </LinearLayout>
 
-            <com.aukdeshop.utils.MSPTextView
+            <com.aukdeclient.utils.MSPTextView
                 android:id="@+id/tv_items_receipt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -170,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <com.aukdeshop.utils.MSPTextView
+                    <com.aukdeclient.utils.MSPTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -178,7 +178,7 @@
                         android:textColor="@color/colorDarkGrey"
                         android:textSize="@dimen/checkout_label_value_textSize" />
 
-                    <com.aukdeshop.utils.MSPTextView
+                    <com.aukdeclient.utils.MSPTextView
                         android:id="@+id/tv_checkout_sub_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -193,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <com.aukdeshop.utils.MSPTextView
+                    <com.aukdeclient.utils.MSPTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -201,7 +201,7 @@
                         android:textColor="@color/colorDarkGrey"
                         android:textSize="@dimen/checkout_label_value_textSize" />
 
-                    <com.aukdeshop.utils.MSPTextView
+                    <com.aukdeclient.utils.MSPTextView
                         android:id="@+id/tv_checkout_shipping_charge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -216,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <com.aukdeshop.utils.MSPTextViewBold
+                    <com.aukdeclient.utils.MSPTextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -224,7 +224,7 @@
                         android:textColor="@color/colorDarkGrey"
                         android:textSize="@dimen/checkout_label_value_textSize" />
 
-                    <com.aukdeshop.utils.MSPTextViewBold
+                    <com.aukdeclient.utils.MSPTextViewBold
                         android:id="@+id/tv_checkout_total_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -253,27 +253,54 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <com.aukdeshop.utils.MSPTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+            <com.aukdeclient.utils.MSPTextViewBold
+                android:layout_width="match_parent"
+                android:textAlignment="textStart"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:text="@string/lbl_payment_mode"
                 android:textColor="@color/colorDarkGrey"
                 android:textSize="@dimen/checkout_label_value_textSize" />
 
-            <com.aukdeshop.utils.MSPTextViewBold
-                android:id="@+id/tv_payment_mode"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/lbl_cash_on_delivery"
-                android:textAlignment="center"
-                android:textColor="@color/colorDarkGrey"
-                android:textSize="@dimen/checkout_label_value_textSize" />
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:id="@+id/radio_group_payment"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked = "false"
+                    tools:ignore="UselessParent">
+
+                    <RadioButton
+                        android:id="@+id/rdb_no_card"
+                        android:drawableStart="@drawable/no_credit_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorDarkGrey"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/monserrat"
+                        android:text="@string/lbl_cash_on_delivery"/>
+
+                    <RadioButton
+                        android:id="@+id/rdb_card"
+                        android:drawableStart="@drawable/card_debit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorDarkGrey"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/monserrat"
+                        android:text="@string/lbl_credit_card"/>
+                </RadioGroup>
+            </LinearLayout>
         </LinearLayout>
 
-        <com.aukdeshop.utils.MSPButton
+        <com.aukdeclient.utils.MSPButton
             android:id="@+id/btn_place_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -291,7 +318,8 @@
             android:textSize="@dimen/btn_textSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_terms_and_condition" />
+            app:layout_constraintTop_toBottomOf="@id/ll_terms_and_condition"
+            tools:ignore="UnusedAttribute" />
 
     </LinearLayout>
 

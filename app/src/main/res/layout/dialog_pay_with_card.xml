@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:gravity="center">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_close"
+        android:background="#FFFFFF"
+        android:elevation="5dp"
+        android:id="@+id/closeDialog"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="7dp"
+        android:layout_marginTop="10dp"
+        tools:ignore="ContentDescription"
+        app:tint="#000" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="45dp"
+            android:layout_marginBottom="25dp"
+            android:layout_height="wrap_content">
+
+            <com.aukdeclient.utils.MSPTextView
+                android:layout_width="match_parent"
+                android:layout_marginStart="8dp"
+                android:text="@string/pay_with_your_debit_or_credit_card"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_cardnumber"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    style="@style/TextInputLayoutStyle"
+                    android:layout_height="wrap_content"
+                    android:hint="Numero de tarjeta"
+                    android:textColorHint="#21618C"
+                    android:layout_marginTop="18dp">
+
+                    <com.aukdeclient.utils.MSPEditText
+                        android:id="@+id/txt_cardnumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="16"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/type_card"
+                    android:layout_width="50dp"
+                    android:gravity="bottom"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/ic_credit_card_off"
+                    android:layout_height="match_parent"
+                    android:contentDescription="TODO" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginTop="18dp"
+                    android:layout_height="wrap_content">
+
+                    <com.aukdeclient.utils.MSPTextView
+                        android:layout_width="wrap_content"
+                        android:text="Mes"
+                        android:layout_height="wrap_content"/>
+
+                    <Spinner
+                        android:id="@+id/spinner_month"
+                        android:spinnerMode="dialog"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_height="wrap_content">
+
+                    <com.aukdeclient.utils.MSPTextView
+                        android:layout_width="wrap_content"
+                        android:text="Año"
+                        android:layout_height="wrap_content"/>
+
+                    <Spinner
+                        android:id="@+id/spinner_year"
+                        android:spinnerMode="dialog"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"/>
+
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_cvv"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    style="@style/TextInputLayoutStyle"
+                    android:layout_height="wrap_content"
+                    android:hint="CVV"
+                    android:layout_marginStart="8dp"
+                    android:textColorHint="#21618C"
+                    android:layout_marginTop="18dp">
+
+                    <com.aukdeclient.utils.MSPEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:id="@+id/txt_cvv"
+                        android:maxLength="3"
+                        android:layout_marginTop="18dp"
+                        tools:ignore="Autofill" />
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_email"
+                style="@style/TextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email_credit_propietary"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="18dp"
+                android:textColorHint="#21618C">
+
+                <com.aukdeclient.utils.MSPEditText
+                    android:id="@+id/txt_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:importantForAutofill="no"
+                    tools:ignore="LabelFor" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginLeft="8dp"
+                android:gravity="right"
+                android:layout_marginRight="8dp"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switch_save_card"
+                    android:layout_width="wrap_content"
+                    android:text="@string/remember_card"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/monserrat"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <Button
+                android:text="@string/btn_lbl_place_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_pay"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/monserrat"
+                android:backgroundTint="#21618C"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/kind_card"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

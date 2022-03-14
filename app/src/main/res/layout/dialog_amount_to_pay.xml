@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:gravity="center">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_close"
+        android:background="#FC0000"
+        android:layout_marginTop="7dp"
+        android:elevation="5dp"
+        android:id="@+id/closeDialog"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="7dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:layout_height="wrap_content">
+
+            <com.aukdeclient.utils.MSPTextViewBold
+                android:id="@+id/dialog_name_item"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:text="¿Con cuanto va a pagar?"
+                android:textColor="#000"
+                android:fontFamily="@font/monserrat"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_height="wrap_content"/>
+
+            <com.aukdeclient.utils.MSPTextView
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                android:text="*De preferencia con sencillo"
+                android:textColor="#000"
+                android:fontFamily="@font/monserrat"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/dialog_image_item"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_shopping"
+                android:layout_height="50dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content">
+
+            <com.aukdeclient.utils.MSPTextView
+                android:layout_width="match_parent"
+                android:text="Monto total a pagar : "
+                android:textColor="#000"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                android:layout_height="wrap_content"/>
+
+            <com.aukdeclient.utils.MSPTextView
+                android:id="@+id/dialog_total_to_pay"
+                android:layout_width="match_parent"
+                android:text="S/0.0"
+                android:textColor="#000"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_amount_to_pay"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/enter_amount"
+                    android:textColorHint="@color/colorSecondaryText">
+
+                    <com.aukdeclient.utils.MSPEditText
+                        android:id="@+id/dialog_et_amount_to_pay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:padding="@dimen/et_padding"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="@dimen/et_textSize" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/dialog_btn_pay"
+                android:layout_width="wrap_content"
+                android:text="@string/btn_lbl_place_order"
+                android:fontFamily="@font/monserrat"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

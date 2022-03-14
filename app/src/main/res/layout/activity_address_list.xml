@@ -29,7 +29,7 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <com.aukdeshop.utils.MSPTextView
+    <com.aukdeclient.utils.MSPTextView
         android:id="@+id/tv_add_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_add_address" />
 
-    <com.aukdeshop.utils.MSPTextView
+    <com.aukdeclient.utils.MSPTextView
         android:id="@+id/tv_no_address_found"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

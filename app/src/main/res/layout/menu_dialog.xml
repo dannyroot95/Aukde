@@ -32,8 +32,6 @@
             android:layout_height="wrap_content"
             tools:ignore="UselessLeaf">
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
@@ -41,7 +39,7 @@
             android:layout_marginBottom="25dp"
             android:layout_height="wrap_content">
 
-            <com.aukdeshop.utils.MSPTextViewBold
+            <com.aukdeclient.utils.MSPTextViewBold
                 android:layout_width="match_parent"
                 android:text="Categorías"
                 android:textAlignment="center"
@@ -57,95 +55,12 @@
                 android:layout_height="wrap_content"
                 tools:ignore="UselessParent">
 
-                <ImageView
-                    android:id="@+id/dialog_recently"
-                    android:layout_width="120dp"
-                    android:clickable="true"
-                    android:foreground="@drawable/click_category"
-                    tools:ignore="ContentDescription,UnusedAttribute"
-                    android:focusable="true"
-                    android:layout_marginEnd="2dp"
-                    android:src="@drawable/recently"
-                    android:layout_height="120dp"
-                    />
-
-                <ImageView
-                    android:id="@+id/dialog_food"
-                    android:layout_width="120dp"
-                    android:layout_marginStart="2dp"
-                    android:clickable="true"
-                    android:foreground="@drawable/click_category"
-                    tools:ignore="ContentDescription,UnusedAttribute"
-                    android:focusable="true"
-                    android:src="@drawable/comida"
-                    android:layout_height="120dp"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/rv_category"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="5dp"
-                android:layout_height="wrap_content"
-                tools:ignore="UselessParent">
-
-                <ImageView
-                    android:id="@+id/dialog_home_and_cuisine"
-                    android:layout_width="120dp"
-                    android:src="@drawable/cocina"
-                    android:layout_marginEnd="2dp"
-                    android:layout_height="120dp"
-                    android:clickable="true"
-                    android:foreground="@drawable/click_category"
-                    tools:ignore="ContentDescription,UnusedAttribute"
-                    android:focusable="true"/>
-
-                <ImageView
-                    android:id="@+id/dialog_supermarket"
-                    android:layout_width="120dp"
-                    android:layout_marginStart="2dp"
-                    android:src="@drawable/supermercado"
-                    android:layout_height="120dp"
-                    android:clickable="true"
-                    android:foreground="@drawable/click_category"
-                    tools:ignore="ContentDescription,UnusedAttribute"
-                    android:focusable="true"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="5dp"
-                android:layout_height="wrap_content"
-                tools:ignore="UselessParent">
-
-                <ImageView
-                    android:id="@+id/dialog_electric"
-                    android:layout_width="120dp"
-                    android:layout_marginEnd="2dp"
-                    android:src="@drawable/electrodomestico"
-                    android:layout_height="120dp"
-                    android:clickable="true"
-                    android:foreground="@drawable/click_category"
-                    tools:ignore="ContentDescription,UnusedAttribute"
-                    android:focusable="true" />
-
-                <ImageView
-                    android:id="@+id/dialog_shoes"
-                    android:layout_width="120dp"
-                    android:layout_marginStart="2dp"
-                    android:src="@drawable/calzado"
-                    android:layout_height="120dp"
-                    android:clickable="true"
-                    android:foreground="@drawable/click_category"
-                    tools:ignore="ContentDescription,UnusedAttribute"
-                    android:focusable="true" />
-
-            </LinearLayout>
-
 
         </LinearLayout>
         </ScrollView>

@@ -2,17 +2,19 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.firebase-perf'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.aukdeshop"
+        applicationId "com.aukdeclient"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 7
+        versionName "7.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -35,6 +37,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -50,6 +55,9 @@ dependencies {
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:25.11.0')
 
+    implementation 'com.google.firebase:firebase-perf-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
     // Declare the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-auth'
@@ -85,6 +93,7 @@ dependencies {
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation 'com.firebase:geofire-android:2.2.0'
     implementation "com.google.android.gms:play-services-location:18.0.0"
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.firebase:geofire-android:2.2.0'
 
     implementation 'com.shuhart.stepview:stepview:1.5.1'
@@ -92,6 +101,11 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.4.0'
     implementation 'org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:1.2.1'
     implementation 'me.relex:circleindicator:2.1.6'
+    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+    implementation 'com.github.GrenderG:Toasty:1.5.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

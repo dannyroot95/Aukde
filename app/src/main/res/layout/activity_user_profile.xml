@@ -1,46 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
     tools:context=".ui.activities.UserProfileActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_user_profile_activity"
+    <com.aukdeclient.utils.MSPTextViewBold
+        android:id="@+id/tv_title_user_profile"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/app_gradient_color_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:paddingStart="@dimen/toolbar_title_paddingStart"
-            android:paddingEnd="0dp"
-            android:text="@string/title_complete_profile"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/toolbar_title_text_size"
-            android:textStyle="bold" />
-
-    </androidx.appcompat.widget.Toolbar>
+        android:textAlignment="center"
+        android:textSize="@dimen/et_textSize"
+        android:layout_height="wrap_content"/>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:fillViewport="true"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_user_profile_activity">
+        app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
             android:layout_height="wrap_content">
 
             <FrameLayout
@@ -82,7 +69,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fl_user_image">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -106,7 +93,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_first_name">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -130,7 +117,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_last_name">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -154,22 +141,54 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_email">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_mobile_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
                     android:padding="@dimen/et_padding"
+                    android:maxLength="9"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/et_textSize" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_dni_number"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/hint_dni"
+                android:textColorHint="@color/colorSecondaryText">
+
+                <com.aukdeclient.utils.MSPEditText
+                    android:id="@+id/et_dni_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="8"
+                    android:padding="@dimen/et_padding"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/et_textSize" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.aukdeclient.utils.MSPTextView
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_width="match_parent"
+                android:text="@string/select_sex"
+                android:textSize="@dimen/et_textSize"
+                android:layout_height="wrap_content"/>
 
             <RadioGroup
                 android:id="@+id/rg_gender"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/profile_radio_button_height"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@id/btn_submit"
@@ -178,7 +197,7 @@
                 app:layout_constraintTop_toBottomOf="@id/til_mobile_number"
                 tools:ignore="NotSibling">
 
-                <com.aukdeshop.utils.MSPRadioButton
+                <com.aukdeclient.utils.MSPRadioButton
                     android:id="@+id/rb_male"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -192,7 +211,7 @@
                     android:textColor="@drawable/drawable_gender_tab_text_color_selector"
                     android:textStyle="bold" />
 
-                <com.aukdeshop.utils.MSPRadioButton
+                <com.aukdeclient.utils.MSPRadioButton
                     android:id="@+id/rb_female"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -206,7 +225,7 @@
                     android:textStyle="bold" />
             </RadioGroup>
 
-            <com.aukdeshop.utils.MSPButton
+            <com.aukdeclient.utils.MSPButton
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -228,6 +247,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rg_gender" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

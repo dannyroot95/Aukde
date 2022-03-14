@@ -1,41 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".ui.activities.RegisterActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_register_activity"
+    <com.aukdeclient.utils.MSPTextViewBold
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.aukdeshop.utils.MSPTextViewBold
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:paddingStart="@dimen/toolbar_title_paddingStart"
-            android:paddingEnd="0dp"
-            android:text="@string/create_an_account"
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="@dimen/toolbar_title_text_size" />
-
-    </androidx.appcompat.widget.Toolbar>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="@string/create_an_account"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="@dimen/toolbar_title_text_size" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_register_activity">
+        app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -52,7 +44,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -76,7 +68,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_first_name">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -100,7 +92,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_last_name">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -110,32 +102,10 @@
                     android:textSize="@dimen/et_textSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.aukdeshop.utils.MSPTextView
-                android:id="@+id/textView_type_product"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_email"
-                android:text="@string/sale"
-                android:layout_marginEnd="16dp"
-                />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:id="@+id/spinner_type_product"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_type_product" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_password"
+                app:passwordToggleEnabled="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -146,9 +116,9 @@
                 android:textColorHint="@color/colorSecondaryText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinner_type_product">
+                tools:ignore="MissingConstraints">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -160,6 +130,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_confirm_password"
+                app:passwordToggleEnabled="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -172,7 +143,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_password">
 
-                <com.aukdeshop.utils.MSPEditText
+                <com.aukdeclient.utils.MSPEditText
                     android:id="@+id/et_confirm_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -199,17 +170,17 @@
                     android:layout_height="wrap_content"
                     tools:checked="false" />
 
-                <com.aukdeshop.utils.MSPTextView
+                <com.aukdeclient.utils.MSPTextView
                     android:id="@+id/tv_terms_condition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/txt_terms_condition_marginStart"
+                    android:layout_marginStart="5dp"
                     android:text="@string/i_agree_to_the_terms_and_condition"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/txt_terms_and_condition_textSize" />
             </LinearLayout>
 
-            <com.aukdeshop.utils.MSPButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -217,13 +188,16 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/button_background"
-                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:cornerRadius="15sp"
+                app:strokeColor="@color/colorThemeGreenMid"
+                android:textAllCaps="false"
+                android:fontFamily="@font/monserrat"
                 android:paddingTop="@dimen/btn_padding"
                 android:paddingBottom="@dimen/btn_padding"
                 android:text="@string/btn_lbl_register"
-                android:textColor="@android:color/white"
+                android:textColor="@color/item_value_text_color"
                 android:textSize="@dimen/btn_textSize"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -239,26 +213,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_register">
 
-                <com.aukdeshop.utils.MSPTextView
+                <com.aukdeclient.utils.MSPTextView
                     android:id="@+id/tv_already_have_an_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/clickable_text_view_padding"
+                    android:layout_marginBottom="5dp"
                     android:text="@string/already_have_an_account"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/lbl_text_view_textSize" />
 
-                <com.aukdeshop.utils.MSPTextViewBold
+                <com.aukdeclient.utils.MSPTextViewBold
                     android:id="@+id/tv_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:foreground="?attr/selectableItemBackground"
                     android:padding="@dimen/clickable_text_view_padding"
+                    android:layout_marginBottom="5dp"
                     android:text="@string/login"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/lbl_text_view_textSize" />
             </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

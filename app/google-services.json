@@ -193,6 +193,80 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:550027089460:android:6d4dfa0e61c39109215c61",
+        "android_client_info": {
+          "package_name": "com.aukde_client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550027089460-qgt2e5tvqtop1r0pg2os1c5ssf7frggb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aukde_client",
+            "certificate_hash": "a234952dfe18a49ae380afe64980cc094ddb41b2"
+          }
+        },
+        {
+          "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT8zoZoUf7O_GrAXOX007M4qlH8xwsMq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550027089460:android:8b185c3b941d7e66215c61",
+        "android_client_info": {
+          "package_name": "com.aukdeclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550027089460-ak0madgd57kd5ii96m7484n66mml7smc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aukdeclient",
+            "certificate_hash": "f90acd66171d32a732df1b361b83ba70919da18b"
+          }
+        },
+        {
+          "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT8zoZoUf7O_GrAXOX007M4qlH8xwsMq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550027089460-gr4cj2d60bmd1v8su1bt8pf7h6sa4bdg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:550027089460:android:d3009a2e2fd08f08215c61",
         "android_client_info": {
           "package_name": "com.aukdeshop"

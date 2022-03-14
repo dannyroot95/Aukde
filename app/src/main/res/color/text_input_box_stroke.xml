@@ -1,0 +1,8 @@
+<selector xmlns:tools="http://schemas.android.com/tools"
+    xmlns:Android="http://schemas.Android.com/apk/res/Android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="NamespaceTypo">
+    <item Android:state_focused="true" android:color="#21618C" />
+    <item Android:state_hovered="true" android:color="#21618C"/>
+    <item android:color="#21618C"/>
+</selector>

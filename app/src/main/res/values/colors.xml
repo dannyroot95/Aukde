@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#EC407A</color>
-    <color name="colorPrimaryDark">#222934</color>
-    <color name="colorAccent">#EC407A</color>
 
-    <color name="colorThemeGreenMid">#EC407A</color>
-    <color name="colorThemeGreenLight">#FF7EA9</color>
+    <color name="colorPrimary">#0665a9</color>
+    <color name="colorPrimaryDark">#0665a9</color>
+    <color name="colorAccent">#0665a9</color>
+
+    <color name="colorThemeGreenMid">#0665a9</color>
+    <color name="colorThemeGreenLight">#0665a9</color>
 
     <color name="colorPrimaryText">#222934</color>
     <color name="colorSecondaryText">#989898</color>
 
     <color name="colorWhite">#FFFFFF</color>
-    <color name="semiWhite">#f8f8f8</color>
-    <color name="primaryPink">#FFA9C6</color>
+    <color name="semiWhite">#0665a9</color>
+    <color name="primaryPink">#0665a9</color>
 
-    <color name="colorSnackBarSuccess">#FF7EA9</color>
+    <color name="colorSnackBarSuccess">#03832F</color>
     <color name="colorSnackBarError">#F72400</color>
 
     <color name="colorLightGrey">#F1F1F1</color>
@@ -34,7 +35,5 @@
     <color name="colorOrderStatusInRoute">#154360</color>
     <color name="colorOrderStatusInProcess">#FF9800</color>
     <color name="colorOrderStatusFinish">#8BC34A</color>
-
-
 
 </resources>

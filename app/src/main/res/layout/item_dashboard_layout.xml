@@ -49,7 +49,7 @@
                 android:paddingEnd="@dimen/dashboard_item_paddingStartEnd"
                 android:paddingBottom="@dimen/dashboard_item_paddingStartEnd">
 
-                <com.aukdeshop.utils.MSPTextViewBold
+                <com.aukdeclient.utils.MSPTextViewBold
                     android:id="@+id/tv_dashboard_item_title"
                     android:layout_width="match_parent"
                     android:textAlignment="center"
@@ -72,7 +72,7 @@
                         android:layout_marginEnd="2dp"
                         android:contentDescription="@string/title_select_address" />
 
-                    <com.aukdeshop.utils.MSPTextView
+                    <com.aukdeclient.utils.MSPTextView
                         android:id="@+id/tv_dashboard_item_store"
                         android:layout_width="wrap_content"
                         android:textAlignment="center"
@@ -83,7 +83,7 @@
 
                 </LinearLayout>
 
-                <com.aukdeshop.utils.MSPTextView
+                <com.aukdeclient.utils.MSPTextView
                     android:id="@+id/tv_dashboard_item_category"
                     android:layout_width="match_parent"
                     android:textAlignment="center"
@@ -92,7 +92,7 @@
                     android:textSize="@dimen/dashboard_item_textSize2"
                     tools:text="Item store" />
 
-                <com.aukdeshop.utils.MSPTextViewBold
+                <com.aukdeclient.utils.MSPTextViewBold
                     android:id="@+id/tv_dashboard_item_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -105,8 +105,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-
 
     </androidx.cardview.widget.CardView>
 

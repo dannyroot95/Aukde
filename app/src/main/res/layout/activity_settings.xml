@@ -32,83 +32,49 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_height="match_parent">
 
-                <com.aukdeshop.utils.MSPTextViewBold
-                    android:id="@+id/tv_name_store"
-                    android:layout_gravity="left"
+
+                <com.aukdeclient.utils.MSPTextView
+                    android:id="@+id/tv_name"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:layout_weight="2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:textColor="@color/colorDarkGrey"
                     android:textSize="@dimen/settings_name_textSize"
-                    tools:text="Nombre Local"/>
+                    tools:text="Nombres"
+                    tools:ignore="RtlHardcoded" />
 
-                <TextView
-                    android:id="@+id/tv_category_store"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/monserrat"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorDarkGrey"
-                    android:textSize="@dimen/settings_name_textSize_small"
-                    tools:text="Categoria de negocio"/>
+                <ImageView
+                    android:id="@+id/img_male"
+                    android:layout_gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_sex_male"
+                    android:layout_height="24dp"
+                    tools:ignore="ContentDescription"/>
+
+                <ImageView
+                    android:id="@+id/img_female"
+                    android:layout_gravity="center"
+                    android:layout_width="24dp"
+                    android:layout_marginTop="@dimen/settings_info_marginTop"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_sex_female"
+                    android:layout_height="24dp"
+                    tools:ignore="ContentDescription" />
 
             </LinearLayout>
 
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginEnd="3dp"
-                android:src="@drawable/ic_user_gray"
-                android:contentDescription="@string/content_description"
-                android:layout_height="wrap_content"/>
-
-               <com.aukdeshop.utils.MSPTextView
-                android:id="@+id/tv_name"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textAllCaps="false"
-                android:layout_marginTop="@dimen/settings_info_marginTop"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/settings_info_textSize"
-                tools:text="Nombre Partner" />
-
-
-            <ImageView
-                android:id="@+id/img_male"
-                android:layout_width="24dp"
-                android:layout_marginTop="@dimen/settings_info_marginTop"
-                android:visibility="gone"
-                android:src="@drawable/ic_sex_male"
-                android:layout_height="24dp"
-                tools:ignore="ContentDescription"/>
-
-            <ImageView
-                android:id="@+id/img_female"
-                android:layout_width="24dp"
-                android:layout_marginTop="@dimen/settings_info_marginTop"
-                android:visibility="gone"
-                android:src="@drawable/ic_sex_female"
-                android:layout_height="24dp"
-                tools:ignore="ContentDescription" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -124,7 +90,7 @@
                 android:contentDescription="@string/content_description"
                 android:layout_height="wrap_content"/>
 
-        <com.aukdeshop.utils.MSPTextView
+        <com.aukdeclient.utils.MSPTextView
             android:id="@+id/tv_mobile_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -149,7 +115,7 @@
                 android:contentDescription="@string/content_description"
                 android:layout_height="wrap_content"/>
 
-        <com.aukdeshop.utils.MSPTextView
+        <com.aukdeclient.utils.MSPTextView
             android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -166,7 +132,7 @@
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content">
 
-            <com.aukdeshop.utils.MSPTextViewBold
+            <com.aukdeclient.utils.MSPTextViewBold
                 android:id="@+id/tv_code_client"
                 android:layout_weight="1"
                 android:layout_marginStart="3dp"
@@ -176,15 +142,6 @@
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/settings_info_textSize"
                 tools:text="123456789" />
-
-            <com.aukdeshop.utils.MSPTextViewBold
-                android:id="@+id/tv_type_package"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/settings_info_marginTop"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/settings_edit_label_textSize"
-                tools:text="trial" />
 
         </LinearLayout>
 
@@ -202,45 +159,7 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content"
-            tools:ignore="UselessParent">
 
-            <TextView
-                android:id="@+id/tv_sales"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorSecondaryText"
-                android:layout_marginBottom="5dp"
-                android:textStyle="bold"
-                android:fontFamily="@font/monserrat"
-                android:textAllCaps="false"
-                android:textSize="@dimen/settings_info_textSize"
-                tools:text="S/1200"/>
-
-            <ProgressBar
-                android:id="@+id/progress_sales"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/tv_my_sales"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/monserrat"
-                android:textAllCaps="false"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/settings_address_margin"
-                tools:text="Mis ventas"/>
-
-        </LinearLayout>
 
         <View
             android:layout_width="1dp"
@@ -259,7 +178,7 @@
             tools:ignore="UselessParent">
 
             <TextView
-                android:id="@+id/tv_order"
+                android:id="@+id/tv_purchases"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -271,7 +190,7 @@
                 tools:text="122"/>
 
             <ProgressBar
-                android:id="@+id/progress_orders"
+                android:id="@+id/progress_purchases"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -283,7 +202,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/settings_address_margin"
-                tools:text="Mis pedidos"/>
+                tools:text="Mis compras"/>
 
         </LinearLayout>
 
@@ -306,6 +225,7 @@
 
 
     <LinearLayout
+            android:id="@+id/btn_wishlist"
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:clickable="true"
@@ -339,6 +259,42 @@
             tools:text="Lista de deseos" />
 
     </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ln_alerts"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:layout_height="wrap_content"
+                tools:ignore="UnusedAttribute,UseCompoundDrawables,UselessParent"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:src="@drawable/ic_warning_yellow"
+                    android:contentDescription="@string/content_description"
+                    android:layout_height="24dp"/>
+
+                <TextView
+                    android:id="@+id/tv_settings_alerts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textStyle="bold"
+                    android:text="Ver avisos"
+                    android:fontFamily="@font/monserrat"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="@dimen/settings_info_textSize" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/tv_edit"
@@ -413,6 +369,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ln_share"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:clickable="true"
@@ -448,6 +405,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ln_support"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:clickable="true"

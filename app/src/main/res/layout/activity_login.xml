@@ -1,48 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     tools:context=".ui.activities.LoginActivity">
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/fl_header_image"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/auth_header_image_height"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/auth_screens_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/auth_header_image_height">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/content_description"
-            android:scaleType="fitXY"
-            android:src="@drawable/auth_screens_background" />
+    </LinearLayout>
 
-        <ImageView
-            android:layout_width="@dimen/auth_logo_width_size"
-            android:layout_height="@dimen/auth_logo_height_size"
-            android:layout_gravity="center"
-            android:contentDescription="@string/app_name"
-            android:scaleType="fitCenter"
-            android:src="@drawable/tutorials_eu_logo"
-            app:tint="@color/colorWhite" />
-    </FrameLayout>
-
-    <com.aukdeshop.utils.MSPTextViewBold
+    <com.aukdeclient.utils.MSPTextViewBold
         android:id="@+id/tv_title"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="20dp"
         android:text="@string/title_login"
         android:textColor="@color/colorPrimaryText"
-        android:textSize="@dimen/title_textSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fl_header_image" />
+        android:textSize="@dimen/title_textSize"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_email"
@@ -50,15 +33,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/et_hint_email_id"
-        android:textColorHint="@color/colorSecondaryText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title">
+        android:textColorHint="@color/colorSecondaryText">
 
-        <com.aukdeshop.utils.MSPEditText
+        <com.aukdeclient.utils.MSPEditText
             android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,7 +65,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_email">
 
-        <com.aukdeshop.utils.MSPEditText
+        <com.aukdeclient.utils.MSPEditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,10 +77,11 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.aukdeshop.utils.MSPTextView
+    <com.aukdeclient.utils.MSPTextView
         android:id="@+id/tv_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
         android:layout_marginEnd="16dp"
         android:foreground="?attr/selectableItemBackground"
         android:padding="@dimen/clickable_text_view_padding"
@@ -116,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="16dp"
         android:gravity="center"
         android:paddingTop="@dimen/btn_padding"
@@ -135,15 +116,65 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_login_facebook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="@dimen/btn_padding"
+            app:cornerRadius="8sp"
+            app:strokeColor="#005A8D"
+            android:drawableLeft="@drawable/icon_facebook"
+            android:includeFontPadding="false"
+            android:textAllCaps="false"
+            android:fontFamily="@font/monserrat"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:paddingBottom="@dimen/btn_padding"
+            android:text="@string/facebook_login"
+            android:textColor="#005A8D"
+            app:rippleColor="#C9E0FF"
+            android:textSize="@dimen/btn_social_textSize"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_login_google"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="@dimen/btn_padding"
+            android:layout_marginStart="12dp"
+            android:drawableLeft="@drawable/icon_google"
+            android:includeFontPadding="false"
+            app:cornerRadius="8sp"
+            app:strokeColor="#E82E00"
+            android:textAllCaps="false"
+            android:fontFamily="@font/monserrat"
+            app:rippleColor="#FED3C9"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:paddingBottom="@dimen/btn_padding"
+            android:text="@string/google_login"
+            android:textColor="#E82E00"
+            android:textSize="@dimen/btn_social_textSize"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_login">
 
-        <com.aukdeshop.utils.MSPTextView
+        <com.aukdeclient.utils.MSPTextView
             android:id="@+id/tv_don_t_have_an_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -152,7 +183,7 @@
             android:textColor="@color/colorSecondaryText"
             android:textSize="@dimen/lbl_text_view_textSize" />
 
-        <com.aukdeshop.utils.MSPTextViewBold
+        <com.aukdeclient.utils.MSPTextViewBold
             android:id="@+id/tv_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -162,5 +193,5 @@
             android:textColor="@color/colorSecondaryText"
             android:textSize="@dimen/lbl_text_view_textSize" />
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
     <!--END-->
