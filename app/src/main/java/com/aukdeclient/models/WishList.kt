@@ -1,4 +1,4 @@
-package com.aukdeshop.models
+package com.aukdeclient.models
 
 
 import android.os.Parcelable

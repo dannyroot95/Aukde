@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import com.aukdeclient.R
+import com.aukdeshop.R
 import com.aukdeclient.firestore.FirestoreClass
 import com.aukdeclient.models.Order
 import com.aukdeclient.models.SoldProduct

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activities.AddEditAddressActivity">
+    tools:context="com.aukdeclient.ui.activities.AddEditAddressActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_add_edit_address_activity"

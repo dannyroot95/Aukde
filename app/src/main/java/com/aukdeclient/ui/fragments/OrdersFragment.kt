@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.aukdeclient.R
+import com.aukdeshop.R
 import com.aukdeclient.firestore.FirestoreClass
 import com.aukdeclient.models.Order
 import com.aukdeclient.ui.adapters.MyOrdersListAdapter

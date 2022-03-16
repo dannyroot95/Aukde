@@ -2,29 +2,15 @@ package com.aukdeclient.ui.activities
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
-import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.aukdeclient.R
+import com.aukdeshop.R
 import com.aukdeclient.firestore.FirestoreClass
-import com.aukdeclient.models.Partner
-import com.aukdeclient.models.User
 import com.aukdeclient.utils.Constants
-import com.aukdeclient.utils.GlideLoader
-import com.aukdeclient.utils.TinyDB
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_splash.*
-import java.io.File
 
 @Suppress("DEPRECATION")
 class SplashActivity : AppCompatActivity() {

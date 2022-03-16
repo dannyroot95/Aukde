@@ -10,7 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.aukdeclient.R
+import com.aukdeshop.R
 import com.aukdeclient.models.*
 import com.aukdeclient.notifications.server.FCMBody
 import com.aukdeclient.notifications.server.FCMResponse
@@ -51,7 +51,6 @@ import java.io.File
 import java.io.IOException
 import java.net.URL
 import java.util.*
-import android.os.Handler
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -790,7 +789,7 @@ class FirestoreClass {
         }
     }
 
-    fun getBitmapCategoriesFromURL(src: String?, context: Context, name : String) {
+    private fun getBitmapCategoriesFromURL(src: String?, context: Context, name : String) {
         CoroutineScope(Job() + Dispatchers.IO).launch {
             try {
                 val tinyDB = TinyDB(context)

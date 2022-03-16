@@ -3,7 +3,7 @@ package com.aukdeclient.utils
 import android.content.Context
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.aukdeclient.R
+import com.aukdeshop.R
 import java.io.IOException
 
 /**

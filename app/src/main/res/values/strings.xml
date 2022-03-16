@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Aukde</string>
+    <string name="app_name">AukdeShop</string>
 
     <string name="content_description">imagen</string>
     <string name="title_login">INICIAR SESIÓN</string>
@@ -8,6 +8,8 @@
     <string name="et_hint_password">Contraseña</string>
     <string name="lbl_forgot_password">Olvidé mi constraseña?</string>
     <string name="btn_lbl_login">Iniciar Sesión</string>
+    <string name="facebook_login">Iniciar con\nFacebook</string>
+    <string name="google_login">Iniciar con\nGoogle</string>
     <string name="don_t_have_an_account">No tienes una cuenta?</string>
     <string name="register"><u>Registrar</u></string>
 
@@ -41,10 +43,13 @@
 
     <string name="please_wait">Espere&#8230;</string>
     <string name="updating">Actualizando&#8230;</string>
+    <string name="validate_card">Validando tarjeta espere&#8230;</string>
+    <string name="success_card">Tarjeta validada!, cobrando&#8230;</string>
+    <string name="success_payment">PAGADO!</string>
 
     <string name="title_forgot_password">OLVIDÓ SU CONTRASEÑA?</string>
     <string name="forgot_password_title_description">Ingrese su nombre de usuario y dirección de correo electrónico, le enviaremos un correo electrónico para restablecer su contraseña</string>
-    <string name="btn_lbl_submit">Recuperar</string>
+    <string name="btn_lbl_submit">Guardar</string>
     <string name="btn_lbl_add">Agregar</string>
 
     <string name="email_sent_success">¡Correo electrónico enviado con éxito para restablecer su contraseña!</string>
@@ -72,7 +77,7 @@
 
     <string name="title_dashboard">Inicio</string>
     <string name="title_products">Productos</string>
-    <string name="title_orders">Compras</string>
+    <string name="title_orders">Mis compras</string>
 
     <string name="please_click_back_again_to_exit">Vuelva a hacer clic en Atrás para salir.</string>
 
@@ -126,7 +131,7 @@
     <string name="lbl_subtotal">Subtotal</string>
     <string name="lbl_shipping_charge">Envío</string>
     <string name="lbl_total_amount">Monto total</string>
-    <string name="btn_lbl_checkout">Pago</string>
+    <string name="btn_lbl_checkout">Agregar dirección</string>
     <string name="action_cart">Mi carrito</string>
 
     <string name="lbl_out_of_stock">AGOTADO</string>
@@ -166,13 +171,14 @@
     <string name="err_your_address_deleted_successfully">Su dirección se borró con éxito.</string>
     <string name="title_select_address">SELECCIONAR DIRECCIÓN</string>
 
-    <string name="title_checkout">PAGO</string>
+    <string name="title_checkout">REALIZAR PAGO</string>
     <string name="checkout_lbl_product_items">Artículos</string>
     <string name="checkout_lbl_selected_address">Dirección seleccionada</string>
     <string name="checkout_lbl_items_receipt">Recibo del producto</string>
-    <string name="lbl_payment_mode">Modo de pago</string>
-    <string name="lbl_cash_on_delivery">Contra entrega</string>
     <string name="btn_lbl_place_order">REALIZAR PEDIDO</string>
+    <string name="lbl_payment_mode">Método de pago</string>
+    <string name="lbl_cash_on_delivery">&#160;Contra entrega</string>
+    <string name="lbl_credit_card">&#160;Tarjeta de crédito/débito</string>
 
     <string name="no_orders_placed_yet">¡Aún no se realizaron compras!</string>
 
@@ -220,8 +226,23 @@
     <string name="msg_token_fmt">token</string>
     <string name="default_notification_channel_id">99</string>
     <string name="location_order">Ubicacion de tu pedido</string>
+    <string name="select_sex">Elija su sexo</string>
+
+
+    <string name="facebook_app_id">226338032663558</string>
+    <string name="fb_login_protocol_scheme">fb226338032663558</string>
+
     <string name="empty_wishlist">Lista de deseos vacía!</string>
-    <string name="select_sex">Seleccione su sexo</string>
+    <string name="enter_amount">Ingrese el monto S/</string>
+    <string name="title_order_success">PEDIDO REALIZADO !</string>
+    <string name="continue_shopping">Seguir Comprando</string>
+    <string name="show_orders">Ver compras</string>
+    <string name="thanks_purchase">GRACIAS POR SU COMPRA !</string>
+    <string name="text_success_order">Su pedido se ha realizado correctamente.Visite la opción de pedidos para comprobar el progreso y obtener más detalles.</string>
+    <string name="pay_with_your_debit_or_credit_card">Paga con tu tarjeta de débito ó crédito</string>
+    <string name="remember_card">Recordar tarjeta&#160;&#160;</string>
+    <string name="email_credit_propietary">Email del propietario de la tarjeta</string>
+    <string name="another_order">Solo puede agregar productos de la misma categoría y del mismo negocio, para adquirir el producto debe realizar otro pedido.</string>
 
 
 </resources>

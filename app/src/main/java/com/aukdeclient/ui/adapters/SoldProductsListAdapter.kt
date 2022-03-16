@@ -8,13 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.aukdeclient.R
+import com.aukdeshop.R
 import com.aukdeclient.models.SoldProduct
 import com.aukdeclient.ui.activities.SoldProductDetailsActivity
 import com.aukdeclient.utils.Constants
 import com.aukdeclient.utils.GlideLoader
 import kotlinx.android.synthetic.main.item_list_layout.view.*
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

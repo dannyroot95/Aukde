@@ -5,29 +5,24 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
-import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
-import com.aukdeclient.R
-import com.aukdeclient.databinding.DialogSlowInternetBinding
 import com.aukdeclient.firestore.FirestoreClass
-import com.aukdeclient.models.Product
 import com.aukdeclient.models.User
 import com.aukdeclient.utils.Constants
-import com.aukdeclient.utils.TinyDB
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
+import com.aukdeshop.R
+import com.aukdeshop.databinding.DialogSlowInternetBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -38,9 +33,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_login.*
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import java.util.*
 
 /**
  * Login Screen of the application.

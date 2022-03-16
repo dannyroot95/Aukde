@@ -4,14 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import com.aukdeclient.R
+import com.aukdeshop.R
 import com.aukdeclient.firestore.FirestoreClass
 import com.aukdeclient.models.User
 import com.aukdeclient.utils.Constants
@@ -19,18 +17,10 @@ import com.aukdeclient.utils.GlideLoader
 import com.aukdeclient.utils.TinyDB
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import java.io.File
-import java.io.IOException
-import java.net.URL
 import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
-import com.aukdeclient.databinding.DialogAlertsBinding
-import com.aukdeclient.databinding.DialogSlowInternetBinding
-import com.aukdeclient.databinding.DialogSupportBinding
+import com.aukdeshop.databinding.DialogAlertsBinding
+import com.aukdeshop.databinding.DialogSupportBinding
 
 
 /**

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    tools:context=".ui.activities.SplashActivity">
+    tools:context="com.aukdeclient.ui.activities.SplashActivity">
 
     <ImageView
         android:id="@+id/tv_app_name"
@@ -13,7 +13,7 @@
         android:layout_height="80dp"
         android:layout_marginBottom="16dp"
         android:contentDescription="picture"
-        android:src="@drawable/aukde_partner"
+        android:src="@drawable/tutorials_eu_logo"
         android:textSize="@dimen/splash_title_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

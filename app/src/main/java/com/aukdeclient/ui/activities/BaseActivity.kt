@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
-import com.aukdeclient.R
+import com.aukdeshop.R
 import kotlinx.android.synthetic.main.dialog_progress.*
 
 /**

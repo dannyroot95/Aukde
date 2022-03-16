@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorOffWhite"
-    tools:context=".ui.activities.CheckoutActivity">
+    tools:context="com.aukdeclient.ui.activities.CheckoutActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_checkout_activity"
@@ -296,6 +296,17 @@
                         android:textSize="16sp"
                         android:fontFamily="@font/monserrat"
                         android:text="@string/lbl_credit_card"/>
+
+                    <RadioButton
+                        android:id="@+id/niubiz"
+                        android:drawableStart="@drawable/card_debit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorDarkGrey"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/monserrat"
+                        android:text="Niubiz"/>
+
                 </RadioGroup>
             </LinearLayout>
         </LinearLayout>

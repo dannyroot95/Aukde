@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.RegisterProvider">
+    tools:context="com.aukdeclient.ui.activities.RegisterProvider">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -326,7 +326,7 @@
                 android:layout_marginTop="11dp"
                 android:layout_marginEnd="16dp"/>
 
-                <com.aukdeclient.utils.MSPTextView
+            <com.aukdeclient.utils.MSPTextView
                     android:id="@+id/tv_delivery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -12,7 +12,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aukdeclient.Maps.GeofireDriverProvider
-import com.aukdeclient.R
+import com.aukdeshop.R
 import com.aukdeclient.models.Order
 import com.aukdeclient.ui.adapters.CartItemsListAdapter
 import com.aukdeclient.utils.Constants

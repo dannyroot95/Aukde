@@ -57,7 +57,6 @@ object Constants {
     const val EXTRA_SELECTED_ADDRESS: String = "extra_selected_address"
     const val EXTRA_MY_ORDER_DETAILS: String = "extra_my_order_details"
     const val EXTRA_SOLD_PRODUCT_DETAILS: String = "extra_sold_product_details"
-    const val FAVORITE_ITEMS: String= "favorite_items"
 
     //A unique code for asking the Read Storage Permission using this we will be check and identify in the method onRequestPermissionsResult in the Base Activity.
     const val READ_STORAGE_PERMISSION_CODE = 2
@@ -175,6 +174,12 @@ object Constants {
     const val CATEGORIES = "categories"
     const val ALERT = "alert"
     const val CACHE_ALERT = 0
+
+    const val MERCHANT_ID = "456879852"
+    const val URL = "https://apitestenv.vnforapps.com"
+    const val CERTIFICATE_APP_ENDPOINT = "/api.certificate/v1/query/"
+    const val SECURITY_ENDPOINT = "/api.security/v1/security"
+
 
     /**
      * A function for user profile image selection from phone storage.

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activities.SettingsActivity">
+    tools:context="com.aukdeclient.ui.activities.SettingsActivity">
 
     <LinearLayout
 
@@ -90,7 +90,7 @@
                 android:contentDescription="@string/content_description"
                 android:layout_height="wrap_content"/>
 
-        <com.aukdeclient.utils.MSPTextView
+            <com.aukdeclient.utils.MSPTextView
             android:id="@+id/tv_mobile_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                 android:contentDescription="@string/content_description"
                 android:layout_height="wrap_content"/>
 
-        <com.aukdeclient.utils.MSPTextView
+            <com.aukdeclient.utils.MSPTextView
             android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -231,7 +231,6 @@
             android:clickable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_wishlist"
             tools:ignore="UnusedAttribute,UseCompoundDrawables,UselessParent"
             android:focusable="true">
 

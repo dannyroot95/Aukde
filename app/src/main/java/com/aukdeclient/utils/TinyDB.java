@@ -38,7 +38,6 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.transition.Slide;
 import android.util.Log;
 
 import com.aukdeclient.models.Categories;

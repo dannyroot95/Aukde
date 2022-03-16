@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@drawable/background_detail"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.ProductDetailsActivity">
+    tools:context="com.aukdeclient.ui.activities.ProductDetailsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,22 +44,62 @@
                 android:layout_marginTop="15dp"
                 android:layout_height="wrap_content">
 
-                <com.aukdeshop.utils.MSPTextViewBold
-                    android:id="@+id/tv_product_details_title"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/item_value_text_color"
-                    android:textSize="@dimen/product_details_title_textSize_gigant"
-                    android:textAllCaps="true"
-                    android:layout_margin="@dimen/product_details_label_margin"
-                    tools:text="Product Title"/>
+                    android:orientation="horizontal">
+
+                    <com.aukdeclient.utils.MSPTextViewBold
+                        android:id="@+id/tv_product_details_title"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/item_value_text_color"
+                        android:textSize="@dimen/product_details_title_textSize_gigant"
+                        android:textAllCaps="true"
+                        android:layout_margin="@dimen/product_details_label_margin"
+                        tools:text="Product Title"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        app:cardCornerRadius="8dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_product_detail_image"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        >
+
+                        <ImageView
+                            android:id="@+id/btn_add_favorite"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/heart_white"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:visibility="gone"
+                            tools:visibility="visible"
+                            tools:ignore="ContentDescription,RtlSymmetry,UnusedAttribute" />
+
+                        <ImageView
+                            android:id="@+id/btn_delete_favorite"
+                            android:layout_width="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/heart_red"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:visibility="gone"
+                            tools:visibility="visible"
+                            tools:ignore="ContentDescription,UnusedAttribute" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
                     android:layout_height="wrap_content">
 
-                    <com.aukdeshop.utils.MSPTextViewBold
+                    <com.aukdeclient.utils.MSPTextViewBold
                         android:id="@+id/tv_product_details_label"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -69,7 +109,7 @@
                         android:textColor="@color/item_value_text_color"
                         android:textSize="@dimen/product_details_label_textSize" />
 
-                    <com.aukdeshop.utils.MSPTextViewBold
+                    <com.aukdeclient.utils.MSPTextViewBold
                         android:id="@+id/tv_product_details_sku"
                         android:layout_width="wrap_content"
                         android:gravity="center"
@@ -83,7 +123,7 @@
 
             </LinearLayout>
 
-            <com.aukdeshop.utils.MSPTextView
+            <com.aukdeclient.utils.MSPTextView
                 android:id="@+id/tv_product_details_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,7 +142,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <com.aukdeshop.utils.MSPTextViewBold
+                <com.aukdeclient.utils.MSPTextViewBold
                     android:id="@+id/tv_product_details_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,7 +151,7 @@
                     android:textColor="@color/item_value_text_color"
                     android:textSize="@dimen/product_details_label_textSize" />
 
-                <com.aukdeshop.utils.MSPTextView
+                <com.aukdeclient.utils.MSPTextView
                     android:id="@+id/tv_product_details_stock_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -126,7 +166,7 @@
                     tools:text="5" />
             </LinearLayout>
 
-            <com.aukdeshop.utils.MSPTextView
+            <com.aukdeclient.utils.MSPTextView
                 android:id="@+id/tv_product_details_delivery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -150,13 +190,13 @@
                     android:padding="@dimen/product_details_title_price_padding"
                     tools:ignore="MissingConstraints">
 
-                    <com.aukdeshop.utils.MSPTextViewBold
+                    <com.aukdeclient.utils.MSPTextViewBold
                         android:layout_width="match_parent"
                         android:text="Precio"
                         android:textSize="10dp"
                         android:layout_height="wrap_content"/>
 
-                    <com.aukdeshop.utils.MSPTextViewBold
+                    <com.aukdeclient.utils.MSPTextViewBold
                         android:id="@+id/tv_product_details_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -216,7 +256,7 @@
                     android:textSize="@dimen/btn_textSize_mid"
                     android:visibility="gone"/>
 
-                <com.aukdeshop.utils.MSPTextViewBold
+                <com.aukdeclient.utils.MSPTextViewBold
                     android:id="@+id/tv_product_no_add"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

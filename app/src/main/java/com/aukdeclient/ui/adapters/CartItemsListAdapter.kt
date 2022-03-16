@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.aukdeclient.R
+import com.aukdeshop.R
 import com.aukdeclient.firestore.FirestoreClass
 import com.aukdeclient.models.Cart
 import com.aukdeclient.ui.activities.CartListActivity
@@ -17,8 +17,6 @@ import com.aukdeclient.ui.activities.MyOrderDetailsActivity
 import com.aukdeclient.utils.Constants
 import com.aukdeclient.utils.GlideLoader
 import kotlinx.android.synthetic.main.item_cart_layout.view.*
-import kotlinx.android.synthetic.main.item_dashboard_layout.view.*
-import kotlinx.android.synthetic.main.item_list_layout.view.*
 import java.io.File
 import java.text.DecimalFormat
 

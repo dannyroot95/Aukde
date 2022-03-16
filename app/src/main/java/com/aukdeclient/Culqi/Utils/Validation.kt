@@ -2,8 +2,8 @@ package com.aukdeclient.Culqi.Utils
 
 import android.widget.ImageView
 import android.widget.TextView
-import com.aukdeclient.R
-import java.util.*
+import com.aukdeshop.R
+
 
 class Validation {
 

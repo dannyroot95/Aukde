@@ -13,7 +13,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import com.aukdeclient.R
+import com.aukdeshop.R
 import java.io.IOException
 import java.net.URL
 

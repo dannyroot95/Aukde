@@ -46,10 +46,6 @@ class ClientBookingProvider {
         return mDatabase.child(idClientBooking)
     }
 
-    fun getClientBookingByDriver(idDriver: String?): Query {
-        return mDatabase.orderByChild("idDriver").equalTo(idDriver)
-    }
-
     //TAREA PARA BORRAR EL ESTADO DEL CLIENTE
     fun delete(idClientBooking: String): Task<Void?> {
         return mDatabase.child(idClientBooking).removeValue()

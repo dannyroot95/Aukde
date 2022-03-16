@@ -5,16 +5,12 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.aukdeclient.R
+import com.aukdeshop.R
 import com.aukdeclient.models.Categories
-import com.aukdeclient.models.Product
 import com.aukdeclient.utils.GlideLoader
-import com.aukdeclient.utils.TinyDB
 import kotlinx.android.synthetic.main.item_category_layout.view.*
 import kotlinx.android.synthetic.main.item_category_layout.view.card_item
-import kotlinx.android.synthetic.main.item_dashboard_layout.view.*
 import java.io.File
 
 

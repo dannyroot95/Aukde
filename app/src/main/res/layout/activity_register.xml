@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.RegisterActivity">
+    tools:context="com.aukdeclient.ui.activities.RegisterActivity">
 
     <com.aukdeclient.utils.MSPTextViewBold
         android:id="@+id/tv_title"

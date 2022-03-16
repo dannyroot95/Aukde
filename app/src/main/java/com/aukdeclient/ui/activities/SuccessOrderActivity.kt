@@ -3,7 +3,7 @@ package com.aukdeclient.ui.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.aukdeclient.R
+import com.aukdeshop.R
 import kotlinx.android.synthetic.main.activity_success_order.*
 
 class SuccessOrderActivity : AppCompatActivity() {

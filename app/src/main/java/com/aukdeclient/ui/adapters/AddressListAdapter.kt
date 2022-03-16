@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.aukdeclient.R
+import com.aukdeshop.R
 import com.aukdeclient.models.Address
 import com.aukdeclient.ui.activities.AddEditAddressActivity
 import com.aukdeclient.ui.activities.CheckoutActivity

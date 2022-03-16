@@ -12,9 +12,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import com.aukdeshop.R
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import com.aukdeclient.R
 import com.aukdeclient.firestore.FirestoreClass
 import com.aukdeclient.models.Cart
 import com.aukdeclient.models.Product
@@ -24,7 +24,6 @@ import com.aukdeclient.utils.GlideLoader
 import com.aukdeclient.utils.TinyDB
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.firebase.database.*
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.item_cart_layout.view.*
 import kotlinx.android.synthetic.main.item_list_layout.view.*

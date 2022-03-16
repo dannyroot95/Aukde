@@ -9,18 +9,18 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.activities.WishListListActivity"
+        <activity android:name="com.aukdeclient.ui.activities.WishListListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".ui.activities.RegisterProvider"
+        <activity android:name="com.aukdeclient.ui.activities.RegisterProvider"
             android:screenOrientation="portrait"/>
 
         <meta-data
@@ -28,10 +28,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ui.activities.DashboardActivity"
+            android:name="com.aukdeclient.ui.activities.DashboardActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".ui.activities.SplashActivity"
+            android:name="com.aukdeclient.ui.activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -41,59 +41,59 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name="com.aukdeclient.ui.activities.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.LoginActivity"
+            android:name="com.aukdeclient.ui.activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.RegisterActivity"
+            android:name="com.aukdeclient.ui.activities.RegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.ForgotPasswordActivity"
+            android:name="com.aukdeclient.ui.activities.ForgotPasswordActivity"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.UserProfileActivity"
+            android:name="com.aukdeclient.ui.activities.UserProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.SettingsActivity"
+            android:name="com.aukdeclient.ui.activities.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.AddProductActivity"
+            android:name="com.aukdeclient.ui.activities.AddProductActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.ProductDetailsActivity"
+            android:name="com.aukdeclient.ui.activities.ProductDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.CartListActivity"
+            android:name="com.aukdeclient.ui.activities.CartListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.AddressListActivity"
+            android:name="com.aukdeclient.ui.activities.AddressListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.AddEditAddressActivity"
+            android:name="com.aukdeclient.ui.activities.AddEditAddressActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.CheckoutActivity"
+            android:name="com.aukdeclient.ui.activities.CheckoutActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.MyOrderDetailsActivity"
+            android:name="com.aukdeclient.ui.activities.MyOrderDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.SoldProductDetailsActivity"
+            android:name="com.aukdeclient.ui.activities.SoldProductDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -109,7 +109,7 @@
             android:resource="@color/colorAccent" />
 
         <service
-            android:name=".notifications.MyFirebaseMessagingService"
+            android:name="com.aukdeclient.notifications.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

@@ -10,6 +10,7 @@ import android.location.Geocoder
 import android.location.LocationManager
 import android.os.AsyncTask
 import android.os.Build
+import com.aukdeshop.R
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -23,7 +24,6 @@ import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import com.aukdeclient.R
 import com.aukdeclient.firestore.FirestoreClass
 import com.aukdeclient.models.Address
 import com.aukdeclient.models.Partner

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.aukdeclient.R
+import com.aukdeshop.R
 import com.aukdeclient.models.Product
 import com.aukdeclient.ui.activities.ProductDetailsActivity
 import com.aukdeclient.ui.fragments.ProductsFragment

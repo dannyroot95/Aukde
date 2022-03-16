@@ -1,13 +1,12 @@
 package com.aukdeclient.ui.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.aukdeclient.R
+import com.aukdeshop.R
 import com.aukdeclient.firestore.FirestoreClass
 import com.aukdeclient.models.Product
 import com.aukdeclient.ui.activities.AddProductActivity

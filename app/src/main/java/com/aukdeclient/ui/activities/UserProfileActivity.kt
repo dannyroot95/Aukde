@@ -1,4 +1,4 @@
-package com.aukdeshop.ui.activities
+package com.aukdeclient.ui.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -15,11 +15,11 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.aukdeshop.R
-import com.aukdeshop.firestore.FirestoreClass
-import com.aukdeshop.models.Partner
-import com.aukdeshop.models.User
-import com.aukdeshop.utils.Constants
-import com.aukdeshop.utils.GlideLoader
+import com.aukdeclient.firestore.FirestoreClass
+import com.aukdeclient.models.Partner
+import com.aukdeclient.models.User
+import com.aukdeclient.utils.Constants
+import com.aukdeclient.utils.GlideLoader
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import java.io.IOException
 

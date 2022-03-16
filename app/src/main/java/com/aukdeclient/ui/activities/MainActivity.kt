@@ -2,7 +2,7 @@ package com.aukdeclient.ui.activities
 
 import android.content.Context
 import android.os.Bundle
-import com.aukdeclient.R
+import com.aukdeshop.R
 import com.aukdeclient.utils.Constants
 import kotlinx.android.synthetic.main.activity_main.*
 

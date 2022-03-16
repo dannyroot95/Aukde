@@ -3,7 +3,7 @@ package com.aukdeclient.ui.activities
 import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.aukdeclient.R
+import com.aukdeshop.R
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 
 /**

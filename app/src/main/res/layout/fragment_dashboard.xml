@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="@color/colorOffWhite"
-    tools:context=".ui.fragments.DashboardFragment">
+    android:background="@color/colorOffWhite">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,7 +58,7 @@
                 app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
                 app:showCaption="false"
                 app:autoWidthFixing="true"
-                app:imagePlaceholder="@drawable/aukde_partner"
+                app:imagePlaceholder="@drawable/tutorials_eu_logo"
                 app:showBottomShadow="false"
                 app:showTopShadow="false"
                 app:imageScaleType="centerCrop"

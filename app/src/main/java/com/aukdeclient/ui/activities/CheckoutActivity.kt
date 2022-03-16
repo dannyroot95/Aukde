@@ -21,7 +21,7 @@ import com.aukdeclient.Culqi.Utils.Validation
 import com.aukdeclient.Maps.ClientBookingProvider
 import com.aukdeclient.Maps.GeofireDriverProvider
 import com.aukdeclient.Maps.GeofireStoreProvider
-import com.aukdeclient.R
+import com.aukdeclient.Services.Visanet
 import com.aukdeclient.firestore.FirestoreClass
 import com.aukdeclient.models.*
 import com.aukdeclient.notifications.server.FCMBody
@@ -44,11 +44,15 @@ import com.image.mainactivity.Culqui.Callbacks.TokenCallback
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_cart_list.*
 import kotlinx.android.synthetic.main.activity_checkout.*
+import lib.visanet.com.pe.visanetlib.VisaNet
+import lib.visanet.com.pe.visanetlib.data.custom.Channel
+import lib.visanet.com.pe.visanetlib.presentation.custom.VisaNetViewAuthorizationCustom
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.DecimalFormat
+import com.aukdeshop.R
 import java.util.*
 
 /**
@@ -357,7 +361,7 @@ class CheckoutActivity : BaseActivity() {
             }
             Cvv.setText(cardData.cvv)
             dialogEmail.setText(cardData.email)
-            switchCard.setChecked(true)
+            switchCard.isChecked = true
         }
 
 
@@ -496,19 +500,32 @@ class CheckoutActivity : BaseActivity() {
         }
 
         radioGroupPayment?.setOnCheckedChangeListener { _, radioID ->
-            typePayment = if (radioID == R.id.rdb_no_card) {
-                resources.getString(R.string.lbl_cash_on_delivery)
-            } else{
-                resources.getString(R.string.lbl_credit_card)
+
+            typePayment = when (radioID) {
+                R.id.rdb_no_card -> {
+                    resources.getString(R.string.lbl_cash_on_delivery)
+                }
+                R.id.niubiz -> {
+                    "Niubiz"
+                }
+                else -> {
+                    resources.getString(R.string.lbl_credit_card)
+                }
             }
         }
 
         btn_place_order.setOnClickListener {
             if (typePayment != ""){
-                if (typePayment == resources.getString(R.string.lbl_credit_card)){
-                    dialogPayWithCard!!.show()
-                } else {
-                    dialogAmountToPay!!.show()
+                when (typePayment) {
+                    resources.getString(R.string.lbl_credit_card) -> {
+                        dialogPayWithCard!!.show()
+                    }
+                    "Niubiz" -> {
+                        Visanet().getTokenSecurityProvider(this)
+                    }
+                    else -> {
+                        dialogAmountToPay!!.show()
+                    }
                 }
             } else{
                 Toast.makeText(this@CheckoutActivity, "ELIJA UN MÉTODO DE PAGO!", Toast.LENGTH_LONG).show()
@@ -536,6 +553,31 @@ class CheckoutActivity : BaseActivity() {
         toolbar_checkout_activity.setNavigationOnClickListener { onBackPressed() }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == VisaNet.VISANET_AUTHORIZATION) {
+            if (data != null) {
+                if (resultCode == RESULT_OK) {
+                    //disableComponents()
+                    val JSONString = data.extras!!.getString("keySuccess")
+                    val toast1 = Toast.makeText(applicationContext, JSONString, Toast.LENGTH_LONG)
+                    toast1.show()
+
+                } else {
+                    //disableComponents()
+                    var JSONString = data.extras!!.getString("keyError")
+                    JSONString = JSONString ?: ""
+                    val toast1 = Toast.makeText(applicationContext, JSONString, Toast.LENGTH_LONG)
+                    toast1.show()
+                }
+            } else {
+                val toast1 = Toast.makeText(applicationContext, "Cancelado...", Toast.LENGTH_SHORT)
+                toast1.show()
+                //disableComponents()
+            }
+        }
+    }
+
     /**
      * A function to get product list to compare the current stock with the cart items.
      */
@@ -545,6 +587,44 @@ class CheckoutActivity : BaseActivity() {
         showProgressDialog(resources.getString(R.string.please_wait))
 
         FirestoreClass().getAllProductsList(this@CheckoutActivity)
+    }
+
+    fun receiveToken(token : String , pinHash : String){
+
+        val TAG = "NIUBIZ"
+
+        val data: MutableMap<String, Any> = HashMap()
+        data[VisaNet.VISANET_SECURITY_TOKEN] = token
+        data[VisaNet.VISANET_CHANNEL] = Channel.MOBILE
+        data[VisaNet.VISANET_COUNTABLE] = true
+        data[VisaNet.VISANET_MERCHANT] = "456879852"
+        data[VisaNet.VISANET_PURCHASE_NUMBER] = "2020111701"
+        data[VisaNet.VISANET_AMOUNT] = 10.50
+
+        val MDDdata = HashMap<String, String>()
+        MDDdata["19"] = "LIM"
+        MDDdata["20"] = "AQP"
+        MDDdata["21"] = "AFKI345"
+        MDDdata["94"] = "ABC123DEF"
+
+        data[VisaNet.VISANET_MDD] = MDDdata
+        data[VisaNet.VISANET_ENDPOINT_URL] = "https://apisandbox.vnforappstest.com/"
+        data[VisaNet.VISANET_CERTIFICATE_HOST] = "apisandbox.vnforappstest.com"
+        data[VisaNet.VISANET_CERTIFICATE_PIN] =
+            "sha256/$pinHash"
+
+        val custom = VisaNetViewAuthorizationCustom()
+        custom.logoImage = R.drawable.tutorials_eu_logo
+        custom.buttonColorMerchant = R.color.visanet_black
+
+        try {
+            VisaNet.authorization(this, data, custom)
+
+        } catch (e: java.lang.Exception) {
+            Log.i(TAG, "onClick: " + e.message)
+            //disableComponents()
+        }
+
     }
 
     private fun initPayment(){

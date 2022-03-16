@@ -2,7 +2,7 @@ package com.aukdeclient.ui.fragments
 
 import android.app.Dialog
 import androidx.fragment.app.Fragment
-import com.aukdeclient.R
+import com.aukdeshop.R
 import kotlinx.android.synthetic.main.dialog_progress.*
 
 /**

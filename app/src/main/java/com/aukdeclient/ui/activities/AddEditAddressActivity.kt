@@ -17,10 +17,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.aukdeclient.R
 import com.aukdeclient.firestore.FirestoreClass
 import com.aukdeclient.models.Address
 import com.aukdeclient.utils.Constants
+import com.aukdeshop.R
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

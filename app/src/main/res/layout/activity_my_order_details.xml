@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.MyOrderDetailsActivity">
+    tools:context="com.aukdeclient.ui.activities.MyOrderDetailsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_my_order_details_activity"
@@ -310,7 +310,7 @@
                         android:textColor="@color/colorDarkGrey"
                         android:textSize="@dimen/my_order_details_label_value_textSize" />
 
-                    <com.aukdeclient.utils.MSPTextView
+                     <com.aukdeclient.utils.MSPTextView
                         android:id="@+id/tv_order_details_sub_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
