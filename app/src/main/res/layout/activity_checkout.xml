@@ -265,14 +265,14 @@
                 android:textSize="@dimen/checkout_label_value_textSize" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <RadioGroup
                     android:id="@+id/radio_group_payment"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked = "false"
                     tools:ignore="UselessParent">
@@ -288,49 +288,76 @@
                         android:text="@string/lbl_cash_on_delivery"/>
 
                     <RadioButton
-                        android:id="@+id/rdb_card"
-                        android:drawableStart="@drawable/card_debit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorDarkGrey"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/monserrat"
-                        android:text="@string/lbl_credit_card"/>
-
-                    <RadioButton
                         android:id="@+id/niubiz"
                         android:drawableStart="@drawable/card_debit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorDarkGrey"
                         android:textSize="16sp"
+                        android:layout_weight="1"
                         android:fontFamily="@font/monserrat"
-                        android:text="Niubiz"/>
+                        android:text="@string/lbl_credit_card"/>
 
                 </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/ll_terms_and_condition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/cb_terms_and_condition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:checked="false" />
+
+                    <com.aukdeclient.utils.MSPTextView
+                        android:id="@+id/tv_terms_condition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/i_agree_to_the_terms_and_condition"
+                        android:textColor="@color/colorSecondaryText"
+                        android:textSize="14dp"/>
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 
-        <com.aukdeclient.utils.MSPButton
-            android:id="@+id/btn_place_order"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/button_background"
-            android:foreground="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:paddingTop="@dimen/btn_padding"
-            android:paddingBottom="@dimen/btn_padding"
-            android:text="@string/btn_lbl_place_order"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/btn_textSize"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ll_terms_and_condition"
-            tools:ignore="UnusedAttribute" />
+            tools:ignore="UnusedAttribute"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:paddingTop="@dimen/btn_padding"
+            android:paddingBottom="@dimen/btn_padding"
+            android:layout_height="wrap_content">
+
+            <com.aukdeclient.utils.MSPButton
+                android:id="@+id/btn_place_order"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:foreground="?attr/selectableItemBackground"
+                android:text="@string/btn_lbl_place_order"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/btn_textSize"/>
+
+            <ProgressBar
+                android:id="@+id/progress_niubiz"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
 
     </LinearLayout>
 

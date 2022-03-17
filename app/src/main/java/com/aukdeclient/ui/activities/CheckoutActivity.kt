@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
@@ -31,6 +32,7 @@ import com.aukdeclient.ui.adapters.CartItemsListAdapter
 import com.aukdeclient.utils.Constants
 import com.aukdeclient.utils.MSPEditText
 import com.aukdeclient.utils.MSPTextView
+import com.aukdeclient.utils.TinyDB
 import com.firebase.geofire.GeoLocation
 import com.firebase.geofire.GeoQueryEventListener
 import com.google.android.gms.maps.model.LatLng
@@ -146,6 +148,9 @@ class CheckoutActivity : BaseActivity() {
 
     var validation: Validation? = null
     var tokenID : String? = null
+    var orderDateTime : Long? = null
+    private lateinit var checkTermsAndConditions : CheckBox
+    var JsonResponseToPay : String? = null
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -309,7 +314,7 @@ class CheckoutActivity : BaseActivity() {
                 AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View, position: Int, id: Long
+                view: View, position: Int, id: Long,
             ) {
                 month = months[position]
             }
@@ -330,7 +335,7 @@ class CheckoutActivity : BaseActivity() {
                 AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View, position: Int, id: Long
+                view: View, position: Int, id: Long,
             ) {
                 year = years[position]
             }
@@ -478,6 +483,7 @@ class CheckoutActivity : BaseActivity() {
         sharedPhoto = getSharedPreferences(Constants.EXTRA_USER_PHOTO, MODE_PRIVATE)
         mPhoto = sharedPhoto.getString(Constants.EXTRA_USER_PHOTO, "").toString()
         radioGroupPayment = findViewById(R.id.radio_group_payment)
+        checkTermsAndConditions = findViewById(R.id.cb_terms_and_condition)
         setupActionBar()
 
         if (intent.hasExtra(Constants.EXTRA_SELECTED_ADDRESS)) {
@@ -505,30 +511,34 @@ class CheckoutActivity : BaseActivity() {
                 R.id.rdb_no_card -> {
                     resources.getString(R.string.lbl_cash_on_delivery)
                 }
-                R.id.niubiz -> {
-                    "Niubiz"
-                }
                 else -> {
                     resources.getString(R.string.lbl_credit_card)
                 }
             }
         }
 
+        tv_terms_condition.setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TERMS_AND_CONDITIONS))
+            startActivity(browserIntent)
+        }
+
         btn_place_order.setOnClickListener {
             if (typePayment != ""){
-                when (typePayment) {
-                    resources.getString(R.string.lbl_credit_card) -> {
-                        dialogPayWithCard!!.show()
+                if (checkTermsAndConditions.isChecked){
+                    when (typePayment) {
+                        resources.getString(R.string.lbl_credit_card) -> {
+                            enableComponents()
+                            Visanet().getTokenSecurityProvider(this)
+                        }
+                        else -> {
+                            dialogAmountToPay!!.show()
+                        }
                     }
-                    "Niubiz" -> {
-                        Visanet().getTokenSecurityProvider(this)
-                    }
-                    else -> {
-                        dialogAmountToPay!!.show()
-                    }
+                }else{
+                    Toast.makeText(this@CheckoutActivity, "DEBE ACEPTAR LOS TÉRMINOS Y CONDICIONES...", Toast.LENGTH_LONG).show()
                 }
             } else{
-                Toast.makeText(this@CheckoutActivity, "ELIJA UN MÉTODO DE PAGO!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@CheckoutActivity, "ELIJA UN MÉTODO DE PAGO!", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -558,26 +568,25 @@ class CheckoutActivity : BaseActivity() {
         if (requestCode == VisaNet.VISANET_AUTHORIZATION) {
             if (data != null) {
                 if (resultCode == RESULT_OK) {
-                    //disableComponents()
+                    disableComponents()
                     val JSONString = data.extras!!.getString("keySuccess")
-                    val toast1 = Toast.makeText(applicationContext, JSONString, Toast.LENGTH_LONG)
-                    toast1.show()
+                    JsonResponseToPay = JSONString!!
+                    Log.d("TAGJSON", JSONString)
+                    initPayment()
 
                 } else {
-                    //disableComponents()
+                    disableComponents()
                     var JSONString = data.extras!!.getString("keyError")
                     JSONString = JSONString ?: ""
-                    val toast1 = Toast.makeText(applicationContext, JSONString, Toast.LENGTH_LONG)
-                    toast1.show()
+                    Log.d("TAGJSON", JSONString)
+                    Toast.makeText(this,"ERROR AL PROCESAR PAGO!",Toast.LENGTH_SHORT).show()
                 }
             } else {
-                val toast1 = Toast.makeText(applicationContext, "Cancelado...", Toast.LENGTH_SHORT)
-                toast1.show()
-                //disableComponents()
+                Toast.makeText(this,"PEDIDO CANCELADO...",Toast.LENGTH_LONG).show()
+                disableComponents()
             }
         }
     }
-
     /**
      * A function to get product list to compare the current stock with the cart items.
      */
@@ -591,15 +600,23 @@ class CheckoutActivity : BaseActivity() {
 
     fun receiveToken(token : String , pinHash : String){
 
+        orderDateTime = System.currentTimeMillis()/1000
+
+
         val TAG = "NIUBIZ"
+        val db = TinyDB(this).getObject(Constants.KEY_USER_DATA_OBJECT, User::class.java)
+
 
         val data: MutableMap<String, Any> = HashMap()
         data[VisaNet.VISANET_SECURITY_TOKEN] = token
         data[VisaNet.VISANET_CHANNEL] = Channel.MOBILE
         data[VisaNet.VISANET_COUNTABLE] = true
         data[VisaNet.VISANET_MERCHANT] = "456879852"
-        data[VisaNet.VISANET_PURCHASE_NUMBER] = "2020111701"
-        data[VisaNet.VISANET_AMOUNT] = 10.50
+        data[VisaNet.VISANET_PURCHASE_NUMBER] = orderDateTime.toString()
+        data[VisaNet.VISANET_AMOUNT] = mTotalAmount
+        data[VisaNet.VISANET_REGISTER_NAME] = db.firstName
+        data[VisaNet.VISANET_REGISTER_LASTNAME] = db.lastName
+        data[VisaNet.VISANET_REGISTER_EMAIL] = db.email
 
         val MDDdata = HashMap<String, String>()
         MDDdata["19"] = "LIM"
@@ -613,16 +630,17 @@ class CheckoutActivity : BaseActivity() {
         data[VisaNet.VISANET_CERTIFICATE_PIN] =
             "sha256/$pinHash"
 
+
         val custom = VisaNetViewAuthorizationCustom()
         custom.logoImage = R.drawable.tutorials_eu_logo
-        custom.buttonColorMerchant = R.color.visanet_black
+        custom.buttonColorMerchant = R.color.primaryPink
 
         try {
             VisaNet.authorization(this, data, custom)
 
         } catch (e: java.lang.Exception) {
             Log.i(TAG, "onClick: " + e.message)
-            //disableComponents()
+            disableComponents()
         }
 
     }
@@ -898,7 +916,7 @@ class CheckoutActivity : BaseActivity() {
                         Callback<FCMResponse> {
                         override fun onResponse(
                             call: Call<FCMResponse>,
-                            response: Response<FCMResponse>
+                            response: Response<FCMResponse>,
                         ) {
                             if (response.body() != null) {
                                 if (response.body()!!.success == 1) {
@@ -993,6 +1011,8 @@ class CheckoutActivity : BaseActivity() {
      */
     private fun placeAnOrder() {
 
+        orderDateTime = System.currentTimeMillis()
+
         ctx += 1
 
         if (ctx == 1){
@@ -1006,7 +1026,7 @@ class CheckoutActivity : BaseActivity() {
                 mSubTotal.toString(),
                 shipping.toString(),
                 mTotalAmount.toString(),
-                System.currentTimeMillis(),
+                orderDateTime!!,
                 "",
                 0,
                 typePayment,
@@ -1037,10 +1057,30 @@ class CheckoutActivity : BaseActivity() {
         FirestoreClass().deleteCartRealtime(FirestoreClass().getCurrentUserID()).addOnSuccessListener {
             ClientBookingProvider().delete(FirestoreClass().getCurrentUserID()).addOnSuccessListener {
                 hideProgressDialog()
-                val intent = Intent(this@CheckoutActivity, SuccessOrderActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()
+
+                if (JsonResponseToPay != null){
+                    val gsonConverter = Gson()
+                    val responseSuccess = gsonConverter.fromJson(JsonResponseToPay,com.aukdeclient.models.Response::class.java)
+
+                    val intent = Intent(this, SuccessOrderActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    intent.putExtra("amount",mTotalAmount)
+                    intent.putExtra("card",responseSuccess.dataMap.CARD)
+                    intent.putExtra("idOrder",orderDateTime!!)
+                    startActivity(intent)
+                    finish()
+                }else{
+                    val intent = Intent(this, SuccessOrderActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    intent.putExtra("amount",mTotalAmount)
+                    intent.putExtra("card","")
+                    intent.putExtra("idOrder",orderDateTime!!)
+                    startActivity(intent)
+                    finish()
+                }
+
+
+
             }
         }
     }
@@ -1083,6 +1123,27 @@ class CheckoutActivity : BaseActivity() {
         else {
             tv_checkout_shipping_charge.text = typeMoney+df.format(shipping)
         }
+
+    }
+
+    private fun enableComponents(){
+        val progress : ProgressBar = findViewById(R.id.progress_niubiz)
+        val payNiubiz : Button = findViewById(R.id.btn_place_order)
+
+        progress.visibility = View.VISIBLE
+        payNiubiz.isEnabled = false
+        payNiubiz.setBackgroundColor(resources.getColor(R.color.black))
+
+    }
+
+    private fun disableComponents(){
+
+        val progress : ProgressBar = findViewById(R.id.progress_niubiz)
+        val payNiubiz : Button = findViewById(R.id.btn_place_order)
+
+        progress.visibility = View.GONE
+        payNiubiz.isEnabled = true
+        payNiubiz.setBackgroundColor(resources.getColor(R.color.primaryPink))
 
     }
 

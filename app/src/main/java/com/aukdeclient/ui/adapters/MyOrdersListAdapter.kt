@@ -52,7 +52,7 @@ open class MyOrdersListAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = list[position]
-        val dateFormat = "dd MMM yyyy HH:mm"
+        val dateFormat = "dd MMM yyyy HH:mm aa"
         val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
         val df = DecimalFormat("#.00")
         val calendar: Calendar = Calendar.getInstance()

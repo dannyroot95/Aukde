@@ -8,7 +8,7 @@
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_add_product.xml" value="0.24937343358395989" />
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_address_list.xml" value="0.2" />
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_cart_list.xml" value="0.1" />
-        <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_checkout.xml" value="0.1" />
+        <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_checkout.xml" value="0.2" />
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_dashboard.xml" value="0.10144927536231885" />
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_forgot_password.xml" value="0.1" />
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_login.xml" value="0.10144927536231885" />
@@ -20,7 +20,7 @@
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_settings.xml" value="0.2" />
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_sold_product_details.xml" value="0.1" />
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_splash.xml" value="0.1" />
-        <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_success_order.xml" value="0.1" />
+        <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_success_order.xml" value="0.2" />
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_user_profile.xml" value="0.1" />
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/activity_wish_list_list.xml" value="0.1" />
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/custom_spinner.xml" value="0.1" />
@@ -45,6 +45,7 @@
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/layout/menu_dialog.xml" value="0.1" />
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/menu/add_product_menu.xml" value="0.16197916666666667" />
         <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/menu/bottom_nav_menu.xml" value="0.16197916666666667" />
+        <entry key="..\:/Users/Danny/Desktop/Aukde app/Usuarios/MyShopPal_Version_89/app/src/main/res/menu/dashboard_menu.xml" value="0.1578125" />
       </map>
     </option>
   </component>

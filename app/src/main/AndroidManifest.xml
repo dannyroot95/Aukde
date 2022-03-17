@@ -15,13 +15,17 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name="com.aukdeclient.ui.activities.SuccessOrderActivity"
+            android:exported="false" />
 
-        <activity android:name="com.aukdeclient.ui.activities.WishListListActivity"
+        <activity
+            android:name="com.aukdeclient.ui.activities.WishListListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name="com.aukdeclient.ui.activities.RegisterProvider"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.aukdeclient.ui.activities.RegisterProvider"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

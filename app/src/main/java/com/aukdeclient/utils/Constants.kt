@@ -180,6 +180,7 @@ object Constants {
     const val CERTIFICATE_APP_ENDPOINT = "/api.certificate/v1/query/"
     const val SECURITY_ENDPOINT = "/api.security/v1/security"
 
+    const val URL_TERMS_AND_CONDITIONS = "https://aukde.com/terminos-y-condiciones/"
 
     /**
      * A function for user profile image selection from phone storage.

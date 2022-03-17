@@ -11,7 +11,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/TMXProfiling" />
+            <option value="$PROJECT_DIR$/TMXProfilingConnections" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/cardinalmobilesdk" />
+            <option value="$PROJECT_DIR$/visanet-lib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -238,11 +238,10 @@
     <string name="continue_shopping">Seguir Comprando</string>
     <string name="show_orders">Ver compras</string>
     <string name="thanks_purchase">GRACIAS POR SU COMPRA !</string>
-    <string name="text_success_order">Su pedido se ha realizado correctamente.Visite la opción de pedidos para comprobar el progreso y obtener más detalles.</string>
+    <string name="text_success_order">Su pedido se ha realizado correctamente.Tome una captura a este comprobante ó visite la opción de pedidos para comprobar el progreso y obtener más detalles.</string>
     <string name="pay_with_your_debit_or_credit_card">Paga con tu tarjeta de débito ó crédito</string>
     <string name="remember_card">Recordar tarjeta&#160;&#160;</string>
     <string name="email_credit_propietary">Email del propietario de la tarjeta</string>
     <string name="another_order">Solo puede agregar productos de la misma categoría y del mismo negocio, para adquirir el producto debe realizar otro pedido.</string>
-
 
 </resources>
