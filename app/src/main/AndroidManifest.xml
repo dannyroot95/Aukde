@@ -16,9 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name="com.aukdeclient.ui.activities.DenyOrderActivity"
+            android:exported="false" />
+        <activity
             android:name="com.aukdeclient.ui.activities.SuccessOrderActivity"
             android:exported="false" />
-
         <activity
             android:name="com.aukdeclient.ui.activities.WishListListActivity"
             android:screenOrientation="portrait"

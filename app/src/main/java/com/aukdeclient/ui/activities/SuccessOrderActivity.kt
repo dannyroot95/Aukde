@@ -30,6 +30,7 @@ class SuccessOrderActivity : AppCompatActivity() {
         val idOrder : Long = intent.getLongExtra("idOrder",0L)
         val amount : Double = intent.getDoubleExtra("amount",0.0)
         val card : String = intent.getStringExtra("card")!!
+        val brand : String = intent.getStringExtra("brand")!!
 
         val actualDate = System.currentTimeMillis()
 
@@ -45,11 +46,10 @@ class SuccessOrderActivity : AppCompatActivity() {
         txt_success_email.text = db.email
         if(card != ""){
             txt_success_credit_card.text = card
+            txt_success_type_card.text = brand
         }else{
             linear_card.visibility = View.GONE
         }
-
-
 
 
         btn_success_order_continue_shopping.setOnClickListener {
@@ -66,6 +66,9 @@ class SuccessOrderActivity : AppCompatActivity() {
             finish()
         }
 
-
     }
+
+    override fun onBackPressed() {
+    }
+
 }

@@ -528,9 +528,11 @@ class CheckoutActivity : BaseActivity() {
                     when (typePayment) {
                         resources.getString(R.string.lbl_credit_card) -> {
                             enableComponents()
+                            orderDateTime = System.currentTimeMillis()/1000
                             Visanet().getTokenSecurityProvider(this)
                         }
                         else -> {
+                            orderDateTime = System.currentTimeMillis()/1000
                             dialogAmountToPay!!.show()
                         }
                     }
@@ -579,7 +581,16 @@ class CheckoutActivity : BaseActivity() {
                     var JSONString = data.extras!!.getString("keyError")
                     JSONString = JSONString ?: ""
                     Log.d("TAGJSON", JSONString)
-                    Toast.makeText(this,"ERROR AL PROCESAR PAGO!",Toast.LENGTH_SHORT).show()
+                    val gsonConverter = Gson()
+                    val responseSuccess = gsonConverter.fromJson(JSONString,com.aukdeclient.models.Response::class.java)
+
+                    val intent = Intent(this, DenyOrderActivity::class.java)
+                    intent.putExtra("card",responseSuccess.data.CARD)
+                    intent.putExtra("brand",responseSuccess.data.BRAND)
+                    intent.putExtra("motive",responseSuccess.data.ACTION_DESCRIPTION)
+                    intent.putExtra("codeerror",responseSuccess.data.ACTION_CODE)
+                    intent.putExtra("idOrder",orderDateTime!!)
+                    startActivity(intent)
                 }
             } else {
                 Toast.makeText(this,"PEDIDO CANCELADO...",Toast.LENGTH_LONG).show()
@@ -600,9 +611,6 @@ class CheckoutActivity : BaseActivity() {
 
     fun receiveToken(token : String , pinHash : String){
 
-        orderDateTime = System.currentTimeMillis()/1000
-
-
         val TAG = "NIUBIZ"
         val db = TinyDB(this).getObject(Constants.KEY_USER_DATA_OBJECT, User::class.java)
 
@@ -619,10 +627,11 @@ class CheckoutActivity : BaseActivity() {
         data[VisaNet.VISANET_REGISTER_EMAIL] = db.email
 
         val MDDdata = HashMap<String, String>()
-        MDDdata["19"] = "LIM"
-        MDDdata["20"] = "AQP"
-        MDDdata["21"] = "AFKI345"
-        MDDdata["94"] = "ABC123DEF"
+
+        MDDdata["4"] = db.email
+        MDDdata["21"] = "0"
+        MDDdata["32"] = db.code_client
+        MDDdata["75"] = "Registrado"
 
         data[VisaNet.VISANET_MDD] = MDDdata
         data[VisaNet.VISANET_ENDPOINT_URL] = "https://apisandbox.vnforappstest.com/"
@@ -909,7 +918,7 @@ class CheckoutActivity : BaseActivity() {
                     map["body"] = Constants.BODY_NOTIFICATION
                     map["path"] = photo_default
                     map["idClient"] = FirestoreClass().getCurrentUserID()
-                    map["numPedido"] = System.currentTimeMillis().toString() // para testear
+                    map["numPedido"] = orderDateTime.toString() // para testear
                     map["nombre"] = FirestoreClass().getCurrentUserID()
                     val fcmBody = FCMBody(token, "high", map)
                     mNotificationProvider.sendNotification(fcmBody).enqueue(object :
@@ -1011,8 +1020,6 @@ class CheckoutActivity : BaseActivity() {
      */
     private fun placeAnOrder() {
 
-        orderDateTime = System.currentTimeMillis()
-
         ctx += 1
 
         if (ctx == 1){
@@ -1021,7 +1028,7 @@ class CheckoutActivity : BaseActivity() {
                 FirestoreClass().getCurrentUserID(),
                 mCartItemsList,
                 mAddressDetails!!,
-                "#${System.currentTimeMillis()}",
+                "#${orderDateTime!!}",
                 mCartItemsList[0].image,
                 mSubTotal.toString(),
                 shipping.toString(),
@@ -1066,6 +1073,7 @@ class CheckoutActivity : BaseActivity() {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     intent.putExtra("amount",mTotalAmount)
                     intent.putExtra("card",responseSuccess.dataMap.CARD)
+                    intent.putExtra("brand",responseSuccess.dataMap.BRAND)
                     intent.putExtra("idOrder",orderDateTime!!)
                     startActivity(intent)
                     finish()
@@ -1074,6 +1082,7 @@ class CheckoutActivity : BaseActivity() {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     intent.putExtra("amount",mTotalAmount)
                     intent.putExtra("card","")
+                    intent.putExtra("brand","")
                     intent.putExtra("idOrder",orderDateTime!!)
                     startActivity(intent)
                     finish()

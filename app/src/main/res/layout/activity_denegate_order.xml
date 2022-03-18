@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp"
+    android:layout_height="match_parent"
+    tools:context="com.aukdeclient.ui.activities.DenyOrderActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="230dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/tutorials_eu_logo"
+                        tools:ignore="ContentDescription" />
+
+                    <com.aukdeclient.utils.MSPTextView
+                        android:layout_width="match_parent"
+                        android:text="01/01/2021 08:00PM"
+                        android:gravity="center"
+                        android:id="@+id/txt_success_date"
+                        android:textSize="14dp"
+                        android:layout_height="match_parent"/>
+
+                </LinearLayout>
+
+                <com.aukdeclient.utils.MSPTextViewBold
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:layout_marginTop="10dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/visanet_red"
+                    android:text="PEDIDO DENEGADO!"
+                    android:layout_height="wrap_content"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content">
+
+                    <com.aukdeclient.utils.MSPTextViewBold
+                        android:layout_width="wrap_content"
+                        android:text="Número de pedido : "
+                        android:textSize="14dp"
+                        android:layout_height="wrap_content"/>
+
+                    <com.aukdeclient.utils.MSPTextView
+                        android:id="@+id/txt_success_id_order"
+                        android:layout_width="wrap_content"
+                        android:text="#010101"
+                        android:textSize="14dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content">
+
+                    <com.aukdeclient.utils.MSPTextViewBold
+                        android:layout_width="wrap_content"
+                        android:text="Nombres : "
+                        android:textSize="14dp"
+                        android:layout_height="wrap_content"/>
+
+                    <com.aukdeclient.utils.MSPTextView
+                        android:layout_width="wrap_content"
+                        android:text="denis panjuta"
+                        android:textSize="14dp"
+                        android:id="@+id/txt_success_name"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linear_card"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content">
+
+                    <com.aukdeclient.utils.MSPTextViewBold
+                        android:layout_width="wrap_content"
+                        android:text="Cuenta de origen : "
+                        android:textSize="14dp"
+                        android:layout_height="wrap_content"/>
+
+                    <com.aukdeclient.utils.MSPTextView
+                        android:layout_width="wrap_content"
+                        android:text="**** **** **** 1321"
+                        android:textSize="14dp"
+                        android:id="@+id/txt_success_credit_card"
+                        android:layout_height="wrap_content"/>
+
+                    <com.aukdeclient.utils.MSPTextViewBold
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:text="Visa"
+                        android:textSize="14dp"
+                        android:textColor="@color/primaryPink"
+                        android:id="@+id/txt_success_type_card"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content">
+
+                    <com.aukdeclient.utils.MSPTextViewBold
+                        android:layout_width="wrap_content"
+                        android:text="Motivo : "
+                        android:textSize="14dp"
+                        android:layout_height="wrap_content"/>
+
+                    <com.aukdeclient.utils.MSPTextView
+                        android:layout_width="wrap_content"
+                        android:text="sin dinero"
+                        android:textAlignment="center"
+                        android:textSize="14dp"
+                        android:id="@+id/txt_success_motive"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content">
+
+                    <com.aukdeclient.utils.MSPTextViewBold
+                        android:layout_width="wrap_content"
+                        android:text="Importe : "
+                        android:textSize="14dp"
+                        android:layout_height="wrap_content"/>
+
+                    <com.aukdeclient.utils.MSPTextView
+                        android:layout_width="wrap_content"
+                        android:text="S/0.00"
+                        android:id="@+id/txt_success_total_amount"
+                        android:textSize="14dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/btn_deny_order_continue_shopping"
+                        android:layout_width="wrap_content"
+                        android:fontFamily="@font/monserrat"
+                        android:textStyle="bold"
+                        android:text="Ir al inicio"
+                        android:layout_height="wrap_content"
+                        tools:ignore="ButtonStyle" />
+
+                    <Button
+                        android:id="@+id/btn_deny_reintent"
+                        android:layout_width="wrap_content"
+                        android:text="Volver a intentar"
+                        android:fontFamily="@font/monserrat"
+                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
+                        tools:ignore="ButtonStyle" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</LinearLayout>

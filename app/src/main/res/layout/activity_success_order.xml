@@ -148,6 +148,16 @@
                     android:id="@+id/txt_success_credit_card"
                     android:layout_height="wrap_content"/>
 
+                <com.aukdeclient.utils.MSPTextViewBold
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:text="Visa"
+                    android:textSize="14dp"
+                    android:textColor="@color/primaryPink"
+                    android:id="@+id/txt_success_type_card"
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -159,7 +169,7 @@
 
                 <com.aukdeclient.utils.MSPTextViewBold
                     android:layout_width="wrap_content"
-                    android:text="Cargo total : "
+                    android:text="Importe : "
                     android:textSize="14dp"
                     android:layout_height="wrap_content"/>
 
