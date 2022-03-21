@@ -619,7 +619,7 @@ class CheckoutActivity : BaseActivity() {
         data[VisaNet.VISANET_SECURITY_TOKEN] = token
         data[VisaNet.VISANET_CHANNEL] = Channel.MOBILE
         data[VisaNet.VISANET_COUNTABLE] = true
-        data[VisaNet.VISANET_MERCHANT] = "456879852"
+        data[VisaNet.VISANET_MERCHANT] = Constants.MERCHANT_ID
         data[VisaNet.VISANET_PURCHASE_NUMBER] = orderDateTime.toString()
         data[VisaNet.VISANET_AMOUNT] = mTotalAmount
         data[VisaNet.VISANET_REGISTER_NAME] = db.firstName
@@ -634,8 +634,8 @@ class CheckoutActivity : BaseActivity() {
         MDDdata["75"] = "Registrado"
 
         data[VisaNet.VISANET_MDD] = MDDdata
-        data[VisaNet.VISANET_ENDPOINT_URL] = "https://apisandbox.vnforappstest.com/"
-        data[VisaNet.VISANET_CERTIFICATE_HOST] = "apisandbox.vnforappstest.com"
+        data[VisaNet.VISANET_ENDPOINT_URL] = "https://apiprod.vnforapps.com/"
+        data[VisaNet.VISANET_CERTIFICATE_HOST] = "apiprod.vnforapps.com"
         data[VisaNet.VISANET_CERTIFICATE_PIN] =
             "sha256/$pinHash"
 
