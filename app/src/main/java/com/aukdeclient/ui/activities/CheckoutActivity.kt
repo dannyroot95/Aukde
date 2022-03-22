@@ -657,13 +657,8 @@ class CheckoutActivity : BaseActivity() {
     private fun initPayment(){
         dialogAmountToPay!!.dismiss()
         if (hasDelivery){
-            showProgressDialog(resources.getString(R.string.please_wait))
+            showProgressDialog("BUSCANDO CONDUCTOR CERCANO...")
             getClosestStore()
-            Toast.makeText(
-                this@CheckoutActivity,
-                "BUSCANDO CONDUCTOR CERCANO...",
-                Toast.LENGTH_LONG
-            ).show()
         }
         else{
             showProgressDialog(resources.getString(R.string.please_wait))

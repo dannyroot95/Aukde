@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.aukdeshop.R
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import java.io.IOException
 
 /**
@@ -39,6 +40,8 @@ class GlideLoader(val context: Context) {
                 .with(context)
                 .load(image)
                 .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .centerCrop() // Scale type of the image.
                 .into(imageView) // the view in which the image will be loaded.
         } catch (e: IOException) {

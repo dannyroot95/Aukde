@@ -20,6 +20,7 @@ import com.aukdeclient.models.Partner
 import com.aukdeclient.models.User
 import com.aukdeclient.utils.Constants
 import com.aukdeclient.utils.GlideLoader
+import com.aukdeclient.utils.TinyDB
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import java.io.IOException
 
@@ -29,7 +30,7 @@ import java.io.IOException
 class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
     // Instance of User data model class. We will initialize it later on.
-    private lateinit var mUserDetails: Partner
+    private lateinit var mUserDetails: User
 
     lateinit var sharedTypeProduct : SharedPreferences
 
@@ -70,9 +71,6 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             et_email.isEnabled = false
             et_email.setText(mUserDetails.email)
 
-            val editorTypeProduct: SharedPreferences.Editor = sharedTypeProduct.edit()
-            editorTypeProduct.putString(Constants.EXTRA_USER_TYPE_PRODUCT, mUserDetails.type_product)
-            editorTypeProduct.apply()
 
         } else {
 
@@ -96,6 +94,10 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                 rb_male.isChecked = true
             } else {
                 rb_female.isChecked = true
+            }
+
+            if(mUserDetails.dni != ""){
+                et_dni_number.setText(mUserDetails.dni)
             }
 
         }
@@ -255,17 +257,20 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
     private fun updateUserProfileDetails() {
 
         val userHashMap = HashMap<String, Any>()
+        val db = TinyDB(this).getObject(Constants.KEY_USER_DATA_OBJECT,User::class.java)
 
         // Get the FirstName from editText and trim the space
         val firstName = et_first_name.text.toString().trim { it <= ' ' }
         if (firstName != mUserDetails.firstName) {
             userHashMap[Constants.FIRST_NAME] = firstName
+            db.firstName = firstName
         }
 
         // Get the LastName from editText and trim the space
         val lastName = et_last_name.text.toString().trim { it <= ' ' }
         if (lastName != mUserDetails.lastName) {
             userHashMap[Constants.LAST_NAME] = lastName
+            db.lastName = lastName
         }
 
         // Here we get the text from editText and trim the space
@@ -278,14 +283,17 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
         if (mUserProfileImageURL.isNotEmpty()) {
             userHashMap[Constants.IMAGE] = mUserProfileImageURL
+            db.image = mUserProfileImageURL
         }
 
         if (mobileNumber.isNotEmpty() && mobileNumber != mUserDetails.mobile.toString()) {
             userHashMap[Constants.MOBILE] = mobileNumber.toLong()
+            db.mobile = mobileNumber.toLong()
         }
 
         if (gender.isNotEmpty() && gender != mUserDetails.gender) {
             userHashMap[Constants.GENDER] = gender
+            db.gender = gender
         }
 
         // Here if user is about to complete the profile then update the field or else no need.
@@ -293,6 +301,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         // 1: User profile is completed.
         if (mUserDetails.profileCompleted == 0) {
             userHashMap[Constants.COMPLETE_PROFILE] = 1
+            db.profileCompleted = 1
         }
 
         // call the registerUser function of FireStore class to make an entry in the database.
@@ -300,6 +309,10 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             this@UserProfileActivity,
             userHashMap
         )
+
+        val data = TinyDB(this)
+        data.putObject(Constants.KEY_USER_DATA_OBJECT,db)
+
     }
 
     /**

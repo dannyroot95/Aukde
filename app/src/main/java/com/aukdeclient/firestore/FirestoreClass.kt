@@ -705,7 +705,6 @@ class FirestoreClass {
     fun getDashboardItemsList(fragment: DashboardFragment, context: Context) {
         // The collection name for PRODUCTS
         val tinyDB = TinyDB(context)
-
         if (tinyDB.getListProduct(Constants.CACHE_PRODUCT, Product::class.java).isNotEmpty()){
             val productObjects = tinyDB.getListProduct(Constants.CACHE_PRODUCT, Product::class.java)
             val products: ArrayList<Product> = ArrayList<Product>()
@@ -713,18 +712,24 @@ class FirestoreClass {
             for (objs in productObjects) {
                 products.add(objs as Product)
             }
+
             fragment.successDashboardItemsList(products)
             mFireStore.collection(Constants.PRODUCTS)
                     .get() // Will get the documents snapshots.
                     .addOnSuccessListener { document ->
                         val productsList: ArrayList<Product> = ArrayList()
-                        for (i in document.documents) {
+                        for ((ctx, i) in document.documents.withIndex()) {
                             val product = i.toObject(Product::class.java)!!
                             val photo: File = File(context.getExternalFilesDir(null), "${product.product_id}.jpg")
                             product.product_id = i.id
                             productsList.add(product)
                             if (!photo.exists()){
                                 getBitmapFromURL(product.image,context,product.product_id)
+                            }
+                            if (product.product_id == products[ctx].product_id){
+                                if (product.image != products[ctx].image){
+                                    getBitmapFromURL(product.image,context,product.product_id)
+                                }
                             }
                         }
                         tinyDB.putListProduct(Constants.CACHE_PRODUCT, productsList)
@@ -805,7 +810,15 @@ class FirestoreClass {
 
     fun getDashboardItemsListActivity(activity: LoginActivity) {
         // The collection name for PRODUCTS
+        var ctx = 0
         val tinyDB = TinyDB(activity)
+        val products: ArrayList<Product> = ArrayList<Product>()
+        if (tinyDB.getListProduct(Constants.CACHE_PRODUCT, Product::class.java).isNotEmpty()) {
+            val productObjects = tinyDB.getListProduct(Constants.CACHE_PRODUCT, Product::class.java)
+            for (objs in productObjects) {
+                products.add(objs as Product)
+            }
+        }
             mFireStore.collection(Constants.PRODUCTS)
                     .get() // Will get the documents snapshots.
                     .addOnSuccessListener { document ->
@@ -818,6 +831,14 @@ class FirestoreClass {
                             if (!photo.exists()){
                                 getBitmapFromURL(product.image, activity, product.product_id)
                             }
+                            if(products.isNotEmpty()){
+                                if (product.product_id == products[ctx].product_id){
+                                    if (product.image != products[ctx].image){
+                                        getBitmapFromURL(product.image,activity,product.product_id)
+                                    }
+                                }
+                            }
+                           ctx++
                         }
                         tinyDB.putListProduct(Constants.CACHE_PRODUCT, productsList)
                     }
