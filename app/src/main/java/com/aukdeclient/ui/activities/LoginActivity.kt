@@ -15,6 +15,7 @@ import android.view.WindowManager
 import com.aukdeclient.firestore.FirestoreClass
 import com.aukdeclient.models.User
 import com.aukdeclient.utils.Constants
+import com.aukdeclient.utils.TinyDB
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -235,7 +236,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
                                                 val user = User(id, firstName!!, lastName!!, email!!, photo, 0L, "",
                                                         0, Constants.CLIENT, "", "")
-
+                                                handler.removeCallbacksAndMessages(null)
                                                 mFirestore.collection(Constants.USERS).document(id).get().addOnSuccessListener { document ->
                                                     if (document != null) {
                                                         if (document.exists()) {
@@ -304,6 +305,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun saveInCacheAndFirebase(user: User){
+        val db = TinyDB(this)
         val sharedProfile = getSharedPreferences(Constants.CLIENT, Context.MODE_PRIVATE)
         val editorProfile: SharedPreferences.Editor = sharedProfile.edit()
         editorProfile.putInt(Constants.CLIENT, user.profileCompleted)
@@ -316,6 +318,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         val json = gson.toJson(user)
         editorX.putString("key", json)
         editorX.apply()
+        db.putObject(Constants.KEY_USER_DATA_OBJECT,user)
 
         FirestoreClass().registerUserWithFacebookOrGoogle(this@LoginActivity, user)
     }

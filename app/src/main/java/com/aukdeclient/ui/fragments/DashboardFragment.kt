@@ -50,6 +50,7 @@ class DashboardFragment : BaseFragment() {
         // If we want to use the option menu in fragment we need to add it.
         setHasOptionsMenu(true)
         sliderLists = ArrayList()
+        itemList = ArrayList()
     }
 
     @SuppressLint("SetTextI18n", "CutPasteId")
