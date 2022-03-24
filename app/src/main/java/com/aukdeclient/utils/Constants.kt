@@ -133,6 +133,8 @@ object Constants {
     const val NO_INCLUDE_SHIPPING = "No Incluye envío"
     const val FAVORITE_ITEMS: String= "favorite_items"
     const val COMPLETED_ALL_DATA : String = "Complete todos los datos!"
+    const val ACCEPT_TO_SHOP = "accept"
+    const val BLOCK_TO_SHOP = "blocked"
 
     const val PUBLIC_API_KEY = "pk_live_c84HQbHmA05kP1hr"
     const val PRIVATE_API_KEY = "sk_live_pRtJrGvZC01P7zEg"

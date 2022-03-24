@@ -821,11 +821,8 @@ class CheckoutActivity : BaseActivity() {
                                                     location.latitude,
                                                     location.longitude
                                                 )
-                                                Toast.makeText(
-                                                    this@CheckoutActivity,
-                                                    "CONDUCTOR ENCONTRADO!\nESPERANDO RESPUESTA...",
-                                                    Toast.LENGTH_LONG
-                                                ).show()
+                                                hideProgressDialog()
+                                                showProgressDialog("CONDUCTOR ENCONTRADO!\nESPERANDO RESPUESTA...")
                                                 sendNotificationDriver()
                                                 Log.d("DRIVER", "ID: $mIdDriverFound")
                                             } else {
@@ -863,7 +860,7 @@ class CheckoutActivity : BaseActivity() {
                                 .addOnSuccessListener {
                                     Toast.makeText(
                                         this@CheckoutActivity,
-                                        "NO SE ENCONTRO UN CONDUCTOR",
+                                        "NO SE ENCONTRO UN CONDUCTOR!",
                                         Toast.LENGTH_LONG
                                     ).show()
                                     startActivity(
@@ -983,21 +980,15 @@ class CheckoutActivity : BaseActivity() {
                         if (status == "accept") {
                             mHandler.removeCallbacks(mRunnable)
                             //progressDialog.dismiss()
-                            Toast.makeText(
-                                this@CheckoutActivity,
-                                "PEDIDO ACEPTADO!",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            hideProgressDialog()
+                            showProgressDialog("PEDIDO ACEPTADO!\nESPERE UN MOMENTO...")
                             placeAnOrder()
                         } else if (status == "cancel") {
                             if (mIsLookingFor) {
                                 restartRequest()
                             }
-                            Toast.makeText(
-                                this@CheckoutActivity,
-                                "EL CONDUCTOR NO ACEPTÓ EL PEDIDO!\nBUSCANDO SIGUIENTE...",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            hideProgressDialog()
+                            showProgressDialog("EL CONDUCTOR NO ACEPTÓ EL PEDIDO!\nBUSCANDO SIGUIENTE...")
                             //progressDialog.setMessage("EL CONDUCTOR NO ACEPTÓ EL PEDIDO!\nBUSCANDO SIGUIENTE...")
                             /*progressDialog.dismiss()
                            finish()*/

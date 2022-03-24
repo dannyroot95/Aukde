@@ -41,7 +41,7 @@
     <string name="err_msg_password_and_confirm_password_mismatch">Revise su contraseña!.</string>
     <string name="err_msg_agree_terms_and_condition">Acepte los términos y condiciones.</string>
 
-    <string name="please_wait">Espere&#8230;</string>
+    <string name="please_wait">ESPERE&#8230;</string>
     <string name="updating">Actualizando&#8230;</string>
     <string name="validate_card">Validando tarjeta espere&#8230;</string>
     <string name="success_card">Tarjeta validada!, cobrando&#8230;</string>
@@ -174,7 +174,7 @@
     <string name="title_checkout">REALIZAR PAGO</string>
     <string name="checkout_lbl_product_items">Artículos</string>
     <string name="checkout_lbl_selected_address">Dirección seleccionada</string>
-    <string name="checkout_lbl_items_receipt">Recibo del producto</string>
+    <string name="checkout_lbl_items_receipt">Pagos</string>
     <string name="btn_lbl_place_order">REALIZAR PEDIDO</string>
     <string name="lbl_payment_mode">Método de pago</string>
     <string name="lbl_cash_on_delivery">&#160;Contra entrega</string>

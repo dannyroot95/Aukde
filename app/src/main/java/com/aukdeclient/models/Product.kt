@@ -21,4 +21,9 @@ data class Product(
     var sku : String = "",
     var name_store : String = "",
     var delivery : String = "",
+    var price_delivery : String = "",
+    var opening_hours : String = "",
+    var closing_time : String = "",
+    var days : ArrayList<String> = ArrayList(),
+    var hours : ArrayList<String> = ArrayList()
 ) : Parcelable

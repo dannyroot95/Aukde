@@ -177,6 +177,29 @@
                 tools:text="No tiene delivery" />
 
             <LinearLayout
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:id="@+id/tv_linear_hours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="@dimen/product_details_label_margin"
+                android:layout_marginEnd="@dimen/product_details_label_margin"    >
+
+                <com.aukdeclient.utils.MSPTextViewBold
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/item_value_text_color"
+                    android:text="Horario de atención : "
+                    android:layout_height="wrap_content"/>
+
+                <com.aukdeclient.utils.MSPTextView
+                    android:id="@+id/txt_hours_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:layout_height="wrap_content">

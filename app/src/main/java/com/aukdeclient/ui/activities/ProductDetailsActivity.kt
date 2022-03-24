@@ -22,12 +22,14 @@ import com.aukdeclient.models.WishList
 import com.aukdeclient.utils.Constants
 import com.aukdeclient.utils.GlideLoader
 import com.aukdeclient.utils.TinyDB
+import com.aukdeclient.utils.VerifyActualDay
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.item_cart_layout.view.*
 import kotlinx.android.synthetic.main.item_list_layout.view.*
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -50,9 +52,12 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
 
     private var existCategory : Boolean = false
 
+    var successToShop = Constants.ACCEPT_TO_SHOP
+
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
+    @SuppressLint("SimpleDateFormat")
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
@@ -60,9 +65,9 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         window.statusBarColor = ContextCompat.getColor(this, R.color.semiWhite)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         // This is used to align the xml view to this class
+
         typeMoney = resources.getString(R.string.type_money)
         setContentView(R.layout.activity_product_details)
-
 
         if (intent.hasExtra(Constants.EXTRA_PRODUCT_ID)) {
             mProductId =
@@ -108,7 +113,8 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
             when (v.id) {
 
                 R.id.btn_add_to_cart -> {
-                    if (existCategory){
+                    if (successToShop != Constants.BLOCK_TO_SHOP){
+                        if (existCategory){
                         addToCart()
                     }else{
                         val dialog = Dialog(this)
@@ -123,6 +129,9 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
                             dialog.dismiss()
                         }
                      }
+                    }else{
+                        Toast.makeText(this,"El negocio ya cerró!",Toast.LENGTH_SHORT).show()
+                    }
                 }
                 R.id.btn_go_to_cart -> {
                     startActivity(Intent(this@ProductDetailsActivity, CartListActivity::class.java))
@@ -217,7 +226,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
     private fun getProductDetailsFromCache() {
         getWishListDetailsFromCache()
         val db : ArrayList<Product> = TinyDB(this).getListProduct(Constants.CACHE_PRODUCT,Product::class.java)
@@ -238,6 +247,30 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
                             iv_product_detail_image
                     )
                 }
+
+                if (mProductDetails.hours.isNotEmpty()){
+                    val sdf = SimpleDateFormat("EEEE")
+                    val sdf2 = SimpleDateFormat("HH:mm", Locale.UK)
+                    val currentDate = sdf2.format(Date())
+                    val actual : Date = sdf2.parse(currentDate)!!
+                    val d = Date()
+                    val dayOfTheWeek: String = sdf.format(d)
+                    tv_linear_hours.visibility = View.VISIBLE
+                    txt_hours_details.text = VerifyActualDay().retreiveHours(dayOfTheWeek,mProductDetails.hours)
+
+                    val hr = VerifyActualDay().retreiveHours(dayOfTheWeek,mProductDetails.hours).split(" - ")
+                    val d1 : Date = sdf2.parse(hr[0])!!
+                    val d2 : Date = sdf2.parse(hr[1])!!
+
+                    successToShop = if(actual > d1 && actual < d2){
+                        Constants.ACCEPT_TO_SHOP
+                    }else{
+                        Constants.BLOCK_TO_SHOP
+                    }
+
+
+                }
+
                 tv_product_details_title.text = mProductDetails.title
                 tv_product_details_sku.text = "Sku : "+mProductDetails.sku
                 tv_product_details_price.text = typeMoney+mProductDetails.price
@@ -334,7 +367,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
      *
      * @param product A model class with product details.
      */
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
     fun productDetailsSuccess(product: Product) {
 
         mProductDetails = product
@@ -344,6 +377,27 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
                 product.image,
                 iv_product_detail_image
         )
+
+        if (product.hours.isNotEmpty()){
+            val sdf = SimpleDateFormat("EEEE")
+            val sdf2 = SimpleDateFormat("HH:mm", Locale.UK)
+            val currentDate = sdf2.format(Date())
+            val actual : Date = sdf2.parse(currentDate)!!
+            val d = Date()
+            val dayOfTheWeek: String = sdf.format(d)
+            tv_linear_hours.visibility = View.VISIBLE
+            txt_hours_details.text = VerifyActualDay().retreiveHours(dayOfTheWeek,product.hours)
+
+            val hr = VerifyActualDay().retreiveHours(dayOfTheWeek,product.hours).split(" - ")
+            val d1 : Date = sdf2.parse(hr[0])!!
+            val d2 : Date = sdf2.parse(hr[1])!!
+
+            successToShop = if(actual > d1 && actual < d2){
+                Constants.ACCEPT_TO_SHOP
+            }else{
+                Constants.BLOCK_TO_SHOP
+            }
+        }
 
         tv_product_details_title.text = product.title
         tv_product_details_sku.text = "Sku : "+product.sku
