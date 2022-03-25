@@ -13,8 +13,8 @@ android {
         applicationId "com.aukdeclient"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 7
-        versionName "7.0"
+        versionCode 8
+        versionName "8.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -72,10 +72,6 @@ dependencies {
     // For more detail visit the link: https://github.com/bumptech/glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation files('visanet-lib')
-    implementation files('TMXProfiling')
-    implementation files('TMXProfilingConnections')
-    implementation files('cardinalmobilesdk')
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.clans:fab:1.6.4'
