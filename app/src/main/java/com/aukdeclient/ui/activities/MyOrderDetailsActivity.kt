@@ -176,6 +176,8 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
 
     private fun setupUI(orderDetails: Order) {
 
+        var ctxItems = 0
+
         tv_order_details_id.text = orderDetails.title
 
         // Date Format in which the date will be displayed in the UI.
@@ -196,6 +198,18 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
         val cartListAdapter =
             CartItemsListAdapter(this@MyOrderDetailsActivity, orderDetails.items, false)
         rv_my_order_items_list.adapter = cartListAdapter
+
+        for (i in 0 until orderDetails.items.size){
+            if (orderDetails.items[i].delivery == "no"){
+                ctxItems++
+            }
+        }
+
+        if (ctxItems > 0){
+            if(orderDetails.driver_id == ""){
+                tv_driver_asigned.visibility = View.VISIBLE
+            }
+        }
 
         tv_my_order_details_address_type.text = orderDetails.address.type
         tv_my_order_details_full_name.text = orderDetails.address.name

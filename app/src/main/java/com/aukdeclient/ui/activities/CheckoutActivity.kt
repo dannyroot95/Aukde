@@ -863,13 +863,9 @@ class CheckoutActivity : BaseActivity() {
                                         "NO SE ENCONTRO UN CONDUCTOR!",
                                         Toast.LENGTH_LONG
                                     ).show()
-                                    startActivity(
-                                        Intent(
-                                            this@CheckoutActivity,
-                                            CartListActivity::class.java
-                                        )
-                                    )
-                                    finish()
+                                    hideProgressDialog()
+                                    showProgressDialog(resources.getString(R.string.please_wait))
+                                    placeAnOrder()
                                 }
                             // eliminar nodo ClientBooking de su ID
                             return

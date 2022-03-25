@@ -155,6 +155,16 @@
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/my_order_details_label_value_textSize" />
                 </LinearLayout>
+                <com.aukdeclient.utils.MSPTextViewBold
+                    android:visibility="gone"
+                    android:id="@+id/tv_driver_asigned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sin delivery asignado!"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/visanet_red"
+                    android:textSize="@dimen/my_order_details_label_value_textSize" />
             </LinearLayout>
 
             <com.aukdeclient.utils.MSPTextView

@@ -72,6 +72,10 @@ dependencies {
     // For more detail visit the link: https://github.com/bumptech/glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation files('visanet-lib')
+    implementation files('TMXProfiling')
+    implementation files('TMXProfilingConnections')
+    implementation files('cardinalmobilesdk')
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.clans:fab:1.6.4'
@@ -121,4 +125,5 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
 }
