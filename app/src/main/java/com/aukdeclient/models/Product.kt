@@ -25,5 +25,6 @@ data class Product(
     var opening_hours : String = "",
     var closing_time : String = "",
     var days : ArrayList<String> = ArrayList(),
-    var hours : ArrayList<String> = ArrayList()
+    var hours : ArrayList<String> = ArrayList(),
+    var availability : String = ""
 ) : Parcelable

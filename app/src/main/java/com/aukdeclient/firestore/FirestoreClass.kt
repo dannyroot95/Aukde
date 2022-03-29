@@ -1901,4 +1901,14 @@ class FirestoreClass {
         }
     }
 
+    /*
+    fun availabilityQuery() {
+        mFireStore.collection(Constants.PRODUCTS).get().addOnSuccessListener { doc ->
+            for (i in doc.documents) {
+                mFireStore.collection(Constants.PRODUCTS).document(i.id)
+                    .update("availability", Constants.YES)
+            }
+        }
+    }*/
+
 }
