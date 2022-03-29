@@ -135,6 +135,9 @@ object Constants {
     const val COMPLETED_ALL_DATA : String = "Complete todos los datos!"
     const val ACCEPT_TO_SHOP = "accept"
     const val BLOCK_TO_SHOP = "blocked"
+    const val FOOD_AND_DRINKS = "Comidas y Bebidas"
+    const val CREDIT_CARD = " Tarjeta de crédito/débito"
+    const val ON_DELIVERY = " Contra entrega"
 
     const val PUBLIC_API_KEY = "pk_live_c84HQbHmA05kP1hr"
     const val PRIVATE_API_KEY = "sk_live_pRtJrGvZC01P7zEg"
@@ -181,6 +184,7 @@ object Constants {
     const val URL = " https://apiprod.vnforapps.com"
     const val CERTIFICATE_APP_ENDPOINT = "/api.certificate/v1/query/"
     const val SECURITY_ENDPOINT = "/api.security/v1/security"
+    const val ANNULLED_URL = "/api.authorization/v3/void/ecommerce/"
 
     const val URL_TERMS_AND_CONDITIONS = "https://aukde.com/terminos-y-condiciones/"
 

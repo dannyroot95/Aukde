@@ -185,6 +185,23 @@
                 android:layout_height="wrap_content" />
 
             <LinearLayout
+                android:id="@+id/ln_cancel_order"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="right"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_cancel_order"
+                    android:layout_width="wrap_content"
+                    android:backgroundTint="@color/visanet_red"
+                    android:text="Cancelar pedido"
+                    android:layout_marginEnd="@dimen/my_order_details_content_marginStartEnd"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:visibility="gone"

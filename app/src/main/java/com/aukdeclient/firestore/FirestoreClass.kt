@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.aukdeclient.Services.Visanet
 import com.aukdeshop.R
 import com.aukdeclient.models.*
 import com.aukdeclient.notifications.server.FCMBody
@@ -726,11 +727,11 @@ class FirestoreClass {
                             if (!photo.exists()){
                                 getBitmapFromURL(product.image,context,product.product_id)
                             }
-                            if (product.product_id == products[ctx].product_id){
+                            /*if (product.product_id == products[ctx].product_id){
                                 if (product.image != products[ctx].image){
                                     getBitmapFromURL(product.image,context,product.product_id)
                                 }
-                            }
+                            }*/
                         }
                         tinyDB.putListProduct(Constants.CACHE_PRODUCT, productsList)
                     }
@@ -1862,6 +1863,42 @@ class FirestoreClass {
 
     }
 
+    fun cancelOrderFromOnDelivery(id : String,activity: MyOrderDetailsActivity){
+        mFireStore.collection(Constants.ORDERS).document(id).update("status",-1).addOnCompleteListener {
+            if(it.isSuccessful){
+                Toast.makeText(activity,"Pedido Cancelado!",Toast.LENGTH_SHORT).show()
+                activity.hideProgressDialog()
+                activity.finish()
+            }else{
+                activity.hideProgressDialog()
+                Toast.makeText(activity,"Error!",Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener {
+            activity.hideProgressDialog()
+            Toast.makeText(activity,"Error!",Toast.LENGTH_SHORT).show()
+        }.addOnCanceledListener {
+            activity.hideProgressDialog()
+            Toast.makeText(activity,"Error!",Toast.LENGTH_SHORT).show()
+        }
+    }
 
+    fun cancelOrderFromCreditCard(id : String,activity: MyOrderDetailsActivity){
+        mFireStore.collection(Constants.ORDERS).document(id).update("status",-1).addOnCompleteListener {
+            if(it.isSuccessful){
+                activity.hideProgressDialog()
+                Toast.makeText(activity,"Pedido Cancelado!",Toast.LENGTH_SHORT).show()
+                activity.finish()
+            }else{
+                activity.hideProgressDialog()
+                Toast.makeText(activity,"Error!",Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener {
+            activity.hideProgressDialog()
+            Toast.makeText(activity,"Error!",Toast.LENGTH_SHORT).show()
+        }.addOnCanceledListener {
+            activity.hideProgressDialog()
+            Toast.makeText(activity,"Error!",Toast.LENGTH_SHORT).show()
+        }
+    }
 
 }

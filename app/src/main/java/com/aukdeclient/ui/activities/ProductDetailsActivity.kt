@@ -259,6 +259,9 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
                     txt_hours_details.text = VerifyActualDay().retreiveHours(dayOfTheWeek,mProductDetails.hours)
 
                     val hr = VerifyActualDay().retreiveHours(dayOfTheWeek,mProductDetails.hours).split(" - ")
+
+                    if(hr[0] != "" && hr[1] != ""){
+
                     val d1 : Date = sdf2.parse(hr[0])!!
                     val d2 : Date = sdf2.parse(hr[1])!!
 
@@ -267,7 +270,9 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
                     }else{
                         Constants.BLOCK_TO_SHOP
                     }
-
+                    }else{
+                        tv_linear_hours.visibility = View.GONE
+                    }
 
                 }
 

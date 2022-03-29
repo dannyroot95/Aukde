@@ -260,8 +260,8 @@ class DashboardFragment : BaseFragment() {
                                 sliderLists!!.clear()
                                 for (snapshot in dataSnapshot.children) {
                                     val model = snapshot.getValue(Slider::class.java)!!
-                                    val path: String = context!!.getExternalFilesDir(null).toString()+"/slider/"+model.id+".jpg"
-                                    val file = File(path)
+                                    val path: String? = context!!.getExternalFilesDir(null).toString()+"/slider/"+model.id+".jpg"
+                                    val file = File(path!!)
                                     sliderLists?.add(model)
                                     if (!file.exists()){
                                         FirestoreClass().getBitmapSliderFromURL(model.url,context!!,model.id)

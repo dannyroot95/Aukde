@@ -114,6 +114,8 @@
     <string name="product_delete_success_message">Su producto se eliminó correctamente.</string>
     <string name="delete_dialog_title">Borrar</string>
     <string name="delete_dialog_message">¿Está seguro de que desea eliminar el producto?</string>
+    <string name="cancel_dialog_title">Cancelar pedido</string>
+    <string name="cancel_dialog_message">¿Está seguro de que desea cancelar el pedido?</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
 

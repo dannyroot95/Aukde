@@ -7,11 +7,15 @@ import android.graphics.Color
 import android.location.Geocoder
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aukdeclient.Maps.GeofireDriverProvider
+import com.aukdeclient.Services.Visanet
+import com.aukdeclient.firestore.FirestoreClass
 import com.aukdeshop.R
 import com.aukdeclient.models.Order
 import com.aukdeclient.ui.adapters.CartItemsListAdapter
@@ -32,7 +36,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
+class MyOrderDetailsActivity : BaseActivity() , OnMapReadyCallback {
 
     private lateinit var stepView : StepView
     var myOrderDetails: Order = Order()
@@ -45,7 +49,7 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
     lateinit var mDriverLatLng: LatLng
     private lateinit var mListener : ValueEventListener
     private lateinit var mGeofireProvider: GeofireDriverProvider
-
+    var myId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
@@ -73,12 +77,26 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
         if (intent.hasExtra(Constants.EXTRA_MY_ORDER_DETAILS)) {
             myOrderDetails =
                 intent.getParcelableExtra<Order>(Constants.EXTRA_MY_ORDER_DETAILS)!!
+            myId = myOrderDetails.id
         }
 
         setupUI(myOrderDetails)
         setupStepView()
         reactiveGetAllData(myOrderDetails)
 
+        //Toast.makeText(this,myOrderDetails.id,Toast.LENGTH_SHORT).show()
+
+        //Visanet().getResponseRefund(this)
+
+    }
+
+    private fun cancelOrder(order : Order , id : String) {
+        showProgressDialog("Cancelando pedido...")
+        if (order.type_payment != Constants.CREDIT_CARD){
+           FirestoreClass().cancelOrderFromOnDelivery(id,this)
+        }else{
+           Visanet().getResponseRefund(id,this,order.order_card_info.signature)
+        }
     }
 
     private fun setupStepView(){
@@ -104,6 +122,17 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
 
     private fun checkStatusStepView(){
         when (myOrderDetails.status) {
+            -1 -> {
+                tv_order_status.text = "Cancelado"
+                tv_order_status.setTextColor(Color.parseColor("#FC0000"))
+                val color = Color.parseColor("#FC0000")
+                stepView.go(0, true)
+                stepView.state.selectedCircleColor(color).commit()
+                stepView.state.selectedTextColor(color).commit()
+                stepView.state.selectedStepNumberColor(colorWhite).commit()
+                map_container.visibility = View.GONE
+                btn_cancel_order.visibility = View.GONE
+            }
             0 -> {
                 tv_order_status.text = resources.getString(R.string.order_status_pending)
                 tv_order_status.setTextColor(Color.parseColor("#FC0000"))
@@ -113,6 +142,7 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
                 stepView.state.selectedTextColor(color).commit()
                 stepView.state.selectedStepNumberColor(colorWhite).commit()
                 map_container.visibility = View.GONE
+                btn_cancel_order.visibility = View.VISIBLE
             }
             1 -> {
                 tv_order_status.text = resources.getString(R.string.order_status_in_process)
@@ -124,6 +154,12 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
                 stepView.state.selectedStepNumberColor(colorWhite).commit()
                 map_container.visibility = View.GONE
 
+                if (myOrderDetails.items[0].category == Constants.FOOD_AND_DRINKS){
+                    btn_cancel_order.visibility = View.GONE
+                }else{
+                    btn_cancel_order.visibility = View.VISIBLE
+                }
+
             }
             2 -> {
                 tv_order_status.text = resources.getString(R.string.order_status_in_route)
@@ -134,6 +170,7 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
                 stepView.state.selectedTextColor(color).commit()
                 stepView.state.selectedStepNumberColor(colorWhite).commit()
                 map_container.visibility = View.VISIBLE
+                btn_cancel_order.visibility = View.GONE
             }
            4 -> {
                 tv_order_status.text = resources.getString(R.string.order_sending)
@@ -143,6 +180,7 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
                 stepView.state.selectedCircleColor(color).commit()
                 stepView.state.selectedTextColor(color).commit()
                 stepView.state.selectedStepNumberColor(colorWhite).commit()
+                btn_cancel_order.visibility = View.GONE
             }
             3 -> {
                 tv_order_status.text = resources.getString(R.string.order_status_finish)
@@ -153,6 +191,7 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
                 stepView.state.selectedTextColor(color).commit()
                 stepView.state.selectedStepNumberColor(colorWhite).commit()
                 map_container.visibility = View.GONE
+                btn_cancel_order.visibility = View.GONE
             }
         }
     }
@@ -235,6 +274,10 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
         tv_order_details_total_amount.text = orderDetails.total_amount
         tv_order_details_mode_payment.text = orderDetails.type_payment
 
+        btn_cancel_order.setOnClickListener {
+            showAlertDialogToCancelOrder(orderDetails,myId)
+        }
+
         getDriverLocation()
     }
 
@@ -247,6 +290,33 @@ class MyOrderDetailsActivity : AppCompatActivity() , OnMapReadyCallback {
                 setupStepView()
             }
         }
+    }
+
+    private fun showAlertDialogToCancelOrder(order : Order , id : String) {
+
+        val builder = AlertDialog.Builder(this)
+        //set title for alert dialog
+        builder.setTitle(resources.getString(R.string.cancel_dialog_title))
+        //set message for alert dialog
+        builder.setMessage(resources.getString(R.string.cancel_dialog_message))
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        //performing positive action
+        builder.setPositiveButton(resources.getString(R.string.yes)) { dialogInterface, _ ->
+            cancelOrder(order,id)
+            dialogInterface.dismiss()
+        }
+
+        //performing negative action
+        builder.setNegativeButton(resources.getString(R.string.no)) { dialogInterface, _ ->
+
+            dialogInterface.dismiss()
+        }
+        // Create the AlertDialog
+        val alertDialog: AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(false)
+        alertDialog.show()
     }
 
     private fun getDriverLocation(){

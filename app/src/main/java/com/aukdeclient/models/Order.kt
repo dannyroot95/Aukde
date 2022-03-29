@@ -21,5 +21,6 @@ data class Order(
     var status : Int = 0,
     var type_payment : String = "",
     var amount_to_pay : String = "",
-    var driver_id : String = ""
+    var driver_id : String = "",
+    var order_card_info : dataMap = dataMap()
 ) : Parcelable

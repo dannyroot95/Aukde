@@ -151,7 +151,7 @@ class CheckoutActivity : BaseActivity() {
     var orderDateTime : Long? = null
     private lateinit var checkTermsAndConditions : CheckBox
     var JsonResponseToPay : String? = null
-
+    var dataMap : dataMap? = null
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -573,6 +573,15 @@ class CheckoutActivity : BaseActivity() {
                     disableComponents()
                     val JSONString = data.extras!!.getString("keySuccess")
                     JsonResponseToPay = JSONString!!
+
+                    val gsonConverter = Gson()
+                    val r = gsonConverter.fromJson(JsonResponseToPay,com.aukdeclient.models.Response::class.java)
+                    dataMap = dataMap(r.dataMap.terminal,r.dataMap.card,r.dataMap.trace_number,r.dataMap.eci_description,
+                        r.dataMap.signature,r.dataMap.merchant,r.dataMap.status,r.dataMap.installments_info,r.dataMap.action_description,
+                        r.dataMap.id_unico,r.dataMap.amount,r.dataMap.quota_number,r.dataMap.authorization_code,r.dataMap.currency,r.dataMap.transaction_date,
+                        r.dataMap.action_code,r.dataMap.card_token,r.dataMap.eci,r.dataMap.brand,r.dataMap.adquiriente,r.dataMap.quota_amount,r.dataMap.process_code,
+                        r.dataMap.vault_block,r.dataMap.transaction_id,r.dataMap.quota_deferred)
+
                     Log.d("TAGJSON", JSONString)
                     initPayment()
 
@@ -1002,10 +1011,13 @@ class CheckoutActivity : BaseActivity() {
      */
     private fun placeAnOrder() {
 
+        if (typePayment == Constants.ON_DELIVERY){
+            dataMap = dataMap("","","","","","","","","","","","","","","","","","","","","","","","","")
+        }
+
         ctx += 1
 
         if (ctx == 1){
-
             mOrderDetails = Order(
                 FirestoreClass().getCurrentUserID(),
                 mCartItemsList,
@@ -1015,12 +1027,13 @@ class CheckoutActivity : BaseActivity() {
                 mSubTotal.toString(),
                 shipping.toString(),
                 mTotalAmount.toString(),
-                orderDateTime!!,
+                System.currentTimeMillis(),
                 "",
                 0,
                 typePayment,
                 amountToPay,
-                mIdDriverFound
+                mIdDriverFound,
+                dataMap!!
             )
             sendNotificationStore()
             FirestoreClass().placeOrder(this@CheckoutActivity, mOrderDetails)
@@ -1054,8 +1067,8 @@ class CheckoutActivity : BaseActivity() {
                     val intent = Intent(this, SuccessOrderActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     intent.putExtra("amount",mTotalAmount)
-                    intent.putExtra("card",responseSuccess.dataMap.CARD)
-                    intent.putExtra("brand",responseSuccess.dataMap.BRAND)
+                    intent.putExtra("card",responseSuccess.dataMap.card)
+                    intent.putExtra("brand",responseSuccess.dataMap.brand)
                     intent.putExtra("idOrder",orderDateTime!!)
                     startActivity(intent)
                     finish()
