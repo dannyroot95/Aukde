@@ -164,6 +164,41 @@
                     android:textSize="@dimen/product_details_stock_quantity_textSize"
                     android:textStyle="bold"
                     tools:text="5" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="40dp"
+                    android:id="@+id/pt_gray"
+                    android:layout_height="40dp"
+                    app:lottie_imageAssetsFolder="assets"
+                    app:lottie_fileName="gray_point.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="40dp"
+                    android:id="@+id/pt_green"
+                    android:visibility="gone"
+                    android:layout_height="40dp"
+                    app:lottie_imageAssetsFolder="assets"
+                    app:lottie_fileName="green_point.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="40dp"
+                    android:visibility="gone"
+                    android:id="@+id/pt_red"
+                    android:layout_height="40dp"
+                    app:lottie_imageAssetsFolder="assets"
+                    app:lottie_fileName="red_point.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true" />
+
             </LinearLayout>
 
             <com.aukdeclient.utils.MSPTextView

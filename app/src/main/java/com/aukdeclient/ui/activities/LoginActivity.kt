@@ -210,7 +210,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                                 dialog.dismiss()
                             }
                           },
-                            20000)
+                            30000)
 
 
                         result?.let {
@@ -358,7 +358,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     dialog.dismiss()
 
                 }
-             }, 20000)
+             }, 30000)
 
             val task : Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             try{

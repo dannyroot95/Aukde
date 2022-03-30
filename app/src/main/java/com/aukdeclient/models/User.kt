@@ -17,6 +17,6 @@ data class User(
     var gender: String = "",
     var profileCompleted: Int = 0,
     val type_user: String = "",
-    val dni: String = "",
-    val code_client : String = ""
+    var dni: String = "",
+    var code_client : String = ""
 ) : Parcelable

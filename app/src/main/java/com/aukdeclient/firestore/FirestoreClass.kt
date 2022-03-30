@@ -1911,4 +1911,13 @@ class FirestoreClass {
         }
     }*/
 
+    fun availabilityProduct(id:String , activity: ProductDetailsActivity) {
+        mFireStore.collection(Constants.PRODUCTS).document(id).addSnapshotListener { doc , error ->
+            if (doc!!.exists()){
+                val product = doc.data!!["availability"].toString()
+                activity.availability(product)
+            }
+        }
+    }
+
 }

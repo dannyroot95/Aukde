@@ -16,13 +16,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.aukdeshop.R
 import com.aukdeclient.firestore.FirestoreClass
-import com.aukdeclient.models.Partner
 import com.aukdeclient.models.User
 import com.aukdeclient.utils.Constants
 import com.aukdeclient.utils.GlideLoader
 import com.aukdeclient.utils.TinyDB
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import java.io.IOException
+import java.util.concurrent.ThreadLocalRandom
+import kotlin.random.Random
 
 /**
  * A user profile screen.
@@ -256,6 +257,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
      */
     private fun updateUserProfileDetails() {
 
+        var codeClient = randomInt(1000..9999).toString()
+
         val userHashMap = HashMap<String, Any>()
         val db = TinyDB(this).getObject(Constants.KEY_USER_DATA_OBJECT,User::class.java)
 
@@ -275,6 +278,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
         // Here we get the text from editText and trim the space
         val mobileNumber = et_mobile_number.text.toString().trim { it <= ' ' }
+        val dni = et_dni_number.text.toString().trim { it <= ' ' }
         val gender = if (rb_male.isChecked) {
             Constants.MALE
         } else {
@@ -302,6 +306,13 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         if (mUserDetails.profileCompleted == 0) {
             userHashMap[Constants.COMPLETE_PROFILE] = 1
             db.profileCompleted = 1
+        }
+
+        if(dni.isNotEmpty()){
+            userHashMap[Constants.DNI] = dni
+            userHashMap[Constants.CODE_CLIENT] = dni+codeClient
+            db.dni = dni
+            db.code_client = dni+codeClient
         }
 
         // call the registerUser function of FireStore class to make an entry in the database.
@@ -346,4 +357,9 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
         updateUserProfileDetails()
     }
+
+    fun randomInt(range: IntRange): Int {
+        return ThreadLocalRandom.current().nextInt(range.random())
+    }
+
 }

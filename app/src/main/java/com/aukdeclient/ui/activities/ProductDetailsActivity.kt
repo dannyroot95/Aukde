@@ -25,6 +25,7 @@ import com.aukdeclient.utils.TinyDB
 import com.aukdeclient.utils.VerifyActualDay
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.firebase.database.*
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.item_cart_layout.view.*
 import kotlinx.android.synthetic.main.item_list_layout.view.*
@@ -54,6 +55,8 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
 
     var successToShop = Constants.ACCEPT_TO_SHOP
 
+    var availability : String =  ""
+
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -72,6 +75,7 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         if (intent.hasExtra(Constants.EXTRA_PRODUCT_ID)) {
             mProductId =
                 intent.getStringExtra(Constants.EXTRA_PRODUCT_ID)!!
+            FirestoreClass().availabilityProduct(mProductId,this)
         }
 
         var productOwnerId: String = ""
@@ -113,7 +117,8 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
             when (v.id) {
 
                 R.id.btn_add_to_cart -> {
-                    if (successToShop != Constants.BLOCK_TO_SHOP){
+                    if(availability == Constants.YES && availability != ""){
+                        if (successToShop != Constants.BLOCK_TO_SHOP){
                         if (existCategory){
                         addToCart()
                     }else{
@@ -132,6 +137,10 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
                     }else{
                         Toast.makeText(this,"El negocio ya cerró!",Toast.LENGTH_SHORT).show()
                     }
+                    }else{
+                        Toasty.info(this,"PRODUCTO NO DISPONIBLE!, INTÉNTELO MÁS TARDE...",Toast.LENGTH_SHORT).show()
+                    }
+
                 }
                 R.id.btn_go_to_cart -> {
                     startActivity(Intent(this@ProductDetailsActivity, CartListActivity::class.java))
@@ -553,6 +562,22 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         btn_add_favorite.visibility = View.GONE
         // Show the GoToCart button if the item is already in the cart. User can update the quantity from the cart list screen if he wants.
         btn_delete_favorite.visibility = View.VISIBLE
+    }
+
+    fun availability(flag : String){
+
+        if (flag == Constants.YES){
+            pt_gray.visibility = View.GONE
+            pt_green.visibility = View.VISIBLE
+            pt_red.visibility = View.GONE
+            availability = Constants.YES
+        }else{
+            pt_gray.visibility = View.GONE
+            pt_red.visibility = View.VISIBLE
+            pt_green.visibility = View.GONE
+            availability = Constants.NOT
+        }
+
     }
 
     override fun onResume() {
